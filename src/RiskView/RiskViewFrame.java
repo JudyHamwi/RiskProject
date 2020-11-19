@@ -39,6 +39,7 @@ public class RiskViewFrame extends JFrame implements RiskView {
     private Game gameModel;
     private BoardView boardView;
     private Country selectedAttackButton;
+    private JMenu numberOfAIPlayers;
 
     /**
      * creates the View of the Risk Game
@@ -103,12 +104,27 @@ public class RiskViewFrame extends JFrame implements RiskView {
      */
     public void setNumberOfPlayersMenu(){
         this.numberOfPlayers = new JMenu("Players");
+        numberOfPlayers.setName("Players");
         for(int i = 2; i <= MAX_NUM_PLAYERS; i++){
             JMenuItem numPlayer = new JMenuItem(i + " Players");
             numPlayer.addActionListener(new InitializationController(gameModel, i));
             numberOfPlayers.add(numPlayer);
         }
         menuBar.add(numberOfPlayers);
+    }
+
+    /**
+     * Creates the list of number of AI players the users can choose from to play the game
+     */
+    public void setNumberOfAIPlayersMenu(){
+        this.numberOfAIPlayers = new JMenu("AI Players");
+        numberOfAIPlayers.setName("AIplayers");
+        for(int i = 2; i < MAX_NUM_PLAYERS; i++){
+            JMenuItem numPlayer = new JMenuItem(i + " AI Players");
+            numPlayer.addActionListener(new AIInitializationController(gameModel, i));
+            numberOfAIPlayers.add(numPlayer);
+        }
+        menuBar.add(numberOfAIPlayers);
     }
 
     /**
@@ -120,11 +136,13 @@ public class RiskViewFrame extends JFrame implements RiskView {
     @Override
     public void handleNewGame(Game game, Board board) {
         setNumberOfPlayersMenu();
+        setNumberOfAIPlayersMenu();
         this.remove(mainMenuPanel);
         boardView = new BoardView(this,game, board);
         this.add(boardView, BorderLayout.CENTER);
         this.add(gameStatusPanel, BorderLayout.SOUTH);
         menuBar.add(numberOfPlayers);
+        menuBar.add(numberOfAIPlayers);
         menu.setText("Menu");
         menu.remove(newGame);
         menu.add(helpMenuItem);
@@ -196,6 +214,14 @@ public class RiskViewFrame extends JFrame implements RiskView {
      * updates the view when its time for the user to choose to attack a country
      */
     public void handleNewAttack(){
+        boardView.getAttackButton().setEnabled(false);
+    }
+    /**
+     * updates the view when the user enters the fortify phase
+     */
+    public void handleNewFortifyPhase(){
+        boardView.getMoveButton().setEnabled(true);
+        boardView.getFortifyButton().setEnabled(true);
         boardView.getAttackButton().setEnabled(false);
     }
 

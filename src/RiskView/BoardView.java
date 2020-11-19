@@ -2,6 +2,7 @@ package RiskView;
 
 import RiskController.AttackController;
 import RiskController.EndTurnController;
+import RiskController.FortifyController;
 import RiskModel.*;
 
 import javax.swing.*;
@@ -129,7 +130,6 @@ public class BoardView extends JPanel {
         endTurnButton.setName("endTurnButton");
         fortifyButton=new JButton("Fortify!");
         fortifyButton.setName("fortifyButton");
-        fortifyButton.setEnabled(false);
         moveButton=new JButton("move");
         moveButton.setName("moveButton");
         moveButton.setEnabled(false);
@@ -138,8 +138,10 @@ public class BoardView extends JPanel {
         inGamePanel.add(fortifyButton);
         inGamePanel.add(endTurnButton);
         inGamePanel.add(moveButton);
+
         endTurnButton.addActionListener(new EndTurnController(game));
         attackButton.addActionListener(new AttackController(rv, game, null));
+        fortifyButton.addActionListener(new FortifyController(rv,game));
 
         return inGamePanel;
     }
@@ -250,5 +252,20 @@ public class BoardView extends JPanel {
         return attackButton;
     }
 
+    /**
+     * get the move button used in the fortify phase
+     * @return move button
+     */
+    public JButton getMoveButton() {
+        return moveButton;
+    }
+
+    /**
+     * get the fortify button used in the fortify phase
+     * @return fortify button
+     */
+    public JButton getFortifyButton(){
+        return fortifyButton;
+    }
 
 }

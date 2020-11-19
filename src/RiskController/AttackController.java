@@ -48,9 +48,10 @@ public class AttackController implements ActionListener {
         JButton b=(JButton) e.getSource();
         if(b.getName().equals("attackButton")){
             riskView.handleNewAttack();
-        } else if (riskView.getBoardView().getAttackButton().isEnabled()){
+        } else if (riskView.getBoardView().getAttackButton().isEnabled() && !(riskView.getBoardView().getMoveButton().isEnabled())){
             gameModel.checkAttackingCountry(country);
-        } else {
+        } else if (!(riskView.getBoardView().getAttackButton().isEnabled()) && !(riskView.getBoardView().getMoveButton().isEnabled())
+        && riskView.getBoardView().getFortifyButton().isEnabled()){
             gameModel.attackPhase(country);
         }
     }

@@ -2,11 +2,10 @@ package RiskController;
 
 import RiskModel.Game;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 /**
- * Initialization Controller listens to the  user decision on the number of players playing the game
+ * Initialization Controller listens to the  user decision on the number of AI players playing the game
  * to enter the initialization phase
  * @version 1.0
  * @author Sarah Jaber
@@ -14,7 +13,7 @@ import java.awt.event.ActionListener;
  * @author Diana Miraflor
  * @author Walid Baitul
  */
-public class InitializationController implements ActionListener {
+public class AIInitializationController implements ActionListener {
     private Game gameModel;
     private int players;
 
@@ -24,19 +23,12 @@ public class InitializationController implements ActionListener {
      * @param game model that deals with initializing the game
      * @param players number of players playing in the game
      */
-    public InitializationController(Game game, int players){
+    public AIInitializationController(Game game, int players){
         this.gameModel=game;
         this.players=players;
     }
-
     @Override
-    /**
-     * responds to the users action of picking the number of players to play the game so
-     * the game enters the initialization phase
-     */
     public void actionPerformed(ActionEvent e) {
-            gameModel.setNumberOfPlayers(players);
-            gameModel.theInitialState();
 
     }
 }

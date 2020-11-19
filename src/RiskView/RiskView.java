@@ -20,4 +20,5 @@ public interface RiskView {
      void handleNewAttack();
      BoardView getBoardView();
      void handleAttackPhase(Game game, Country attackerCountry, Country defenderCountry, boolean attackSuccess, boolean winner, Player playerRemoved);
+     void handleNewFortifyPhase();
 }
