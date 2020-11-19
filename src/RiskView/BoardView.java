@@ -33,6 +33,8 @@ public class BoardView extends JPanel {
     private JPanel inGamePanel;
     private Game game;
     private RiskView rv;
+    private JButton fortifyButton;
+    private JButton moveButton;
 
     /**
      * creates the board view of the risk game
@@ -110,7 +112,8 @@ public class BoardView extends JPanel {
     public Color[] getColors(){ return colorArray;}
 
     /**
-     * creates the buttons used to play the game, including the attack button,
+     * creates the buttons used to play the game, including the attack button,fortify button
+     * and move button
      * @param game model that manipulates the logic of the fame
      * @param player with the current turn
      * @return panel to be displayed in the view
@@ -123,10 +126,18 @@ public class BoardView extends JPanel {
         attackButton = new JButton("Attack!");
         attackButton.setName("attackButton");
         endTurnButton = new JButton("End turn");
+        endTurnButton.setName("endTurnButton");
+        fortifyButton=new JButton("Fortify!");
+        fortifyButton.setName("fortifyButton");
+        fortifyButton.setEnabled(false);
+        moveButton=new JButton("move");
+        moveButton.setName("moveButton");
+        moveButton.setEnabled(false);
 
         inGamePanel.add(attackButton);
+        inGamePanel.add(fortifyButton);
         inGamePanel.add(endTurnButton);
-
+        inGamePanel.add(moveButton);
         endTurnButton.addActionListener(new EndTurnController(game));
         attackButton.addActionListener(new AttackController(rv, game, null));
 
