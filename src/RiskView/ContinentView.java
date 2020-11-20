@@ -1,7 +1,7 @@
 package RiskView;
 
 import RiskController.AttackController;
-import RiskController.MoveController;
+import RiskController.FortifyController;
 import RiskModel.Continent;
 import RiskModel.Country;
 import RiskModel.Game;
@@ -69,7 +69,7 @@ public class ContinentView extends JPanel {
             this.add(b);
             countryButtons.add(b);
             b.addActionListener(new AttackController(rv, game, c));
-            b.addActionListener(new MoveController(rv,game,c));
+            b.addActionListener(new FortifyController(rv, game, c));
         }
     }
 

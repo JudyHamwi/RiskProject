@@ -1,8 +1,6 @@
 package RiskView;
 
-import RiskController.AttackController;
-import RiskController.EndTurnController;
-import RiskController.FortifyController;
+import RiskController.*;
 import RiskModel.*;
 
 import javax.swing.*;
@@ -31,11 +29,12 @@ public class BoardView extends JPanel {
     private JPanel playerColorsPanel;
     private JButton endTurnButton;
     private JButton attackButton;
+    private JButton attackPhaseButton;
     private JPanel inGamePanel;
     private Game game;
     private RiskView rv;
+    private JButton fortifyPhaseButton;
     private JButton fortifyButton;
-    private JButton moveButton;
 
     /**
      * creates the board view of the risk game
@@ -126,22 +125,26 @@ public class BoardView extends JPanel {
 
         attackButton = new JButton("Attack!");
         attackButton.setName("attackButton");
+        attackButton.setEnabled(false);
         endTurnButton = new JButton("End turn");
-        endTurnButton.setName("endTurnButton");
-        fortifyButton=new JButton("Fortify!");
+        attackButton.setEnabled(false);
+        fortifyPhaseButton=new JButton("Fortify Phase");
+        fortifyPhaseButton.setEnabled(false);;
+        fortifyButton=new JButton("fortify");
         fortifyButton.setName("fortifyButton");
-        moveButton=new JButton("move");
-        moveButton.setName("moveButton");
-        moveButton.setEnabled(false);
+        fortifyButton.setEnabled(false);
 
+        inGamePanel.add(attackPhaseButton);
         inGamePanel.add(attackButton);
         inGamePanel.add(fortifyButton);
+        inGamePanel.add(fortifyPhaseButton);
         inGamePanel.add(endTurnButton);
-        inGamePanel.add(moveButton);
 
         endTurnButton.addActionListener(new EndTurnController(game));
+        attackPhaseButton.addActionListener(new AttackPhaseController(game));
         attackButton.addActionListener(new AttackController(rv, game, null));
-        fortifyButton.addActionListener(new FortifyController(rv,game));
+        fortifyButton.addActionListener(new FortifyController(rv,game,null));
+        fortifyPhaseButton.addActionListener(new FortifyPhaseController(game));
 
         return inGamePanel;
     }
@@ -252,18 +255,6 @@ public class BoardView extends JPanel {
         return attackButton;
     }
 
-    /**
-     * get the move button used in the fortify phase
-     * @return move button
-     */
-    public JButton getMoveButton() {
-        return moveButton;
-    }
-
-    /**
-     * get the fortify button used in the fortify phase
-     * @return fortify button
-     */
     public JButton getFortifyButton(){
         return fortifyButton;
     }

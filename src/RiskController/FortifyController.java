@@ -1,13 +1,15 @@
 package RiskController;
 
+import RiskModel.Country;
 import RiskModel.Game;
+import RiskModel.GameState;
 import RiskView.RiskView;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 /**
- * Fortify Phase Game Controller listens to the user entering the fortify phase
+ * Move Controller listens to the user moving the armies in the fortify phase
  * @version 1.0
  * @author Sarah Jaber
  * @author Judy Hamwi
@@ -16,21 +18,30 @@ import java.awt.event.ActionListener;
  */
 public class FortifyController implements ActionListener {
 
+    private Game gameModel;
     private RiskView riskView;
-    private Game game;
-    private JButton fortifyButton;
-    private JButton moveButton;
+    private Country country;
 
-    public FortifyController(RiskView riskView,Game game){
-        this.riskView=riskView;
-        this.game=game;
-        this.fortifyButton=fortifyButton;
-        this.moveButton=moveButton;
+    public FortifyController(RiskView rv,Game game, Country c){
+        gameModel=game;
+        riskView=rv;
+        country=c;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        riskView.handleNewFortifyPhase();
+        JButton b = (JButton) e.getSource();
+        if (gameModel.getState() == GameState.FORTIFY_PHASE) {
+            if (b.getName().equals("fortifyButton")) {
+                riskView.handleNewFortifyPhase();
+            } else if (riskView.getBoardView().getFortifyButton().isEnabled()) {
+                String armiesFortify=JOptionPane.showInputDialog(riskView,"Number of armies to fortify");
+                int armiesMoved=Integer.parseInt(armiesFortify);
+                gameModel.checkFortifyCountry(country, armiesMoved);
+            } else {
+                gameModel.fortifyPhase(country);
+            }
+        }
+        }
 
-    }
 }

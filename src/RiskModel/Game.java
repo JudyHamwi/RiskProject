@@ -32,6 +32,7 @@ public class Game {
     private Country attackCountry;
     private HashMap<Integer, Integer> armiesForPlayers;
     private Country moveFromCountry;
+    private int armiesFortify;
 
     /**
      * Starts a new RISKModel.Game
@@ -40,7 +41,7 @@ public class Game {
         players = new LinkedList<>();
         board = new Board();
         riskViews = new ArrayList<>();
-        this.gameState = GameState.INITIALIZING;
+        //this.gameState = GameState.INITIALIZING;
         this.armiesForPlayers = new HashMap<>();
         setArmiesForPlayers();
     }
@@ -174,11 +175,11 @@ public class Game {
         }
     }
 
-    public void fortifyPhase(Country movingTo, int armiesMoved) {
+    public void fortifyPhase(Country movingTo) {
         boolean canMove=currentPlayer.canMove(moveFromCountry, movingTo);
         if (canMove) {
             FortifyPhase playerFortify = new FortifyPhase(currentPlayer, moveFromCountry, movingTo);
-            playerFortify.setNumOfArmiesToMove(armiesMoved);
+            playerFortify.setNumOfArmiesToMove(armiesFortify);
             Boolean fortifySuccess = playerFortify.fortify();
             endTurn();
         }
@@ -217,7 +218,7 @@ public class Game {
      */
     public void theInitialState() {
         initialize(numPlayers);
-        this.gameState = GameState.IN_PROGRESS;
+        //this.gameState = GameState.IN_PROGRESS;
         for (RiskView rv : riskViews) {
             rv.handleInitialization(this, gameState, currentPlayer, numPlayers);
         }
@@ -251,8 +252,7 @@ public class Game {
             int i = players.indexOf(p);
             currentPlayer = players.get(i + 1);
         }
-        gameState = GameState.IN_PROGRESS;
-
+        //gameState = GameState.IN_PROGRESS;
         for (RiskView rv : riskViews) {
             rv.handleEndTurn(this, currentPlayer);
         }
@@ -376,6 +376,7 @@ public class Game {
         if(currentPlayer.ifPlayerOwns(moveFrom)) {
             if (armiesMoved < moveFrom.getNumberOfArmies() - 1 && armiesMoved > 0) {
                 this.moveFromCountry = moveFrom;
+                armiesFortify=armiesMoved;
                 for (RiskView rv : riskViews) {
                     rv.handleCanFortifyFrom(this, moveFrom);
                 }
@@ -406,5 +407,13 @@ public class Game {
      */
     public Country getAttackingCountry(){
         return attackCountry;
+    }
+
+    public void draftPhase(){
+        //gameState=GameState.ATTACK_PHASE;
+    }
+
+    public void setPhase(GameState state){
+        gameState=state;
     }
 }
