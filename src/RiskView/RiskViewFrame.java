@@ -175,7 +175,9 @@ public class RiskViewFrame extends JFrame implements RiskView {
         currentPlayer.setText(player.toString());
         JOptionPane.showMessageDialog(this, player.toString() + ", it is your turn!");
         boardView.removeHighlightedButtons();
-        boardView.getAttackButton().setEnabled(true);
+        boardView.getAttackPhaseButton().setEnabled(true);
+        boardView.getFortifyButton().setEnabled(false);
+        boardView.getAttackButton().setEnabled(false);
     }
 
     /**
@@ -193,7 +195,7 @@ public class RiskViewFrame extends JFrame implements RiskView {
      */
     @Override
     public void handleCanNotAttackFrom(Game game) {
-        JOptionPane.showMessageDialog(this,"Can not attack from this Country");
+        JOptionPane.showMessageDialog(this,"Can not attack Country");
     }
 
     /**

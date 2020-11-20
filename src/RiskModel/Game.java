@@ -179,10 +179,11 @@ public class Game {
             FortifyPhase playerFortify = new FortifyPhase(currentPlayer, moveFromCountry, movingTo);
             playerFortify.setNumOfArmiesToMove(armiesFortify);
             Boolean fortifySuccess = playerFortify.fortify();
-            endTurn();
             for (RiskView rv : riskViews) {
                 rv.handleFortifyPhase(this, moveFromCountry, movingTo);
             }
+            endTurn();
+
         }else {
             for (RiskView rv : riskViews) {
                 rv.handleCanNotFortify(this);
