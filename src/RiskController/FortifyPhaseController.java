@@ -2,11 +2,11 @@ package RiskController;
 
 import RiskModel.Game;
 import RiskModel.GameState;
-import RiskView.RiskView;
+import RiskView.BoardView;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 /**
  * Fortify Phase Game Controller listens to the user entering the fortify phase
  * @version 1.0
@@ -17,21 +17,20 @@ import java.awt.event.ActionListener;
  */
 public class FortifyPhaseController implements ActionListener {
 
-    private RiskView riskView;
     private Game game;
-    private JButton fortifyButton;
-    private JButton moveButton;
+    private BoardView boardView;
 
-    public FortifyPhaseController(Game game){
-        this.riskView=riskView;
+    public FortifyPhaseController(Game game, BoardView boardView){
         this.game=game;
-        this.fortifyButton=fortifyButton;
-        this.moveButton=moveButton;
+        this.boardView=boardView;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         game.setPhase(GameState.FORTIFY_PHASE);
+        boardView.getFortifyPhaseButton().setEnabled(false);
+        boardView.getFortifyButton().setEnabled(true);
 
     }
+
 }

@@ -69,7 +69,7 @@ public class ContinentView extends JPanel {
             this.add(b);
             countryButtons.add(b);
             b.addActionListener(new AttackController(rv, game, c));
-            b.addActionListener(new FortifyController(rv, game, c));
+            b.addActionListener(new FortifyController(rv,game,c));
         }
     }
 

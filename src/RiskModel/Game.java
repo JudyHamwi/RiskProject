@@ -41,7 +41,6 @@ public class Game {
         players = new LinkedList<>();
         board = new Board();
         riskViews = new ArrayList<>();
-        //this.gameState = GameState.INITIALIZING;
         this.armiesForPlayers = new HashMap<>();
         setArmiesForPlayers();
     }
@@ -176,16 +175,20 @@ public class Game {
     }
 
     public void fortifyPhase(Country movingTo) {
-        boolean canMove=currentPlayer.canMove(moveFromCountry, movingTo);
-        if (canMove) {
+        if (currentPlayer.canMove(moveFromCountry, movingTo)) {
             FortifyPhase playerFortify = new FortifyPhase(currentPlayer, moveFromCountry, movingTo);
             playerFortify.setNumOfArmiesToMove(armiesFortify);
             Boolean fortifySuccess = playerFortify.fortify();
             endTurn();
-        }
             for (RiskView rv : riskViews) {
-                rv.handleFortifyPhase(this, moveFromCountry, movingTo, canMove);
+                rv.handleFortifyPhase(this, moveFromCountry, movingTo);
             }
+        }else {
+            for (RiskView rv : riskViews) {
+                rv.handleCanNotFortify(this);
+            }
+        }
+
     }
 
     /**
@@ -218,7 +221,7 @@ public class Game {
      */
     public void theInitialState() {
         initialize(numPlayers);
-        //this.gameState = GameState.IN_PROGRESS;
+        this.gameState = GameState.IN_PROGRESS;
         for (RiskView rv : riskViews) {
             rv.handleInitialization(this, gameState, currentPlayer, numPlayers);
         }
@@ -375,7 +378,7 @@ public class Game {
     public void checkFortifyCountry(Country moveFrom, int armiesMoved) {
         if(currentPlayer.ifPlayerOwns(moveFrom)) {
             if (armiesMoved < moveFrom.getNumberOfArmies() - 1 && armiesMoved > 0) {
-                this.moveFromCountry = moveFrom;
+                moveFromCountry = moveFrom;
                 armiesFortify=armiesMoved;
                 for (RiskView rv : riskViews) {
                     rv.handleCanFortifyFrom(this, moveFrom);

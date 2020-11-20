@@ -163,6 +163,7 @@ public class RiskViewFrame extends JFrame implements RiskView {
         boardView.InitializeBoard(numPlayers);
         boardView.addInGamePanel(game, player);
         this.numberOfPlayers.setVisible(false);
+        boardView.getAttackPhaseButton().setEnabled(true);
     }
 
     /**
@@ -207,42 +208,61 @@ public class RiskViewFrame extends JFrame implements RiskView {
 
         }
         selectedAttackButton=country;
-        boardView.highlightAttackerCountry(country);
+        boardView.highlightAdjacentCountries(country);
+        boardView.getAttackButton().setEnabled(true);
+        boardView.getAttackPhaseButton().setEnabled(false);
     }
 
     /**
      * updates the view when its time for the user to choose to attack a country
-     */
+    */
     public void handleNewAttack(){
         boardView.getAttackButton().setEnabled(false);
     }
+
     /**
      * updates the view when the user enters the fortify phase
      */
     public void handleNewFortifyPhase(){
+        boardView.getFortifyPhaseButton().setEnabled(false);
+        boardView.getFortifyButton().setEnabled(false);
     }
 
     @Override
     public void handleCanFortifyFrom(Game game, Country country) {
-
+        boardView.highlightFortifyingCountries(country);
+        boardView.getFortifyButton().setEnabled(true);
     }
 
+    /**
+     * warning message displayed when there are not enough armies to fortify from a country
+     * @param game
+     */
     @Override
     public void handleCanNotFortifyArmies(Game game) {
         JOptionPane.showMessageDialog(this,"Not enough armies to fortify !");
 
     }
 
+    /**
+     * warning message displayed if the player can not fortify
+     * @param game
+     */
     @Override
     public void handleCanNotFortify(Game game) {
-        JOptionPane.showMessageDialog(this,"Can not fortify, Countries are not adjacent!");
+        JOptionPane.showMessageDialog(this,"Can not fortify !");
     }
 
+    /**
+     * view updated when the fortiphy phase occurs sucessfully
+     * @param game
+     * @param movingFrom
+     * @param movingTo
+     */
     @Override
-    public void handleFortifyPhase(Game game,Country movingFrom, Country movingTo, boolean canMove) {
-
+    public void handleFortifyPhase(Game game,Country movingFrom, Country movingTo) {
+        boardView.TransferOwnership(movingFrom,movingTo);
     }
-
 
     /**
      * get the board view
