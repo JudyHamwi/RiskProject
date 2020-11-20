@@ -153,7 +153,7 @@ public class Game {
     }
 
     /**
-     * Initiates the atack phase of the game, which is entered when a player decided to attack
+     * Initiates the attack phase of the game, which is entered when a player decided to attack
      *
      * @param defenderCountry the country that will be defending from the attack
      */
@@ -163,6 +163,7 @@ public class Game {
             Boolean attackSuccess = playerAttack.attack();
             Player playerRemoved=removePlayer();
             boolean winner = checkWinner();
+            setContinentsOwned();
             for (RiskView rv : riskViews) {
                 rv.handleAttackPhase(this, attackCountry, defenderCountry, attackSuccess, winner, playerRemoved);
             }
@@ -224,7 +225,6 @@ public class Game {
         }
     }
 
-
     /**
      * ends the turn of the current player and passes the turn to the next player
      */
@@ -238,13 +238,13 @@ public class Game {
             currentPlayer = players.get(i + 1);
         }
         gameState = GameState.IN_PROGRESS;
+        // call for the draftphase
 
         for (RiskView rv : riskViews) {
             rv.handleEndTurn(this, currentPlayer);
         }
 
     }
-
 
     /**
      * Prints the initial state of the game after the initialization happens

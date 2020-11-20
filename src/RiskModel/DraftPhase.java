@@ -36,10 +36,10 @@ public class DraftPhase {
 
     public void setupBonusArmiesForOccupiedCountries(){
         int numOfOccupiedCountries = currentPlayer.getTotalNumberOfCountries();
-        if (numOfOccupiedCountries < 9 ){
+        if (numOfOccupiedCountries < 12 ){
             this.bonusArmiesForOccupiedCountries = 3;
         } else {
-            this.bonusArmiesForOccupiedCountries = (numOfOccupiedCountries / 3);
+            this.bonusArmiesForOccupiedCountries = Math.floorDiv(numOfOccupiedCountries , 3);
         }
     }
 
@@ -55,7 +55,7 @@ public class DraftPhase {
     public void setupBonusArmiesForOccupiedContinents(){
         List<Continent> occupiedContinents =  currentPlayer.getContinentsOwned();
         for (Continent c: occupiedContinents){
-           this.bonusArmiesForOccupiedContinents = c.getBonusArmies();
+           this.bonusArmiesForOccupiedContinents += c.getBonusArmies();
         }
     }
 
@@ -63,5 +63,9 @@ public class DraftPhase {
     // gets to choose where to place them ( On their occupied territory)
     public int getTotalBonusArmies(){
         return (this.bonusArmiesForOccupiedContinents+ this.bonusArmiesForOccupiedCountries);
+    }
+
+    public void placeBonusArmies(){
+
     }
 }
