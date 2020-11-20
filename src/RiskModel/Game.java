@@ -3,6 +3,7 @@ package RiskModel;
 import RiskView.RiskView;
 import RiskView.RiskViewFrame;
 
+import javax.swing.*;
 import java.util.Collections;
 import java.util.Random;
 import java.util.*;
@@ -23,6 +24,7 @@ public class Game {
 
     private Board board;
     private GameState gameState;
+    private PhaseState phaseState;
     private boolean finished;
     private int playerArmy;
     public  LinkedList<Player> players;
@@ -40,6 +42,7 @@ public class Game {
         board = new Board();
         riskViews = new ArrayList<>();
         this.gameState = GameState.INITIALIZING;
+        this.phaseState = PhaseState.DRAFT_PHASE;
         this.armiesForPlayers = new HashMap<>();
         setArmiesForPlayers();
     }
@@ -65,6 +68,12 @@ public class Game {
     public GameState getState() {
         return this.gameState;
     }
+
+    /**
+     * gets the current phase state of the player
+     * @return PhaseSate of the player
+     */
+    public PhaseState getPhaseSate(){ return this.phaseState;}
 
     /**
      * Adds a number of players to the game
@@ -102,6 +111,7 @@ public class Game {
     public void setNumberOfPlayers(int numberOfPlayers){
         numPlayers=numberOfPlayers;
     }
+
     /**
      * sets the number of initial armies according to the number of players
      */
@@ -152,6 +162,21 @@ public class Game {
         }
     }
 
+    public void draftPhase(Country countryToReinforce){
+        if( phaseState == PhaseState.DRAFT_PHASE && countryToReinforce.getCurrentOwner().equals(currentPlayer) ){
+            DraftPhase playerDraft = new DraftPhase(currentPlayer);
+            int totalBonusArmies = playerDraft.getTotalBonusArmies();
+            currentPlayer.addPlayerArmy(totalBonusArmies); //add the bonus army to the total number of armies the player has
+            while(totalBonusArmies > 0){
+               int armiesToPlace = Integer.parseInt(JOptionPane.showInputDialog("How many bonus armies would you like to add to "+countryToReinforce.getCountryName() +"?"));
+                if (armiesToPlace <= totalBonusArmies){
+                    countryToReinforce.addArmy(armiesToPlace);
+                    totalBonusArmies -= armiesToPlace;
+                }
+            }
+            if (totalBonusArmies == 0) { phaseState = PhaseState.ATTACK_PHASE;}
+        }
+    }
     /**
      * Initiates the attack phase of the game, which is entered when a player decided to attack
      *
