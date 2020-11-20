@@ -90,12 +90,12 @@ public class Board {
     private void createBoard() {
 
         //  create the Continents in the RISKModel.Game
-        Continent NorthAmerica = new Continent("NorthAmerica");
-        Continent SouthAmerica = new Continent("SouthAmerica");
-        Continent Europe = new Continent("Europe");
-        Continent Africa = new Continent("Africa");
-        Continent Asia = new Continent("Asia");
-        Continent Australia = new Continent("Australia");
+        Continent NorthAmerica = new Continent("NorthAmerica", 5);
+        Continent SouthAmerica = new Continent("SouthAmerica", 2);
+        Continent Europe = new Continent("Europe", 5);
+        Continent Africa = new Continent("Africa", 3);
+        Continent Asia = new Continent("Asia", 7);
+        Continent Australia = new Continent("Australia", 2);
 
         //add continents to board
         this.addContinent(NorthAmerica);

@@ -1,6 +1,7 @@
 package RiskModel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -17,6 +18,7 @@ public class Player {
     private static int playerCounter =1;
     private final int PLAYER_ID;
     private List<Country> countriesOwned;
+    private List<Continent> continentsOwned;
     private int placeArmy;
 
     /**
@@ -25,6 +27,7 @@ public class Player {
     public Player(){
         this.PLAYER_ID = this.getNextPlayerId();
         this.countriesOwned = new ArrayList<>();
+        this.continentsOwned = new ArrayList<>();
         this.placeArmy=0;
     }
 
@@ -34,6 +37,14 @@ public class Player {
      */
     public List<Country> getCountriesOwned() {
         return countriesOwned;
+    }
+
+    /**
+     * Gets the Continents owned by the player
+     * @return HashMap of the continents owned by the player
+     */
+    public List<Continent> getContinentsOwned() {
+        return continentsOwned;
     }
 
     /**
@@ -91,6 +102,22 @@ public class Player {
      */
     public void removeCountry(Country country){
         countriesOwned.remove(country);
+    }
+
+    /**
+     * adds a continent owned by a player that occupies all the countries on a continent
+     * @param continent owned by a player
+     */
+    public void addContinent(Continent continent){
+        continentsOwned.add(continent);
+    }
+
+    /**
+     * removes a continent from the Map of ownedContinents when a player no longer controls the whole continent
+     * @param continent to be removed
+     */
+    public void removeContinent(Continent continent){
+        continentsOwned.remove(continent);
     }
 
     /**
@@ -166,7 +193,6 @@ public class Player {
     public int hashCode() {
         return Objects.hash(PLAYER_ID, countriesOwned, placeArmy);
     }
-
     public boolean playerOwnsCountry(Country country){
         for(Country c:countriesOwned){
             if(c.equals(country)){
@@ -175,6 +201,7 @@ public class Player {
         }
         return false;
     }
+
     public void setPlayerCounter(int reset){
         playerCounter=reset;
     }
