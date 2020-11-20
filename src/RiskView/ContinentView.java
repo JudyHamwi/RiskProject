@@ -151,4 +151,10 @@ public class ContinentView extends JPanel {
         return null;
     }
 
+    public void removeAllHighlightedButtons(){
+        for(JButton c:countryButtons){
+            c.setBorder(new JButton().getBorder());
+        }
+    }
+
 }

@@ -177,6 +177,7 @@ public class RiskViewFrame extends JFrame implements RiskView {
         boardView.removeHighlightedButtons();
         boardView.getAttackPhaseButton().setEnabled(true);
         boardView.getFortifyButton().setEnabled(false);
+        boardView.getFortifyPhaseButton().setEnabled(false);
         boardView.getAttackButton().setEnabled(false);
     }
 
@@ -232,6 +233,7 @@ public class RiskViewFrame extends JFrame implements RiskView {
 
     @Override
     public void handleCanFortifyFrom(Game game, Country country) {
+        boardView.removeAllHighlightCountries();
         boardView.highlightFortifyingCountries(country);
         boardView.getFortifyButton().setEnabled(true);
     }

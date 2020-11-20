@@ -378,7 +378,7 @@ public class Game {
 
     public void checkFortifyCountry(Country moveFrom, int armiesMoved) {
         if(currentPlayer.ifPlayerOwns(moveFrom)) {
-            if (armiesMoved < moveFrom.getNumberOfArmies() - 1 && armiesMoved > 0) {
+            if (armiesMoved < moveFrom.getNumberOfArmies() && armiesMoved > 0 && moveFrom.getNumberOfArmies()>1) {
                 moveFromCountry = moveFrom;
                 armiesFortify=armiesMoved;
                 for (RiskView rv : riskViews) {

@@ -221,6 +221,15 @@ public class BoardView extends JPanel {
     }
 
     /**
+     * remove highlights from all countries
+     */
+    public void removeAllHighlightCountries(){
+        for(ContinentView cv:continentViews){
+            cv.removeAllHighlightedButtons();
+        }
+    }
+
+    /**
      * remove the highlight from the countries adjacent to the country that will not be used to attack
      * @param country that the adjacent countries highlight will be removed
      */
