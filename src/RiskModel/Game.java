@@ -174,16 +174,18 @@ public class Game {
         }
     }
 
-    public void fortifyPhase(Country movingTo) {
-        if (currentPlayer.canMove(moveFromCountry, movingTo)) {
+    public void fortifyPhase(Country movingTo, int armiesMoved) {
+        boolean canMove=currentPlayer.canMove(moveFromCountry, movingTo);
+        if (canMove) {
             FortifyPhase playerFortify = new FortifyPhase(currentPlayer, moveFromCountry, movingTo);
+            playerFortify.setNumOfArmiesToMove(armiesMoved);
             Boolean fortifySuccess = playerFortify.fortify();
-            // update RiskViewFrame
-        } else {
-            // update RiskViewFrame in case player cannot fortify
+            endTurn();
         }
+            for (RiskView rv : riskViews) {
+                rv.handleFortifyPhase(this, moveFromCountry, movingTo, canMove);
+            }
     }
-
 
     /**
      * Removes a player from the game if lost all their armies
@@ -370,12 +372,23 @@ public class Game {
         }
     }
 
-    public void checkFortifyCountry(Country moveFrom) {
+    public void checkFortifyCountry(Country moveFrom, int armiesMoved) {
         if(currentPlayer.ifPlayerOwns(moveFrom)) {
-            this.moveFromCountry = moveFrom;
-            // Handle listeners
-        } else {
-            // Handle listeners
+            if (armiesMoved < moveFrom.getNumberOfArmies() - 1 && armiesMoved > 0) {
+                this.moveFromCountry = moveFrom;
+                for (RiskView rv : riskViews) {
+                    rv.handleCanFortifyFrom(this, moveFrom);
+                }
+            } else {
+                //handle invalid number of armies
+                for (RiskView rv : riskViews) {
+                    rv.handleCanNotFortifyArmies(this);
+                }
+            }
+        }else {
+            for (RiskView rv : riskViews) {
+                rv.handleCanNotFortify(this);
+            }
         }
     }
 

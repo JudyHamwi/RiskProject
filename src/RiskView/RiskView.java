@@ -21,4 +21,8 @@ public interface RiskView {
      BoardView getBoardView();
      void handleAttackPhase(Game game, Country attackerCountry, Country defenderCountry, boolean attackSuccess, boolean winner, Player playerRemoved);
      void handleNewFortifyPhase();
+     void handleCanFortifyFrom(Game game, Country country);
+     void handleCanNotFortifyArmies(Game game);
+     void handleCanNotFortify(Game game);
+     void handleFortifyPhase(Game game,Country movingFrom, Country movingTo, boolean canMove);
 }

@@ -4,6 +4,7 @@ import RiskModel.Country;
 import RiskModel.Game;
 import RiskView.RiskView;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 /**
@@ -19,6 +20,7 @@ public class MoveController implements ActionListener {
     private RiskView riskView;
     private Game game;
     private Country country;
+    private int armiesMoved;
 
     public MoveController(RiskView riskView, Game game, Country country){
         this.riskView=riskView;
@@ -29,11 +31,13 @@ public class MoveController implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(!(riskView.getBoardView().getAttackButton().isEnabled()) && riskView.getBoardView().getMoveButton().isEnabled()) {
-            // check the country of the armies to be moved
+           String armies=JOptionPane.showInputDialog(this,"Number of Armies to move");
+           armiesMoved=Integer.parseInt(armies);
+           game.checkFortifyCountry(country, armiesMoved);
         }
             else if (!(riskView.getBoardView().getAttackButton().isEnabled()) && !(riskView.getBoardView().getMoveButton().isEnabled())
                      && !(riskView.getBoardView().getFortifyButton().isEnabled())){
-                //enter the fortify phase
+                game.fortifyPhase(country, armiesMoved);
             }
         }
 

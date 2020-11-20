@@ -221,9 +221,42 @@ public class RiskViewFrame extends JFrame implements RiskView {
      */
     public void handleNewFortifyPhase(){
         boardView.getMoveButton().setEnabled(true);
-        boardView.getFortifyButton().setEnabled(true);
+        boardView.getFortifyButton().setEnabled(false);
         boardView.getAttackButton().setEnabled(false);
     }
+
+    @Override
+    public void handleCanFortifyFrom(Game game, Country country) {
+        selectedAttackButton=country;
+        boardView.highlightAttackerCountry(country);
+        boardView.getMoveButton().setEnabled(false);
+    }
+
+    @Override
+    public void handleCanNotFortifyArmies(Game game) {
+        JOptionPane.showMessageDialog(this,"Not enough armies to fortify !");
+
+    }
+
+    @Override
+    public void handleCanNotFortify(Game game) {
+        JOptionPane.showMessageDialog(this,"Can not fortify, Countries are not adjacent!");
+    }
+
+    @Override
+    public void handleFortifyPhase(Game game,Country movingFrom, Country movingTo, boolean canMove) {
+        if (canMove) {
+            JOptionPane.showMessageDialog(this, "Fortify Complete!");
+            boardView.getAttackButton().setEnabled(true);
+            boardView.removeHighlightCountry(movingFrom);
+            boardView.TransferOwnership(movingFrom, movingTo);
+            selectedAttackButton = null;
+            boardView.getFortifyButton().setEnabled(false);
+        } else {
+            JOptionPane.showMessageDialog(this, "Countries are not adjacent !!");
+        }
+    }
+
 
     /**
      * get the board view
