@@ -1,7 +1,6 @@
 package RiskView;
 
-import RiskController.AttackController;
-import RiskController.EndTurnController;
+import RiskController.*;
 import RiskModel.*;
 
 import javax.swing.*;
@@ -30,11 +29,14 @@ public class BoardView extends JPanel {
     private JPanel playerColorsPanel;
     private JButton endTurnButton;
     private JButton attackButton;
+    private JButton attackPhaseButton;
     private JPanel inGamePanel;
     private Game game;
     private RiskView rv;
+    private JButton fortifyPhaseButton;
     private JButton fortifyButton;
-    private JButton moveButton;
+    private JLabel draftArmies;
+
 
     /**
      * creates the board view of the risk game
@@ -125,21 +127,30 @@ public class BoardView extends JPanel {
 
         attackButton = new JButton("Attack!");
         attackButton.setName("attackButton");
+        attackButton.setEnabled(false);
+        attackPhaseButton=new JButton("Attack Phase");
+        attackPhaseButton.setEnabled(false);
         endTurnButton = new JButton("End turn");
-        endTurnButton.setName("endTurnButton");
-        fortifyButton=new JButton("Fortify!");
+        fortifyPhaseButton=new JButton("Fortify Phase");
+        fortifyPhaseButton.setEnabled(false);;
+        fortifyButton=new JButton("fortify");
         fortifyButton.setName("fortifyButton");
         fortifyButton.setEnabled(false);
-        moveButton=new JButton("move");
-        moveButton.setName("moveButton");
-        moveButton.setEnabled(false);
+        draftArmies=new JLabel("Draft Armies: ");
+        draftArmies.setVisible(false);
 
+        inGamePanel.add(attackPhaseButton);
         inGamePanel.add(attackButton);
         inGamePanel.add(fortifyButton);
+        inGamePanel.add(fortifyPhaseButton);
         inGamePanel.add(endTurnButton);
-        inGamePanel.add(moveButton);
+        inGamePanel.add(draftArmies);
+
         endTurnButton.addActionListener(new EndTurnController(game));
+        attackPhaseButton.addActionListener(new AttackPhaseController(game, this));
         attackButton.addActionListener(new AttackController(rv, game, null));
+        fortifyButton.addActionListener(new FortifyController(rv,game,null));
+        fortifyPhaseButton.addActionListener(new FortifyPhaseController(game, this));
 
         return inGamePanel;
     }
@@ -157,11 +168,11 @@ public class BoardView extends JPanel {
      * highlights the country that the player chooses to attack from
      * @param country the player wants to attack from
      */
-    public void highlightAttackerCountry(Country country){
+    public void highlightSelectedCountry(Country country){
         for(ContinentView cv:continentViews){
             if(cv.hasCountryButton(country) != null){
                 cv.highlightButton(cv.hasCountryButton(country));
-                highlightAdjacentCountries(country);
+                //highlightAdjacentCountries(country);
             }
         }
     }
@@ -172,6 +183,7 @@ public class BoardView extends JPanel {
      * @param country the player wants to attack from
      */
     public void highlightAdjacentCountries(Country country) {
+        highlightSelectedCountry(country);
         for (Country adjacentCountry : country.getAdjacentCountries()) {
             for (ContinentView cv : continentViews) {
                 if (cv.hasCountryButton(adjacentCountry) != null){
@@ -180,6 +192,24 @@ public class BoardView extends JPanel {
             }
         }
     }
+
+    /**
+     * highlight the countries that the player can fortify to
+     * @param country that is selected to fortify armies from
+     */
+    public void highlightFortifyingCountries(Country country){
+        highlightSelectedCountry(country);
+        for(Country adjacentCountry : country.getAdjacentCountries()) {
+            for (ContinentView cv : continentViews) {
+                if (cv.hasCountryButton(adjacentCountry) != null &&
+                        country.getCurrentOwner().equals(adjacentCountry.getCurrentOwner())) {
+                         cv.highlightButton(cv.hasCountryButton(adjacentCountry));
+                         highlightSelectedCountry(adjacentCountry);
+                }
+            }
+        }
+    }
+
 
     /**
      * remove the highlight from the attacker country after the attack is complete
@@ -192,6 +222,15 @@ public class BoardView extends JPanel {
                 cv.removeHighlightButton(cv.hasCountryButton(country));
                 removeHighLightAdjacentCountry(country);
             }
+        }
+    }
+
+    /**
+     * remove highlights from all countries
+     */
+    public void removeAllHighlightCountries(){
+        for(ContinentView cv:continentViews){
+            cv.removeAllHighlightedButtons();
         }
     }
 
@@ -250,5 +289,47 @@ public class BoardView extends JPanel {
         return attackButton;
     }
 
+    /**
+     * getter for the fortify button
+     * @return
+     */
+    public JButton getFortifyButton(){
+        return fortifyButton;
+    }
 
+    /**
+     * geter for the attack phase button
+     * @return
+     */
+    public JButton getAttackPhaseButton(){
+        return attackPhaseButton;
+    }
+
+    /**
+     * getter for fortify phase button
+     * @return
+     */
+    public JButton getFortifyPhaseButton(){
+        return fortifyPhaseButton;
+    }
+
+    /**
+     * Add new army to country in draft phase
+     * @param country
+     */
+    public void addArmyToCountry(Country country){
+        for (ContinentView cv : continentViews){
+            if (cv.hasCountryButton(country) != null){
+                cv.addArmy(country);
+            }
+        }
+        draftArmies.setText("Draft Armies: " + country.getNumberOfArmies());
+    }
+
+    /**
+     * getter for the label for draft armies in draft phase
+     */
+    public JLabel getDraftArmies(){
+        return draftArmies;
+    }
 }

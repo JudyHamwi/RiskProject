@@ -141,14 +141,15 @@ public class Player {
     }
 
     public boolean canMove(Country moveFrom, Country moveTo) {
-        if (!moveFrom.getCurrentOwner().equals(moveTo.getCurrentOwner())) {
+        if (!(moveFrom.getCurrentOwner().equals(moveTo.getCurrentOwner()))) {
             System.out.println("You do not own the country you want to move to");
             return false;
-        } else if (!moveFrom.isAdjacent(moveTo)) {
+        } else if (!(moveFrom.isAdjacent(moveTo))) {
             System.out.println("Countries are not adjacent");
             return false;
+        } else {
+            return true;
         }
-        return true;
     }
 
     /**

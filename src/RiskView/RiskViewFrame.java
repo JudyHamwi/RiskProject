@@ -39,6 +39,7 @@ public class RiskViewFrame extends JFrame implements RiskView {
     private Game gameModel;
     private BoardView boardView;
     private Country selectedAttackButton;
+    private JMenu numberOfAIPlayers;
 
     /**
      * creates the View of the Risk Game
@@ -103,12 +104,27 @@ public class RiskViewFrame extends JFrame implements RiskView {
      */
     public void setNumberOfPlayersMenu(){
         this.numberOfPlayers = new JMenu("Players");
+        numberOfPlayers.setName("Players");
         for(int i = 2; i <= MAX_NUM_PLAYERS; i++){
             JMenuItem numPlayer = new JMenuItem(i + " Players");
             numPlayer.addActionListener(new InitializationController(gameModel, i));
             numberOfPlayers.add(numPlayer);
         }
         menuBar.add(numberOfPlayers);
+    }
+
+    /**
+     * Creates the list of number of AI players the users can choose from to play the game
+     */
+    public void setNumberOfAIPlayersMenu(){
+        this.numberOfAIPlayers = new JMenu("AI Players");
+        numberOfAIPlayers.setName("AIplayers");
+        for(int i = 2; i < MAX_NUM_PLAYERS; i++){
+            JMenuItem numPlayer = new JMenuItem(i + " AI Players");
+            numPlayer.addActionListener(new AIInitializationController(gameModel, i));
+            numberOfAIPlayers.add(numPlayer);
+        }
+        menuBar.add(numberOfAIPlayers);
     }
 
     /**
@@ -120,11 +136,13 @@ public class RiskViewFrame extends JFrame implements RiskView {
     @Override
     public void handleNewGame(Game game, Board board) {
         setNumberOfPlayersMenu();
+        setNumberOfAIPlayersMenu();
         this.remove(mainMenuPanel);
         boardView = new BoardView(this,game, board);
         this.add(boardView, BorderLayout.CENTER);
         this.add(gameStatusPanel, BorderLayout.SOUTH);
         menuBar.add(numberOfPlayers);
+        menuBar.add(numberOfAIPlayers);
         menu.setText("Menu");
         menu.remove(newGame);
         menu.add(helpMenuItem);
@@ -139,12 +157,15 @@ public class RiskViewFrame extends JFrame implements RiskView {
      * @param player with the current turn
      * @param numPlayers number of players playing the game
      */
-    public void handleInitialization(Game game, GameState state, Player player, int numPlayers){
+    public void handleInitialization(Game game, GameState state, Player player, int numPlayers, int draftArmies){
         gameStatus.setText(state.toString());
         currentPlayer.setText(player.toString());
         boardView.InitializeBoard(numPlayers);
         boardView.addInGamePanel(game, player);
         this.numberOfPlayers.setVisible(false);
+        boardView.getAttackPhaseButton().setEnabled(true);
+        boardView.getDraftArmies().setText("Draft Armies: "+ draftArmies);
+        boardView.getDraftArmies().setVisible(true);
     }
 
     /**
@@ -152,11 +173,16 @@ public class RiskViewFrame extends JFrame implements RiskView {
      * @param game model that deals with the logic of the game
      * @param player with the current turn
      */
-    public void handleEndTurn(Game game, Player player) {
+    public void handleEndTurn(Game game, Player player, int draftArmies) {
         currentPlayer.setText(player.toString());
         JOptionPane.showMessageDialog(this, player.toString() + ", it is your turn!");
         boardView.removeHighlightedButtons();
-        boardView.getAttackButton().setEnabled(true);
+        boardView.getAttackPhaseButton().setEnabled(true);
+        boardView.getFortifyButton().setEnabled(false);
+        boardView.getFortifyPhaseButton().setEnabled(false);
+        boardView.getAttackButton().setEnabled(false);
+        boardView.getDraftArmies().setText("Draft Armies: "+ draftArmies);
+        boardView.getDraftArmies().setVisible(true);
     }
 
     /**
@@ -174,7 +200,7 @@ public class RiskViewFrame extends JFrame implements RiskView {
      */
     @Override
     public void handleCanNotAttackFrom(Game game) {
-        JOptionPane.showMessageDialog(this,"Can not attack from this Country");
+        JOptionPane.showMessageDialog(this,"Can not attack Country");
     }
 
     /**
@@ -189,14 +215,75 @@ public class RiskViewFrame extends JFrame implements RiskView {
 
         }
         selectedAttackButton=country;
-        boardView.highlightAttackerCountry(country);
+        boardView.highlightAdjacentCountries(country);
+        boardView.getAttackButton().setEnabled(true);
+        boardView.getAttackPhaseButton().setEnabled(false);
     }
 
     /**
      * updates the view when its time for the user to choose to attack a country
-     */
+    */
     public void handleNewAttack(){
         boardView.getAttackButton().setEnabled(false);
+    }
+
+    /**
+     * updates the view when the user enters the fortify phase
+     */
+    public void handleNewFortifyPhase(){
+        boardView.getFortifyPhaseButton().setEnabled(false);
+        boardView.getFortifyButton().setEnabled(false);
+    }
+
+    @Override
+    public void handleCanFortifyFrom(Game game, Country country) {
+        boardView.removeAllHighlightCountries();
+        boardView.highlightFortifyingCountries(country);
+        boardView.getFortifyButton().setEnabled(true);
+    }
+
+    /**
+     * warning message displayed when there are not enough armies to fortify from a country
+     * @param game
+     */
+    @Override
+    public void handleCanNotFortifyArmies(Game game) {
+        JOptionPane.showMessageDialog(this,"Not enough armies to fortify !");
+
+    }
+
+    /**
+     * warning message displayed if the player can not fortify
+     * @param game
+     */
+    @Override
+    public void handleCanNotFortify(Game game) {
+        JOptionPane.showMessageDialog(this,"Can not fortify !");
+    }
+
+    /**
+     * view updated when the fortiphy phase occurs sucessfully
+     * @param game
+     * @param movingFrom
+     * @param movingTo
+     */
+    @Override
+    public void handleFortifyPhase(Game game,Country movingFrom, Country movingTo) {
+        boardView.TransferOwnership(movingFrom,movingTo);
+    }
+
+    @Override
+    public void handleAddedArmy(Game game, Country country, int draftArmies) {
+        boardView.addArmyToCountry(country);
+        boardView.getDraftArmies().setText("Draft Armies: "+ draftArmies);
+        if(draftArmies==0){
+            boardView.getDraftArmies().setVisible(false);
+        }
+    }
+
+    @Override
+    public void handleCanNotDraftFrom(Game game) {
+        JOptionPane.showMessageDialog(this,"You do not own this country !");
     }
 
     /**

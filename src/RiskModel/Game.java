@@ -3,7 +3,6 @@ package RiskModel;
 import RiskView.RiskView;
 import RiskView.RiskViewFrame;
 
-import javax.swing.*;
 import java.util.Collections;
 import java.util.Random;
 import java.util.*;
@@ -26,7 +25,6 @@ public class Game {
 
     private Board board;
     private GameState gameState;
-    private PhaseState phaseState;
     private boolean finished;
     private int playerArmy;
     public  LinkedList<Player> players;
@@ -36,6 +34,8 @@ public class Game {
     private Country attackCountry;
     private HashMap<Integer, Integer> armiesForPlayers;
     private Country moveFromCountry;
+    private int armiesFortify;
+    private int draftArmies;
 
     /**
      * Starts a new RISKModel.Game
@@ -44,8 +44,6 @@ public class Game {
         players = new LinkedList<>();
         board = new Board();
         riskViews = new ArrayList<>();
-        this.gameState = GameState.INITIALIZING;
-        this.phaseState = PhaseState.DRAFT_PHASE;
         this.armiesForPlayers = new HashMap<>();
         setArmiesForPlayers();
     }
@@ -71,12 +69,6 @@ public class Game {
     public GameState getState() {
         return this.gameState;
     }
-
-    /**
-     * gets the current phase state of the player
-     * @return PhaseSate of the player
-     */
-    public PhaseState getPhaseSate(){ return this.phaseState;}
 
     /**
      * Adds a number of players to the game
@@ -114,7 +106,6 @@ public class Game {
     public void setNumberOfPlayers(int numberOfPlayers){
         numPlayers=numberOfPlayers;
     }
-
     /**
      * sets the number of initial armies according to the number of players
      */
@@ -165,21 +156,6 @@ public class Game {
         }
     }
 
-    public void draftPhase(Country countryToReinforce){
-        if( phaseState == PhaseState.DRAFT_PHASE && countryToReinforce.getCurrentOwner().equals(currentPlayer) ){
-            DraftPhase playerDraft = new DraftPhase(currentPlayer);
-            int totalBonusArmies = playerDraft.getTotalBonusArmies();
-            currentPlayer.addPlayerArmy(totalBonusArmies); //add the bonus army to the total number of armies the player has
-            while(totalBonusArmies > 0){
-               int armiesToPlace = Integer.parseInt(JOptionPane.showInputDialog("How many bonus armies would you like to add to "+countryToReinforce.getCountryName() +"?"));
-                if (armiesToPlace <= totalBonusArmies){
-                    countryToReinforce.addArmy(armiesToPlace);
-                    totalBonusArmies -= armiesToPlace;
-                }
-            }
-            if (totalBonusArmies == 0) { phaseState = PhaseState.ATTACK_PHASE;}
-        }
-    }
     /**
      * Initiates the attack phase of the game, which is entered when a player decided to attack
      *
@@ -191,7 +167,6 @@ public class Game {
             Boolean attackSuccess = playerAttack.attack();
             Player playerRemoved=removePlayer();
             boolean winner = checkWinner();
-            setContinentsOwned();
             for (RiskView rv : riskViews) {
                 rv.handleAttackPhase(this, attackCountry, defenderCountry, attackSuccess, winner, playerRemoved);
             }
@@ -205,13 +180,20 @@ public class Game {
     public void fortifyPhase(Country movingTo) {
         if (currentPlayer.canMove(moveFromCountry, movingTo)) {
             FortifyPhase playerFortify = new FortifyPhase(currentPlayer, moveFromCountry, movingTo);
+            playerFortify.setNumOfArmiesToMove(armiesFortify);
             Boolean fortifySuccess = playerFortify.fortify();
-            // update RiskViewFrame
-        } else {
-            // update RiskViewFrame in case player cannot fortify
-        }
-    }
+            for (RiskView rv : riskViews) {
+                rv.handleFortifyPhase(this, moveFromCountry, movingTo);
+            }
+            endTurn();
 
+        }else {
+            for (RiskView rv : riskViews) {
+                rv.handleCanNotFortify(this);
+            }
+        }
+
+    }
 
     /**
      * Removes a player from the game if lost all their armies
@@ -243,9 +225,10 @@ public class Game {
      */
     public void theInitialState() {
         initialize(numPlayers);
-        this.gameState = GameState.IN_PROGRESS;
+        gameState=GameState.DRAFT_PHASE;
+        draftPhase();
         for (RiskView rv : riskViews) {
-            rv.handleInitialization(this, gameState, currentPlayer, numPlayers);
+            rv.handleInitialization(this, gameState, currentPlayer, numPlayers,draftArmies);
         }
     }
 
@@ -264,6 +247,7 @@ public class Game {
         }
     }
 
+
     /**
      * ends the turn of the current player and passes the turn to the next player
      */
@@ -276,14 +260,14 @@ public class Game {
             int i = players.indexOf(p);
             currentPlayer = players.get(i + 1);
         }
-        gameState = GameState.IN_PROGRESS;
-        // call for the draftphase
-
+        draftPhase();
+        gameState=GameState.DRAFT_PHASE;
         for (RiskView rv : riskViews) {
-            rv.handleEndTurn(this, currentPlayer);
+            rv.handleEndTurn(this, currentPlayer, draftArmies);
         }
 
     }
+
 
     /**
      * Prints the initial state of the game after the initialization happens
@@ -397,12 +381,24 @@ public class Game {
         }
     }
 
-    public void checkFortifyCountry(Country moveFrom) {
+    public void checkFortifyCountry(Country moveFrom, int armiesMoved) {
         if(currentPlayer.ifPlayerOwns(moveFrom)) {
-            this.moveFromCountry = moveFrom;
-            // Handle listeners
-        } else {
-            // Handle listeners
+            if (armiesMoved < moveFrom.getNumberOfArmies() && armiesMoved > 0 && moveFrom.getNumberOfArmies()>1) {
+                moveFromCountry = moveFrom;
+                armiesFortify=armiesMoved;
+                for (RiskView rv : riskViews) {
+                    rv.handleCanFortifyFrom(this, moveFrom);
+                }
+            } else {
+                //handle invalid number of armies
+                for (RiskView rv : riskViews) {
+                    rv.handleCanNotFortifyArmies(this);
+                }
+            }
+        }else {
+            for (RiskView rv : riskViews) {
+                rv.handleCanNotFortify(this);
+            }
         }
     }
 
@@ -422,13 +418,36 @@ public class Game {
         return attackCountry;
     }
 
-
-    public void setContinentsOwned(){
-        for(int i = 0; i < board.getContinents().size(); i++){
-            //check continent ownership and add it to the player's owned continents list
-            if(currentPlayer.getCountriesOwned().containsAll(board.getContinents().get(i).getContinentCountries())){
-                currentPlayer.addContinent(board.getContinents().get(i));
+    public void draftNewArmy(Country country) {
+        if (country.getCurrentOwner().equals(currentPlayer)) {
+            country.addArmy(1);
+            draftArmies--;
+            if (draftArmies == 0) {
+                gameState = GameState.ATTACK_PHASE;
+            }
+            for (RiskView rv : riskViews) {
+                rv.handleAddedArmy(this, country, draftArmies);
+            }
+            if (draftArmies == 0) {
+                gameState = GameState.IN_PROGRESS;
+            }
+        } else {
+            for (RiskView rv : riskViews) {
+                rv.handleCanNotDraftFrom(this);
             }
         }
+    }
+
+    /**
+     * set the phase of the game state
+     */
+    public void setPhase(GameState state){
+        gameState=state;
+    }
+
+    public void draftPhase(){
+            DraftPhase playerDraft = new DraftPhase(currentPlayer);
+            draftArmies= playerDraft.getTotalBonusArmies();
+            currentPlayer.addPlayerArmy(draftArmies); //add the bonus army to the total number of armies the player has
     }
 }

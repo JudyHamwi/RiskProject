@@ -1,6 +1,8 @@
 package RiskView;
 
 import RiskController.AttackController;
+import RiskController.DraftPhaseController;
+import RiskController.FortifyController;
 import RiskModel.Continent;
 import RiskModel.Country;
 import RiskModel.Game;
@@ -68,6 +70,8 @@ public class ContinentView extends JPanel {
             this.add(b);
             countryButtons.add(b);
             b.addActionListener(new AttackController(rv, game, c));
+            b.addActionListener(new FortifyController(rv,game,c));
+            b.addActionListener(new DraftPhaseController(rv,game,c));
         }
     }
 
@@ -149,4 +153,17 @@ public class ContinentView extends JPanel {
         return null;
     }
 
+    public void removeAllHighlightedButtons(){
+        for(JButton c:countryButtons){
+            c.setBorder(new JButton().getBorder());
+        }
+    }
+
+    public void addArmy(Country country){
+        for (JButton b : countryButtons) {
+            if (b.getName().equals(country.getCountryName())) {
+                b.setText(country.getCountryName() + " " + country.getNumberOfArmies());
+            }
+        }
+    }
 }
