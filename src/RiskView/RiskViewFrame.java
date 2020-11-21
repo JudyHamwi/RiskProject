@@ -155,7 +155,8 @@ public class RiskViewFrame extends JFrame implements RiskView {
         menu.setText("Menu");
         menu.remove(newGame);
         menu.add(helpMenuItem);
-        JOptionPane.showMessageDialog(this, "WELCOME TO RISK! \nPlease select the number of players" +
+        JOptionPane.showMessageDialog(this, "WELCOME TO RISK! \nPlease select the number of players and the " +
+                "number of AI players" +
                 " through the menu bar");
     }
 

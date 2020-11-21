@@ -1,6 +1,8 @@
 package RiskController;
 
 import RiskModel.Game;
+import RiskView.RiskView;
+import RiskView.RiskViewFrame;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
