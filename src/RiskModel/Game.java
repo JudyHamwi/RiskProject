@@ -33,6 +33,7 @@ public class Game {
     private HashMap<Integer, Integer> armiesForPlayers;
     private Country moveFromCountry;
     private int armiesFortify;
+    private int draftArmies;
 
     /**
      * Starts a new RISKModel.Game
@@ -256,9 +257,10 @@ public class Game {
             int i = players.indexOf(p);
             currentPlayer = players.get(i + 1);
         }
-        //gameState = GameState.IN_PROGRESS;
+        // call draft phase
+        gameState=GameState.DRAFT_PHASE;
         for (RiskView rv : riskViews) {
-            rv.handleEndTurn(this, currentPlayer);
+            rv.handleEndTurn(this, currentPlayer, draftArmies);
         }
 
     }
@@ -415,8 +417,9 @@ public class Game {
 
     public void draftNewArmy(Country country){
         country.addArmy(1);
+        draftArmies--;
         for (RiskView rv : riskViews) {
-            rv.handleAddedArmy(this,country);
+            rv.handleAddedArmy(this,country,draftArmies);
         }
     }
 

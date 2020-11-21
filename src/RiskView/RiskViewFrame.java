@@ -171,7 +171,7 @@ public class RiskViewFrame extends JFrame implements RiskView {
      * @param game model that deals with the logic of the game
      * @param player with the current turn
      */
-    public void handleEndTurn(Game game, Player player) {
+    public void handleEndTurn(Game game, Player player, int draftArmies) {
         currentPlayer.setText(player.toString());
         JOptionPane.showMessageDialog(this, player.toString() + ", it is your turn!");
         boardView.removeHighlightedButtons();
@@ -179,6 +179,9 @@ public class RiskViewFrame extends JFrame implements RiskView {
         boardView.getFortifyButton().setEnabled(false);
         boardView.getFortifyPhaseButton().setEnabled(false);
         boardView.getAttackButton().setEnabled(false);
+        //update
+        boardView.getDraftArmies().setText("Draft Armies: "+ draftArmies);
+        boardView.getDraftArmies().setVisible(true);
     }
 
     /**
@@ -269,8 +272,9 @@ public class RiskViewFrame extends JFrame implements RiskView {
     }
 
     @Override
-    public void handleAddedArmy(Game game, Country country) {
-
+    public void handleAddedArmy(Game game, Country country, int draftArmies) {
+        boardView.addArmyToCountry(country);
+        boardView.getDraftArmies().setText("Draft Armies: "+ draftArmies);
     }
 
     /**

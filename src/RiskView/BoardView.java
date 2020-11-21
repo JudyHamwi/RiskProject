@@ -35,6 +35,8 @@ public class BoardView extends JPanel {
     private RiskView rv;
     private JButton fortifyPhaseButton;
     private JButton fortifyButton;
+    private JLabel draftArmies;
+
 
     /**
      * creates the board view of the risk game
@@ -134,12 +136,15 @@ public class BoardView extends JPanel {
         fortifyButton=new JButton("fortify");
         fortifyButton.setName("fortifyButton");
         fortifyButton.setEnabled(false);
+        draftArmies=new JLabel("Draft Armies: ");
+        draftArmies.setVisible(false);
 
         inGamePanel.add(attackPhaseButton);
         inGamePanel.add(attackButton);
         inGamePanel.add(fortifyButton);
         inGamePanel.add(fortifyPhaseButton);
         inGamePanel.add(endTurnButton);
+        inGamePanel.add(draftArmies);
 
         endTurnButton.addActionListener(new EndTurnController(game));
         attackPhaseButton.addActionListener(new AttackPhaseController(game, this));
@@ -306,6 +311,26 @@ public class BoardView extends JPanel {
      */
     public JButton getFortifyPhaseButton(){
         return fortifyPhaseButton;
+    }
+
+    /**
+     * Add new army to country in draft phase
+     * @param country
+     */
+    public void addArmyToCountry(Country country){
+        for (ContinentView cv : continentViews){
+            if (cv.hasCountryButton(country) != null){
+                cv.addArmy(country);
+            }
+        }
+        draftArmies.setText("Draft Armies: " + country.getNumberOfArmies());
+    }
+
+    /**
+     * getter for the label for draft armies in draft phase
+     */
+    public JLabel getDraftArmies(){
+        return draftArmies;
     }
 
 }

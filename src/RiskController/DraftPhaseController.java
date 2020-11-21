@@ -22,7 +22,7 @@ public class DraftPhaseController implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(gameModel.getState()== GameState.DRAFT_PHASE){
-
+            gameModel.draftNewArmy(country);
         }
     }
 }
