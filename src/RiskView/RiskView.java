@@ -2,6 +2,8 @@ package RiskView;
 
 import RiskModel.*;
 
+import javax.swing.*;
+
 /**
  * Risk View listener of the model. Updates the view when the model applies a change.
  * @version 1.0
@@ -11,6 +13,7 @@ import RiskModel.*;
  * @author Diana Miraflor
  */
 public interface RiskView {
+     JFrame getRiskFrame();
      void handleNewGame(Game game, Board board);
      void handleInitialization(Game game, GameState state, Player player, int numPlayers, int draftArmies, boolean ifAI);
      void handleEndTurn(Game game, Player currentPlayer, int draftArmies);

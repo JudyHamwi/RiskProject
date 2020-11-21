@@ -83,6 +83,10 @@ public class RiskViewFrame extends JFrame implements RiskView {
         RiskViewFrame view = new RiskViewFrame();
     }
 
+    public JFrame getRiskFrame() {
+        return this;
+    }
+
     /**
      * Creates the Initial page of the Risk Game
      * @return panel to be added to the main frame of the Risk Game
