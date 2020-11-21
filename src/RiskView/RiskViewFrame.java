@@ -157,13 +157,15 @@ public class RiskViewFrame extends JFrame implements RiskView {
      * @param player with the current turn
      * @param numPlayers number of players playing the game
      */
-    public void handleInitialization(Game game, GameState state, Player player, int numPlayers){
+    public void handleInitialization(Game game, GameState state, Player player, int numPlayers, int draftArmies){
         gameStatus.setText(state.toString());
         currentPlayer.setText(player.toString());
         boardView.InitializeBoard(numPlayers);
         boardView.addInGamePanel(game, player);
         this.numberOfPlayers.setVisible(false);
         boardView.getAttackPhaseButton().setEnabled(true);
+        boardView.getDraftArmies().setText("Draft Armies: "+ draftArmies);
+        boardView.getDraftArmies().setVisible(true);
     }
 
     /**
@@ -179,7 +181,6 @@ public class RiskViewFrame extends JFrame implements RiskView {
         boardView.getFortifyButton().setEnabled(false);
         boardView.getFortifyPhaseButton().setEnabled(false);
         boardView.getAttackButton().setEnabled(false);
-        //update
         boardView.getDraftArmies().setText("Draft Armies: "+ draftArmies);
         boardView.getDraftArmies().setVisible(true);
     }
@@ -275,6 +276,14 @@ public class RiskViewFrame extends JFrame implements RiskView {
     public void handleAddedArmy(Game game, Country country, int draftArmies) {
         boardView.addArmyToCountry(country);
         boardView.getDraftArmies().setText("Draft Armies: "+ draftArmies);
+        if(draftArmies==0){
+            boardView.getDraftArmies().setVisible(false);
+        }
+    }
+
+    @Override
+    public void handleCanNotDraftFrom(Game game) {
+        JOptionPane.showMessageDialog(this,"You do not own this country !");
     }
 
     /**

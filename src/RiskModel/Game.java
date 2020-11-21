@@ -223,9 +223,10 @@ public class Game {
      */
     public void theInitialState() {
         initialize(numPlayers);
-        this.gameState = GameState.IN_PROGRESS;
+        gameState=GameState.DRAFT_PHASE;
+        draftPhase();
         for (RiskView rv : riskViews) {
-            rv.handleInitialization(this, gameState, currentPlayer, numPlayers);
+            rv.handleInitialization(this, gameState, currentPlayer, numPlayers,draftArmies);
         }
     }
 
@@ -257,7 +258,7 @@ public class Game {
             int i = players.indexOf(p);
             currentPlayer = players.get(i + 1);
         }
-        // call draft phase
+        draftPhase();
         gameState=GameState.DRAFT_PHASE;
         for (RiskView rv : riskViews) {
             rv.handleEndTurn(this, currentPlayer, draftArmies);
@@ -415,11 +416,23 @@ public class Game {
         return attackCountry;
     }
 
-    public void draftNewArmy(Country country){
-        country.addArmy(1);
-        draftArmies--;
-        for (RiskView rv : riskViews) {
-            rv.handleAddedArmy(this,country,draftArmies);
+    public void draftNewArmy(Country country) {
+        if (country.getCurrentOwner().equals(currentPlayer)) {
+            country.addArmy(1);
+            draftArmies--;
+            if (draftArmies == 0) {
+                gameState = GameState.ATTACK_PHASE;
+            }
+            for (RiskView rv : riskViews) {
+                rv.handleAddedArmy(this, country, draftArmies);
+            }
+            if (draftArmies == 0) {
+                gameState = GameState.IN_PROGRESS;
+            }
+        } else {
+            for (RiskView rv : riskViews) {
+                rv.handleCanNotDraftFrom(this);
+            }
         }
     }
 
@@ -428,5 +441,11 @@ public class Game {
      */
     public void setPhase(GameState state){
         gameState=state;
+    }
+
+    public void draftPhase(){
+            DraftPhase playerDraft = new DraftPhase(currentPlayer);
+            draftArmies= playerDraft.getTotalBonusArmies();
+            currentPlayer.addPlayerArmy(draftArmies); //add the bonus army to the total number of armies the player has
     }
 }

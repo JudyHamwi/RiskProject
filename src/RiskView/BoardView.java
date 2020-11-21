@@ -332,5 +332,4 @@ public class BoardView extends JPanel {
     public JLabel getDraftArmies(){
         return draftArmies;
     }
-
 }
