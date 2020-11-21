@@ -117,14 +117,15 @@ public class RiskViewFrame extends JFrame implements RiskView {
     /**
      * Creates the list of number of AI players the users can choose from to play the game
      */
-    public void handleSetNumOfAIPlayers(int numberOfPlayers){
+    public void handleSetNumOfAIPlayers(int numberOfAI){
         this.numberOfAIPlayers = new JMenu("AI Players");
         numberOfAIPlayers.setName("AIplayers");
-        for(int i = 0; i < numberOfPlayers; i++){
+        for(int i = 0; i < numberOfAI; i++){
             JMenuItem numPlayer = new JMenuItem(i + " AI Players");
             numPlayer.addActionListener(new AIInitializationController(gameModel, i));
             numberOfAIPlayers.add(numPlayer);
         }
+        this.numberOfPlayers.setVisible(false);
         menuBar.add(numberOfAIPlayers);
     }
 
@@ -165,7 +166,7 @@ public class RiskViewFrame extends JFrame implements RiskView {
         boardView.InitializeBoard(numPlayers);
         boardView.addInGamePanel(game, player);
         //boardView.addAIPanel();
-        this.numberOfPlayers.setVisible(false);
+        //this.numberOfPlayers.setVisible(false);
         boardView.getAttackPhaseButton().setEnabled(true);
         boardView.getDraftArmies().setText("Draft Armies: "+ draftArmies);
         boardView.getDraftArmies().setVisible(true);

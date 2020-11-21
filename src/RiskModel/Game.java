@@ -27,6 +27,7 @@ public class Game {
     private int playerArmy;
     public  LinkedList<Player> players;
     private int numPlayers;
+    private int numAIPlayers;
     public Player currentPlayer;
     private ArrayList<RiskView> riskViews;
     private Country attackCountry;
@@ -107,6 +108,10 @@ public class Game {
         for (RiskView rv : riskViews) {
             rv.handleSetNumOfAIPlayers(numPlayers);
         }
+    }
+
+    public void setNumberOfAIPlayers(int numberOfAIPlayers) {
+        numAIPlayers = numberOfAIPlayers;
     }
 
     /**
