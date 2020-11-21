@@ -107,4 +107,15 @@ public class Country {
     public boolean hasOwner(){
         return currentOwner!=null;
     }
+
+    /**
+     * Sets the number of army to a specific value
+     * @param army is the number it should be set too
+     */
+    public void setArmy(int army){
+        this.numberOfArmies = army;
+    }
+
 }
+
+
