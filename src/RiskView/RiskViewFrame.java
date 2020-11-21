@@ -28,7 +28,7 @@ public class RiskViewFrame extends JFrame implements RiskView {
     private JLabel background;
     private JPanel mainMenuPanel;
     private JPanel gameStatusPanel;
-    private JPanel panelAI;
+    //private JPanel panelAI;
     private JLabel labelAI;
     private JLabel gameStatus;
     private JLabel currentPlayer;
@@ -129,15 +129,11 @@ public class RiskViewFrame extends JFrame implements RiskView {
         menuBar.add(numberOfAIPlayers);
     }
 
-    public JPanel setAIPanel() {
-        /* FIX THIS
-        panelAI = new JPanel();
-        panelAI.setLayout(new BorderLayout());
+    public void setAIPanel() {
+        //panelAI = new JPanel();
+        //panelAI.setLayout(new BorderLayout());
         labelAI = new JLabel("AI's move: ");
-        panelAI.add(labelAI);
-        return panelAI;
-         */
-        return null;
+        gameStatusPanel.add(labelAI, BorderLayout.NORTH);
     }
 
     /**
@@ -176,7 +172,7 @@ public class RiskViewFrame extends JFrame implements RiskView {
         boardView.InitializeBoard(numPlayers);
         boardView.addInGamePanel(game, player);
         if (ifAI) {
-            //this.add(setAIPanel());
+            setAIPanel();
         }
         //boardView.addAIPanel();
         //this.numberOfPlayers.setVisible(false);
