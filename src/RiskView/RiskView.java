@@ -27,4 +27,5 @@ public interface RiskView {
      void handleFortifyPhase(Game game,Country movingFrom, Country movingTo);
      void handleAddedArmy(Game game, Country country, int draftArmies);
      void handleCanNotDraftFrom(Game game);
+     void handleUpdateAIMove(Country country, int number);
 }

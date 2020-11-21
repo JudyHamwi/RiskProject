@@ -36,6 +36,8 @@ public class BoardView extends JPanel {
     private JButton fortifyPhaseButton;
     private JButton fortifyButton;
     private JLabel draftArmies;
+    private JPanel panelAI;
+    private JLabel labelAI;
 
 
     /**
@@ -153,6 +155,22 @@ public class BoardView extends JPanel {
         fortifyPhaseButton.addActionListener(new FortifyPhaseController(game, this));
 
         return inGamePanel;
+    }
+
+    public JPanel setPanelForAI() {
+        this.panelAI = new JPanel();
+        panelAI.setLayout(new BorderLayout());
+        this.labelAI = new JLabel("AI's move: ");
+
+        panelAI.add(labelAI, BorderLayout.NORTH);
+
+        return panelAI;
+    }
+
+    public void addAIPanel() {this.add(setPanelForAI());}
+
+    public void updateAI(Country country, int number) {
+        labelAI.setText("AI Player has conquered " + country + " with " + number + " armies.");
     }
 
     /**

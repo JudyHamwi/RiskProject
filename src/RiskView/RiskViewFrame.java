@@ -127,6 +127,7 @@ public class RiskViewFrame extends JFrame implements RiskView {
         menuBar.add(numberOfAIPlayers);
     }
 
+
     /**
      * Updates the view when the player wants to play a new game by displaying the board and
      * allowing the user to choose the number of players.
@@ -320,4 +321,9 @@ public class RiskViewFrame extends JFrame implements RiskView {
         boardView.TransferOwnership(attackerCountry, defenderCountry);
         selectedAttackButton=null;
     }
+
+    public void handleUpdateAIMove(Country country, int numOfArmies) {
+        boardView.updateAI(country, numOfArmies);
+    }
+
 }

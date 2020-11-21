@@ -37,6 +37,5 @@ public class InitializationController implements ActionListener {
     public void actionPerformed(ActionEvent e) {
             gameModel.setNumberOfPlayers(players);
             gameModel.theInitialState();
-
     }
 }
