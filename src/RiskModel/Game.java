@@ -103,7 +103,12 @@ public class Game {
 
     public void setNumberOfPlayers(int numberOfPlayers){
         numPlayers=numberOfPlayers;
+
+        for (RiskView rv : riskViews) {
+            rv.handleSetNumOfAIPlayers(numPlayers);
+        }
     }
+
     /**
      * sets the number of initial armies according to the number of players
      */
@@ -219,7 +224,7 @@ public class Game {
     }
 
     /**
-     * Initialzes the state of the game at the start of the game
+     * Initializes the state of the game at the start of the game
      */
     public void theInitialState() {
         initialize(numPlayers);

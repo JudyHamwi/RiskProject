@@ -28,6 +28,8 @@ public class RiskViewFrame extends JFrame implements RiskView {
     private JLabel background;
     private JPanel mainMenuPanel;
     private JPanel gameStatusPanel;
+    private JPanel panelAI;
+    private JLabel labelAI;
     private JLabel gameStatus;
     private JLabel currentPlayer;
     private JMenu numberOfPlayers;
@@ -75,7 +77,6 @@ public class RiskViewFrame extends JFrame implements RiskView {
         this.setVisible(true);
         this.setLocation(200, 0);
         this.setMinimumSize(new Dimension(BOARD_HEIGHT, BOARD_WIDTH));
-
     }
 
     public static void main(String[] args) {
@@ -116,10 +117,10 @@ public class RiskViewFrame extends JFrame implements RiskView {
     /**
      * Creates the list of number of AI players the users can choose from to play the game
      */
-    public void setNumberOfAIPlayersMenu(){
+    public void handleSetNumOfAIPlayers(int numberOfPlayers){
         this.numberOfAIPlayers = new JMenu("AI Players");
         numberOfAIPlayers.setName("AIplayers");
-        for(int i = 2; i < MAX_NUM_PLAYERS; i++){
+        for(int i = 0; i < numberOfPlayers; i++){
             JMenuItem numPlayer = new JMenuItem(i + " AI Players");
             numPlayer.addActionListener(new AIInitializationController(gameModel, i));
             numberOfAIPlayers.add(numPlayer);
@@ -137,13 +138,13 @@ public class RiskViewFrame extends JFrame implements RiskView {
     @Override
     public void handleNewGame(Game game, Board board) {
         setNumberOfPlayersMenu();
-        setNumberOfAIPlayersMenu();
+        //setNumOfAIPlayers();
         this.remove(mainMenuPanel);
         boardView = new BoardView(this,game, board);
         this.add(boardView, BorderLayout.CENTER);
         this.add(gameStatusPanel, BorderLayout.SOUTH);
         menuBar.add(numberOfPlayers);
-        menuBar.add(numberOfAIPlayers);
+        //menuBar.add(numberOfAIPlayers);
         menu.setText("Menu");
         menu.remove(newGame);
         menu.add(helpMenuItem);
@@ -163,6 +164,7 @@ public class RiskViewFrame extends JFrame implements RiskView {
         currentPlayer.setText(player.toString());
         boardView.InitializeBoard(numPlayers);
         boardView.addInGamePanel(game, player);
+        //boardView.addAIPanel();
         this.numberOfPlayers.setVisible(false);
         boardView.getAttackPhaseButton().setEnabled(true);
         boardView.getDraftArmies().setText("Draft Armies: "+ draftArmies);
@@ -322,8 +324,9 @@ public class RiskViewFrame extends JFrame implements RiskView {
         selectedAttackButton=null;
     }
 
-    public void handleUpdateAIMove(Country country, int numOfArmies) {
-        boardView.updateAI(country, numOfArmies);
+    public void handleUpdateAIMove(int numberOfCountries, Player player) {
+
     }
+
 
 }
