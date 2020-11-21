@@ -1,5 +1,6 @@
 package RiskModel;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class Country {
      */
     public Country(String name){
         countryName=name;
-        adjacentCountries=new LinkedList<>();
+        adjacentCountries=new ArrayList<>();
         numberOfArmies=0;
     }
 

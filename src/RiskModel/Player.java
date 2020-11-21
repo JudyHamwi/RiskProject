@@ -20,6 +20,7 @@ public class Player {
     private List<Country> countriesOwned;
     private List<Continent> continentsOwned;
     private int placeArmy;
+    private boolean isAI;
 
     /**
      * RISKModel.Player that plays in the RISKModel.Game
@@ -29,6 +30,7 @@ public class Player {
         this.countriesOwned = new ArrayList<>();
         this.continentsOwned = new ArrayList<>();
         this.placeArmy=0;
+        this.isAI = false;
     }
 
     /**
@@ -204,6 +206,21 @@ public class Player {
 
     public void setPlayerCounter(int reset){
         playerCounter=reset;
+    }
+
+    /**
+     * Checks if the player is an AI
+     * @return boolean check
+     */
+    public boolean getIsAI(){
+        return this.isAI;
+    }
+
+    /**
+     * Sets an existing player to an AI player
+     */
+    public void setAI(){
+        this.isAI = true;
     }
 
 }

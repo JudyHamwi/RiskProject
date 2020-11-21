@@ -320,4 +320,12 @@ public class RiskViewFrame extends JFrame implements RiskView {
         boardView.TransferOwnership(attackerCountry, defenderCountry);
         selectedAttackButton=null;
     }
+
+    /**
+     * Update the view after the completion of the AI turn
+     */
+    @Override
+    public void handleAITurn(){
+
+    }
 }
