@@ -129,6 +129,16 @@ public class RiskViewFrame extends JFrame implements RiskView {
         menuBar.add(numberOfAIPlayers);
     }
 
+    public JPanel setAIPanel() {
+        /* FIX THIS
+        panelAI = new JPanel();
+        panelAI.setLayout(new BorderLayout());
+        labelAI = new JLabel("AI's move: ");
+        panelAI.add(labelAI);
+        return panelAI;
+         */
+        return null;
+    }
 
     /**
      * Updates the view when the player wants to play a new game by displaying the board and
@@ -160,11 +170,14 @@ public class RiskViewFrame extends JFrame implements RiskView {
      * @param player with the current turn
      * @param numPlayers number of players playing the game
      */
-    public void handleInitialization(Game game, GameState state, Player player, int numPlayers, int draftArmies){
+    public void handleInitialization(Game game, GameState state, Player player, int numPlayers, int draftArmies, boolean ifAI){
         gameStatus.setText(state.toString());
         currentPlayer.setText(player.toString());
         boardView.InitializeBoard(numPlayers);
         boardView.addInGamePanel(game, player);
+        if (ifAI) {
+            //this.add(setAIPanel());
+        }
         //boardView.addAIPanel();
         //this.numberOfPlayers.setVisible(false);
         boardView.getAttackPhaseButton().setEnabled(true);
@@ -326,7 +339,7 @@ public class RiskViewFrame extends JFrame implements RiskView {
     }
 
     public void handleUpdateAIMove(int numberOfCountries, Player player) {
-
+        labelAI.setText("AI " + player + " has conquered " + numberOfCountries);
     }
 
 

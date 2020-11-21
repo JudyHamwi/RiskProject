@@ -12,7 +12,7 @@ import RiskModel.*;
  */
 public interface RiskView {
      void handleNewGame(Game game, Board board);
-     void handleInitialization(Game game, GameState state, Player player, int numPlayers, int draftArmies);
+     void handleInitialization(Game game, GameState state, Player player, int numPlayers, int draftArmies, boolean ifAI);
      void handleEndTurn(Game game, Player currentPlayer, int draftArmies);
      void handlePrintHelp(Game game, String pH);
      void handleCanAttackFrom(Game game, Country country);

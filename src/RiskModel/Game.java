@@ -35,6 +35,7 @@ public class Game {
     private Country moveFromCountry;
     private int armiesFortify;
     private int draftArmies;
+    boolean ifAI;
 
     /**
      * Starts a new RISKModel.Game
@@ -112,6 +113,12 @@ public class Game {
 
     public void setNumberOfAIPlayers(int numberOfAIPlayers) {
         numAIPlayers = numberOfAIPlayers;
+
+        if(numberOfAIPlayers != 0 ) {
+            ifAI = true;
+        } else {
+            ifAI = false;
+        }
     }
 
     /**
@@ -236,7 +243,7 @@ public class Game {
         gameState=GameState.DRAFT_PHASE;
         draftPhase();
         for (RiskView rv : riskViews) {
-            rv.handleInitialization(this, gameState, currentPlayer, numPlayers,draftArmies);
+            rv.handleInitialization(this, gameState, currentPlayer, numPlayers,draftArmies, ifAI);
         }
     }
 
