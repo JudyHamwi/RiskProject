@@ -11,23 +11,18 @@ public class DraftPhase {
         this.currentPlayer = player;
         this.bonusArmiesForOccupiedCountries = 0;
         this.bonusArmiesForOccupiedContinents = 0;
+        setupBonusArmiesForOccupiedCountries();
+        setupBonusArmiesForOccupiedContinents();
     }
 
     public int getBonusArmiesForOccupiedCountries() {
         return bonusArmiesForOccupiedCountries;
     }
 
-    public void setBonusArmiesForOccupiedCountries(int bonusArmiesForOccupiedCountries) {
-        this.bonusArmiesForOccupiedCountries = bonusArmiesForOccupiedCountries;
-    }
-
     public int getBonusArmiesForOccupiedContinents() {
         return bonusArmiesForOccupiedContinents;
     }
 
-    public void setBonusArmiesForOccupiedContinents(int bonusArmiesForOccupiedContinents) {
-        this.bonusArmiesForOccupiedContinents = bonusArmiesForOccupiedContinents;
-    }
     // you will always receive 3 armies on a turn even if you occupy fewer than 9 countries
     // so if numberOfOccupiedCountries < 9 --> bonus armies = 3;
     // else...
@@ -65,7 +60,4 @@ public class DraftPhase {
         return (this.bonusArmiesForOccupiedContinents+ this.bonusArmiesForOccupiedCountries);
     }
 
-    public void placeBonusArmies(){
-
-    }
 }

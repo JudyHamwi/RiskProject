@@ -31,8 +31,6 @@ public class Game {
     private ArrayList<RiskView> riskViews;
     private Country attackCountry;
     private HashMap<Integer, Integer> armiesForPlayers;
-    private Country moveFromCountry;
-    private int armiesFortify;
 
     /**
      * Starts a new RISKModel.Game
@@ -41,6 +39,7 @@ public class Game {
         players = new LinkedList<>();
         board = new Board();
         riskViews = new ArrayList<>();
+        this.gameState = GameState.INITIALIZING;
         this.armiesForPlayers = new HashMap<>();
         setArmiesForPlayers();
     }
@@ -164,6 +163,7 @@ public class Game {
             Boolean attackSuccess = playerAttack.attack();
             Player playerRemoved=removePlayer();
             boolean winner = checkWinner();
+            setContinentsOwned();
             for (RiskView rv : riskViews) {
                 rv.handleAttackPhase(this, attackCountry, defenderCountry, attackSuccess, winner, playerRemoved);
             }
@@ -172,24 +172,6 @@ public class Game {
                 rv.handleCanNotAttackFrom(this);
             }
         }
-    }
-
-    public void fortifyPhase(Country movingTo) {
-        if (currentPlayer.canMove(moveFromCountry, movingTo)) {
-            FortifyPhase playerFortify = new FortifyPhase(currentPlayer, moveFromCountry, movingTo);
-            playerFortify.setNumOfArmiesToMove(armiesFortify);
-            Boolean fortifySuccess = playerFortify.fortify();
-            for (RiskView rv : riskViews) {
-                rv.handleFortifyPhase(this, moveFromCountry, movingTo);
-            }
-            endTurn();
-
-        }else {
-            for (RiskView rv : riskViews) {
-                rv.handleCanNotFortify(this);
-            }
-        }
-
     }
 
     /**
@@ -243,7 +225,6 @@ public class Game {
         }
     }
 
-
     /**
      * ends the turn of the current player and passes the turn to the next player
      */
@@ -256,13 +237,14 @@ public class Game {
             int i = players.indexOf(p);
             currentPlayer = players.get(i + 1);
         }
-        //gameState = GameState.IN_PROGRESS;
+        gameState = GameState.IN_PROGRESS;
+        // call for the draftphase
+
         for (RiskView rv : riskViews) {
             rv.handleEndTurn(this, currentPlayer);
         }
 
     }
-
 
     /**
      * Prints the initial state of the game after the initialization happens
@@ -364,7 +346,7 @@ public class Game {
      * @param attackCountry that the player wants to attack from in the attack phase
      */
     public void checkAttackingCountry(Country attackCountry) {
-        if (currentPlayer.ifPlayerOwns(attackCountry)) {
+        if (currentPlayer.canAttackFrom(attackCountry)) {
             this.attackCountry = attackCountry;
             for (RiskView rv : riskViews) {
                 rv.handleCanAttackFrom(this, attackCountry);
@@ -375,28 +357,6 @@ public class Game {
             }
         }
     }
-
-    public void checkFortifyCountry(Country moveFrom, int armiesMoved) {
-        if(currentPlayer.ifPlayerOwns(moveFrom)) {
-            if (armiesMoved < moveFrom.getNumberOfArmies() && armiesMoved > 0 && moveFrom.getNumberOfArmies()>1) {
-                moveFromCountry = moveFrom;
-                armiesFortify=armiesMoved;
-                for (RiskView rv : riskViews) {
-                    rv.handleCanFortifyFrom(this, moveFrom);
-                }
-            } else {
-                //handle invalid number of armies
-                for (RiskView rv : riskViews) {
-                    rv.handleCanNotFortifyArmies(this);
-                }
-            }
-        }else {
-            for (RiskView rv : riskViews) {
-                rv.handleCanNotFortify(this);
-            }
-        }
-    }
-
 
     /**
      * getter for the board
@@ -413,11 +373,13 @@ public class Game {
         return attackCountry;
     }
 
-    public void draftPhase(){
-        //gameState=GameState.ATTACK_PHASE;
-    }
 
-    public void setPhase(GameState state){
-        gameState=state;
+    public void setContinentsOwned(){
+        for(int i = 0; i < board.getContinents().size(); i++){
+            //check continent ownership and add it to the player's owned continents list
+            if(currentPlayer.getCountriesOwned().containsAll(board.getContinents().get(i).getContinentCountries())){
+                currentPlayer.addContinent(board.getContinents().get(i));
+            }
+        }
     }
 }
