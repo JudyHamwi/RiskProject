@@ -268,6 +268,11 @@ public class RiskViewFrame extends JFrame implements RiskView {
         boardView.TransferOwnership(movingFrom,movingTo);
     }
 
+    @Override
+    public void handleAddedArmy(Game game, Country country) {
+
+    }
+
     /**
      * get the board view
      * @return

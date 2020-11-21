@@ -25,4 +25,5 @@ public interface RiskView {
      void handleCanNotFortifyArmies(Game game);
      void handleCanNotFortify(Game game);
      void handleFortifyPhase(Game game,Country movingFrom, Country movingTo);
+     void handleAddedArmy(Game game, Country country);
 }
