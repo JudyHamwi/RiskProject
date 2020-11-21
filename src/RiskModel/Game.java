@@ -35,6 +35,7 @@ public class Game {
     private ArrayList<RiskView> riskViews;
     private Country attackCountry;
     private HashMap<Integer, Integer> armiesForPlayers;
+    private Country moveFromCountry;
 
     /**
      * Starts a new RISKModel.Game
@@ -200,6 +201,17 @@ public class Game {
             }
         }
     }
+
+    public void fortifyPhase(Country movingTo) {
+        if (currentPlayer.canMove(moveFromCountry, movingTo)) {
+            FortifyPhase playerFortify = new FortifyPhase(currentPlayer, moveFromCountry, movingTo);
+            Boolean fortifySuccess = playerFortify.fortify();
+            // update RiskViewFrame
+        } else {
+            // update RiskViewFrame in case player cannot fortify
+        }
+    }
+
 
     /**
      * Removes a player from the game if lost all their armies
@@ -373,7 +385,7 @@ public class Game {
      * @param attackCountry that the player wants to attack from in the attack phase
      */
     public void checkAttackingCountry(Country attackCountry) {
-        if (currentPlayer.canAttackFrom(attackCountry)) {
+        if (currentPlayer.ifPlayerOwns(attackCountry)) {
             this.attackCountry = attackCountry;
             for (RiskView rv : riskViews) {
                 rv.handleCanAttackFrom(this, attackCountry);
@@ -384,6 +396,16 @@ public class Game {
             }
         }
     }
+
+    public void checkFortifyCountry(Country moveFrom) {
+        if(currentPlayer.ifPlayerOwns(moveFrom)) {
+            this.moveFromCountry = moveFrom;
+            // Handle listeners
+        } else {
+            // Handle listeners
+        }
+    }
+
 
     /**
      * getter for the board

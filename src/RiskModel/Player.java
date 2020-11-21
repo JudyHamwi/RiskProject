@@ -72,7 +72,7 @@ public class Player {
     }
 
     /**
-     * adds a number of armnies that belongs to the player
+     * adds a number of armies that belongs to the player
      * @param army number of armies that are added to belong to the player
      */
     public void addPlayerArmy(int army){
@@ -140,18 +140,29 @@ public class Player {
         }
     }
 
+    public boolean canMove(Country moveFrom, Country moveTo) {
+        if (!moveFrom.getCurrentOwner().equals(moveTo.getCurrentOwner())) {
+            System.out.println("You do not own the country you want to move to");
+            return false;
+        } else if (!moveFrom.isAdjacent(moveTo)) {
+            System.out.println("Countries are not adjacent");
+            return false;
+        }
+        return true;
+    }
+
     /**
      * checks if the country the player wants to attack from can be used, following the
      * rules of the game
-     * @param attackFrom country that the player wants to attack from
+     * @param country country that the player wants to attack from
      * @return true of the player can use this country to attack
      */
-    public boolean canAttackFrom(Country attackFrom){
-        if(!(countriesOwned.contains(attackFrom))){
+    public boolean ifPlayerOwns(Country country){
+        if(!(countriesOwned.contains(country))){
             System.out.println("You do not own this country");
             return false;
-        }else if (attackFrom.getNumberOfArmies()==1){
-            System.out.println("There are not enough armies to attack");
+        }else if (country.getNumberOfArmies()==1){
+            System.out.println("You only have one army");
             return false;
         }else {
             return true;

@@ -91,6 +91,6 @@ public class PlayerTest {
         Country china = new Country("China");
         player.addCountry(china);
         player.addPlayerArmy(4);
-        assertTrue(player.canAttackFrom(china));
+        assertTrue(player.ifPlayerOwns(china));
     }
 }
