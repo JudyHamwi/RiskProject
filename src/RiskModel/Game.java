@@ -21,6 +21,8 @@ import java.util.*;
 
 public class Game {
 
+    public static String testVariable = "testV2";
+
     private Board board;
     private GameState gameState;
     private boolean finished;
