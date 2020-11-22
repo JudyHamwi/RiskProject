@@ -77,6 +77,7 @@ public class RiskViewFrame extends JFrame implements RiskView {
         this.setVisible(true);
         this.setLocation(200, 0);
         this.setMinimumSize(new Dimension(BOARD_HEIGHT, BOARD_WIDTH));
+
     }
 
     public static void main(String[] args) {
@@ -337,6 +338,14 @@ public class RiskViewFrame extends JFrame implements RiskView {
         boardView.removeHighlightCountry(attackerCountry);
         boardView.TransferOwnership(attackerCountry, defenderCountry);
         selectedAttackButton=null;
+    }
+
+    /**
+     * Update the view after the completion of the AI turn
+     */
+    @Override
+    public void handleAITurn(){
+
     }
 
     public void handleUpdateAIMove(int numberOfCountries, Player player) {
