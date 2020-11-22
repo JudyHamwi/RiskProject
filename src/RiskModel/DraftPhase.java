@@ -29,6 +29,9 @@ public class DraftPhase {
     //count the number of countries that the player occupy
     // divide by 3 and ignore any fraction
 
+    /**
+     * sets bonusArmiesOccupiedCountries to the designated bonus int army
+     */
     public void setupBonusArmiesForOccupiedCountries(){
         int numOfOccupiedCountries = currentPlayer.getTotalNumberOfCountries();
         if (numOfOccupiedCountries < 12 ){

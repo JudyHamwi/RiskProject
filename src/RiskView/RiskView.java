@@ -2,6 +2,9 @@ package RiskView;
 
 import RiskModel.*;
 
+import javax.swing.*;
+import java.util.ArrayList;
+
 /**
  * Risk View listener of the model. Updates the view when the model applies a change.
  * @version 1.0
@@ -22,7 +25,7 @@ public interface RiskView {
      BoardView getBoardView();
      void handleAttackPhase(Game game, Country attackerCountry, Country defenderCountry, boolean attackSuccess, boolean winner, Player playerRemoved);
      void handleNewFortifyPhase();
-     void handleCanFortifyFrom(Game game, Country country);
+     void handleCanFortifyFrom(Game game, Country country, ArrayList<Country> connectedcountries);
      void handleCanNotFortifyArmies(Game game);
      void handleCanNotFortify(Game game);
      void handleFortifyPhase(Game game,Country movingFrom, Country movingTo);

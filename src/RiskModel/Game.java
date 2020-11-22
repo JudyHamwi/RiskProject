@@ -27,7 +27,7 @@ public class Game {
     private int playerArmy;
     public  LinkedList<Player> players;
     private int numPlayers;
-    private int numOfAIPlayers;
+    private int numOfAIPlayers; //Delete
     private int numAIPlayers;
     public Player currentPlayer;
     private ArrayList<RiskView> riskViews;
@@ -36,7 +36,7 @@ public class Game {
     private Country moveFromCountry;
     private int armiesFortify;
     private int draftArmies;
-    boolean ifAI;
+    boolean ifAIExists;
 
     /**
      * Starts a new RISKModel.Game
@@ -50,12 +50,13 @@ public class Game {
     }
 
     /**
-     * Initalizes the start of the RISKModel.Game
+     * Initializes the start of the RISKModel.Game
      *
      * @param numberOfPlayers that will play the game
      */
     public void initialize(int numberOfPlayers) {
         addPlayers(numberOfPlayers);
+        setAIPlayers(numAIPlayers);
         initialArmyForPlayer();
         distributeCountries();
         distributeRandomArmyToCountry();
@@ -84,10 +85,10 @@ public class Game {
 
     /**
      *
-     * @param numOfAIPlayers
+     * @param numAIPlayers
      */
-    private void setAIPlayers(int numOfAIPlayers){
-        for (int i = 0; i < numOfAIPlayers+1; i++){
+    private void setAIPlayers(int numAIPlayers){
+        for (int i = 0; i < numAIPlayers+1; i++){
             players.get(i).setAI();
         }
     }
@@ -122,13 +123,17 @@ public class Game {
         }
     }
 
+    /**
+     *
+     * @param numberOfAIPlayers
+     */
     public void setNumberOfAIPlayers(int numberOfAIPlayers) {
         numAIPlayers = numberOfAIPlayers;
 
         if(numberOfAIPlayers != 0 ) {
-            ifAI = true;
+            ifAIExists = true;
         } else {
-            ifAI = false;
+            ifAIExists = false;
         }
     }
 
@@ -249,19 +254,20 @@ public class Game {
     }
 
     /**
-     * Initialzes the state of the game at the start of the game
+     * Initializes the state of the game at the start of the game
      */
     public void theInitialState() {
         initialize(numPlayers);
         gameState=GameState.DRAFT_PHASE;
         setPlayerDraftTroops();
         for (RiskView rv : riskViews) {
-            rv.handleInitialization(this, gameState, currentPlayer, numPlayers,draftArmies, ifAI);
+            rv.handleInitialization(this, gameState, currentPlayer, numPlayers,draftArmies, ifAIExists);
         }
     }
 
     /**
      * Play loop of the game that responds to the player's turns commands
+     * ONLY FOR MILESTONE ONE
      */
     public void play() {
         theInitialState();
@@ -306,6 +312,7 @@ public class Game {
 
     /**
      * Prints the initial state of the game after the initialization happens
+     * ONLY MILESTONE ONE METHOD
      */
     private void printInitialState() {
         System.out.println("HERE IS THE INITIAL STATE OF THE MAP: ");
@@ -346,7 +353,7 @@ public class Game {
 
     /**
      * Responds to the command of the player to attack
-     *
+     * ONLY MILESTONE ONE METHOD
      * @param p player that wants to attack
      */
     public void attack(Player p) {
@@ -422,7 +429,7 @@ public class Game {
                 moveFromCountry = moveFrom;
                 armiesFortify=armiesMoved;
                 for (RiskView rv : riskViews) {
-                    rv.handleCanFortifyFrom(this, moveFrom);
+                    rv.handleCanFortifyFrom(this, moveFrom,listOfConnectedCountries(moveFrom) );
                 }
             } else {
                 //handle invalid number of armies
@@ -606,6 +613,17 @@ public class Game {
                 connectedCountries(c,connectedCountryList);
             }
         }
+    }
+
+    /**
+     * Returns a list of connected countries to the selected country to move from
+     * @param countryFrom
+     * @return
+     */
+    public ArrayList<Country> listOfConnectedCountries(Country countryFrom){
+        ArrayList<Country> listConnectedCountries = new ArrayList<>();
+        connectedCountries(countryFrom, listConnectedCountries);
+        return listConnectedCountries;
     }
 
 

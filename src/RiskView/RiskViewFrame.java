@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Risk View Frame that is the display of the Risk Game. It contains the board of the game
@@ -255,9 +256,9 @@ public class RiskViewFrame extends JFrame implements RiskView {
     }
 
     @Override
-    public void handleCanFortifyFrom(Game game, Country country) {
+    public void handleCanFortifyFrom(Game game, Country country, ArrayList<Country> connectedCountries) {
         boardView.removeAllHighlightCountries();
-        boardView.highlightFortifyingCountries(country);
+        boardView.highlightFortifyingCountries(connectedCountries);
         boardView.getFortifyButton().setEnabled(true);
     }
 
