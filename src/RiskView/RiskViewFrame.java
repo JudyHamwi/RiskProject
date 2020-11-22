@@ -163,8 +163,9 @@ public class RiskViewFrame extends JFrame implements RiskView {
         boardView.InitializeBoard(numPlayers);
         boardView.addInGamePanel(game, player);
         this.numberOfPlayers.setVisible(false);
+        this.numberOfAIPlayers.setVisible(false);
         boardView.getAttackPhaseButton().setEnabled(true);
-        boardView.getDraftArmies().setText("Draft Armies: "+ draftArmies);
+        boardView.getDraftArmies().setText("Bonus Armies: "+ draftArmies);
         boardView.getDraftArmies().setVisible(true);
     }
 
@@ -181,7 +182,7 @@ public class RiskViewFrame extends JFrame implements RiskView {
         boardView.getFortifyButton().setEnabled(false);
         boardView.getFortifyPhaseButton().setEnabled(false);
         boardView.getAttackButton().setEnabled(false);
-        boardView.getDraftArmies().setText("Draft Armies: "+ draftArmies);
+        boardView.getDraftArmies().setText("Bonus Armies: "+ draftArmies);
         boardView.getDraftArmies().setVisible(true);
     }
 
