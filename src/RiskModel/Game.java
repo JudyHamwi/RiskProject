@@ -398,7 +398,6 @@ public class Game {
         return attackCountry;
     }
 
-
     public void setContinentsOwned(){
         for(int i = 0; i < board.getContinents().size(); i++){
             //check continent ownership and add it to the player's owned continents list
