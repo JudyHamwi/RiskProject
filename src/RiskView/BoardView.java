@@ -203,7 +203,7 @@ public class BoardView extends JPanel {
                 if (cv.hasCountryButton(adjacentCountry) != null &&
                         country.getCurrentOwner().equals(adjacentCountry.getCurrentOwner())) {
                          cv.highlightButton(cv.hasCountryButton(adjacentCountry));
-                         highlightSelectedCountry(adjacentCountry);
+                         highlightFortifyingCountries(adjacentCountry);
                 }
             }
         }
