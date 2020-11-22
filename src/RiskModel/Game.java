@@ -182,6 +182,7 @@ public class Game {
             Boolean attackSuccess = playerAttack.attack();
             Player playerRemoved=removePlayer();
             boolean winner = checkWinner();
+            setContinentsOwned();
             for (RiskView rv : riskViews) {
                 rv.handleAttackPhase(this, attackCountry, defenderCountry, attackSuccess, winner, playerRemoved);
             }
@@ -193,7 +194,7 @@ public class Game {
     }
 
     public void fortifyPhase(Country movingTo) {
-        if (currentPlayer.canMove(moveFromCountry, movingTo)) {
+        if (currentPlayer.canMove(moveFromCountry, movingTo, listOfConnectedCountries(moveFromCountry))) {
             FortifyPhase playerFortify = new FortifyPhase(currentPlayer, moveFromCountry, movingTo);
             playerFortify.setNumOfArmiesToMove(armiesFortify);
             Boolean fortifySuccess = playerFortify.fortify();
@@ -402,7 +403,7 @@ public class Game {
                 moveFromCountry = moveFrom;
                 armiesFortify=armiesMoved;
                 for (RiskView rv : riskViews) {
-                    rv.handleCanFortifyFrom(this, moveFrom);
+                    rv.handleCanFortifyFrom(this, moveFrom,listOfConnectedCountries(moveFrom) );
                 }
             } else {
                 //handle invalid number of armies
@@ -416,8 +417,6 @@ public class Game {
             }
         }
     }
-
-
     /**
      * getter for the board
      * @return the board of the game
@@ -464,5 +463,29 @@ public class Game {
             DraftPhase playerDraft = new DraftPhase(currentPlayer);
             draftArmies= playerDraft.getTotalBonusArmies();
             currentPlayer.addPlayerArmy(draftArmies); //add the bonus army to the total number of armies the player has
+    }
+    public void connectedCountries(Country countryFrom, ArrayList<Country> connectedCountryList) {
+        for (Country c : countryFrom.getAdjacentCountries()) {
+            if (connectedCountryList.contains(c) == false && c.getCurrentOwner() == currentPlayer) {
+                connectedCountryList.add(c);
+                connectedCountries(c, connectedCountryList);
+            }
+        }
+    }
+
+    public ArrayList<Country> listOfConnectedCountries(Country countryFrom){
+        ArrayList<Country> listConnectedCountries = new ArrayList<>();
+        connectedCountries(countryFrom, listConnectedCountries);
+        return listConnectedCountries;
+    }
+    
+
+    public void setContinentsOwned(){
+        for(int i = 0; i < board.getContinents().size(); i++){
+            //check continent ownership and add it to the player's owned continents list
+            if(currentPlayer.getCountriesOwned().containsAll(board.getContinents().get(i).getContinentCountries())){
+                currentPlayer.addContinent(board.getContinents().get(i));
+            }
+        }
     }
 }

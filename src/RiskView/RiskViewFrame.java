@@ -183,6 +183,7 @@ public class RiskViewFrame extends JFrame implements RiskView {
         }
         //boardView.addAIPanel();
         //this.numberOfPlayers.setVisible(false);
+        numberOfAIPlayers.setVisible(false);
         boardView.getAttackPhaseButton().setEnabled(true);
         boardView.getDraftArmies().setText("Draft Armies: "+ draftArmies);
         boardView.getDraftArmies().setVisible(true);
@@ -232,7 +233,6 @@ public class RiskViewFrame extends JFrame implements RiskView {
     public void handleCanAttackFrom(Game game, Country country) {
         if(selectedAttackButton!=null) {
             boardView.removeHighlightCountry(selectedAttackButton);
-
         }
         selectedAttackButton=country;
         boardView.highlightAdjacentCountries(country);
@@ -251,6 +251,7 @@ public class RiskViewFrame extends JFrame implements RiskView {
      * updates the view when the user enters the fortify phase
      */
     public void handleNewFortifyPhase(){
+        boardView.removeAllHighlightCountries();
         boardView.getFortifyPhaseButton().setEnabled(false);
         boardView.getFortifyButton().setEnabled(false);
     }
