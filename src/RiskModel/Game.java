@@ -27,6 +27,7 @@ public class Game {
     private int playerArmy;
     public  LinkedList<Player> players;
     private int numPlayers;
+    private int numAIPlayers;
     public Player currentPlayer;
     private ArrayList<RiskView> riskViews;
     private Country attackCountry;
@@ -34,6 +35,7 @@ public class Game {
     private Country moveFromCountry;
     private int armiesFortify;
     private int draftArmies;
+    boolean ifAI;
 
     /**
      * Starts a new RISKModel.Game
@@ -103,7 +105,22 @@ public class Game {
 
     public void setNumberOfPlayers(int numberOfPlayers){
         numPlayers=numberOfPlayers;
+
+        for (RiskView rv : riskViews) {
+            rv.handleSetNumOfAIPlayers(numPlayers);
+        }
     }
+
+    public void setNumberOfAIPlayers(int numberOfAIPlayers) {
+        numAIPlayers = numberOfAIPlayers;
+
+        if(numberOfAIPlayers != 0 ) {
+            ifAI = true;
+        } else {
+            ifAI = false;
+        }
+    }
+
     /**
      * sets the number of initial armies according to the number of players
      */
@@ -219,14 +236,14 @@ public class Game {
     }
 
     /**
-     * Initialzes the state of the game at the start of the game
+     * Initializes the state of the game at the start of the game
      */
     public void theInitialState() {
         initialize(numPlayers);
         gameState=GameState.DRAFT_PHASE;
         draftPhase();
         for (RiskView rv : riskViews) {
-            rv.handleInitialization(this, gameState, currentPlayer, numPlayers,draftArmies);
+            rv.handleInitialization(this, gameState, currentPlayer, numPlayers,draftArmies, ifAI);
         }
     }
 

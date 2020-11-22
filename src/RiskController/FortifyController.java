@@ -35,7 +35,7 @@ public class FortifyController implements ActionListener {
             if (b.getName().equals("fortifyButton")) {
                 riskView.handleNewFortifyPhase();
             } else if (riskView.getBoardView().getFortifyButton().isEnabled()) {
-                String armiesFortify=JOptionPane.showInputDialog(this,"Number of armies to fortify");
+                String armiesFortify=JOptionPane.showInputDialog(riskView.getRiskFrame(),"Number of armies to fortify");
                 int armiesMoved=Integer.parseInt(armiesFortify);
                 gameModel.checkFortifyCountry(country, armiesMoved);
             } else {

@@ -30,7 +30,6 @@ public class FortifyPhaseController implements ActionListener {
         game.setPhase(GameState.FORTIFY_PHASE);
         boardView.getFortifyPhaseButton().setEnabled(false);
         boardView.getFortifyButton().setEnabled(true);
-
     }
 
 }
