@@ -194,20 +194,18 @@ public class BoardView extends JPanel {
 
     /**
      * highlight the countries that the player can fortify to
-     * @param country that is selected to fortify armies from
+     * @param connectedcountries that is selected to fortify armies from
      */
-    public void highlightFortifyingCountries(Country country){
-        highlightSelectedCountry(country);
-        for(Country adjacentCountry : country.getAdjacentCountries()) {
+    public void highlightFortifyingCountries(ArrayList<Country> connectedcountries){
+        for(Country country : connectedcountries) {
             for (ContinentView cv : continentViews) {
-                if (cv.hasCountryButton(adjacentCountry) != null &&
-                        country.getCurrentOwner().equals(adjacentCountry.getCurrentOwner())) {
-                         cv.highlightButton(cv.hasCountryButton(adjacentCountry));
-                         highlightFortifyingCountries(adjacentCountry);
+                if (cv.hasCountryButton(country) != null) {
+                    cv.highlightButton(cv.hasCountryButton(country));
                 }
             }
         }
     }
+
 
 
     /**
