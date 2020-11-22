@@ -200,11 +200,13 @@ public class BoardView extends JPanel {
         for(Country country : connectedcountries) {
             for (ContinentView cv : continentViews) {
                 if (cv.hasCountryButton(country) != null) {
-                         cv.highlightButton(cv.hasCountryButton(country));
+                    cv.highlightButton(cv.hasCountryButton(country));
                 }
             }
         }
     }
+
+
 
     /**
      * remove the highlight from the attacker country after the attack is complete
