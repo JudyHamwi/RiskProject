@@ -33,4 +33,5 @@ public interface RiskView {
      void handleCanNotDraftFrom(Game game);
      void handleUpdateAIMove(int numberOfCountries, Player player);
      void handleSetNumOfAIPlayers(int numPlayers);
+     void handleAITurn();
 }

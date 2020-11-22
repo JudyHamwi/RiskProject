@@ -402,7 +402,7 @@ public class Game {
                 moveFromCountry = moveFrom;
                 armiesFortify=armiesMoved;
                 for (RiskView rv : riskViews) {
-                    rv.handleCanFortifyFrom(this, moveFrom,listOfConnectedCountries(moveFrom) );
+                    rv.handleCanFortifyFrom(this, moveFrom);
                 }
             } else {
                 //handle invalid number of armies
@@ -416,6 +416,8 @@ public class Game {
             }
         }
     }
+
+
     /**
      * getter for the board
      * @return the board of the game
@@ -460,65 +462,7 @@ public class Game {
 
     public void draftPhase(){
             DraftPhase playerDraft = new DraftPhase(currentPlayer);
-            draftArmies= playerDraft.getTotalBonusArmies() + continentBonusTroop(currentPlayer);
+            draftArmies= playerDraft.getTotalBonusArmies();
             currentPlayer.addPlayerArmy(draftArmies); //add the bonus army to the total number of armies the player has
-    }
-    public void connectedCountries(Country countryFrom, ArrayList<Country> connectedCountryList) {
-        for (Country c : countryFrom.getAdjacentCountries()) {
-            if (connectedCountryList.contains(c) == false && c.getCurrentOwner() == currentPlayer) {
-                connectedCountryList.add(c);
-                connectedCountries(c, connectedCountryList);
-            }
-        }
-    }
-
-    public ArrayList<Country> listOfConnectedCountries(Country countryFrom){
-        ArrayList<Country> listConnectedCountries = new ArrayList<>();
-        connectedCountries(countryFrom, listConnectedCountries);
-        return listConnectedCountries;
-    }
-
-    public int continentBonusTroop(Player currentPlayer) {
-        int bonusTroops = 0;
-        int NA = 0;
-        int SA = 0;
-        int Afr = 0;
-        int Eur = 0;
-        int Asia = 0;
-        int Aus = 0;
-        for (Country c : currentPlayer.getCountriesOwned()) {
-            if (board.getContinent("NorthAmerica").getContinentCountries().contains(c)) {
-                NA++;
-            } else if (board.getContinent("SouthAmerica").getContinentCountries().contains(c)) {
-                SA++;
-            } else if (board.getContinent("Africa").getContinentCountries().contains(c)) {
-                Afr++;
-            } else if (board.getContinent("Europe").getContinentCountries().contains(c)) {
-                Eur++;
-            } else if (board.getContinent("Asia").getContinentCountries().contains(c)) {
-                Asia++;
-            } else {
-                Aus++;
-            }
-        }
-            if (board.getContinent("NorthAmerica").getContinentCountries().size() == NA) {
-                bonusTroops += 5;
-            }
-            if (board.getContinent("SouthAmerica").getContinentCountries().size() == SA) {
-                bonusTroops += 2;
-            }
-            if (board.getContinent("Africa").getContinentCountries().size() == Afr) {
-                bonusTroops += 3;
-            }
-            if (board.getContinent("Europe").getContinentCountries().size() == Eur) {
-                bonusTroops += 5;
-            }
-            if (board.getContinent("Asia").getContinentCountries().size() == Asia) {
-                bonusTroops += 7;
-            }
-            if (board.getContinent("Australia").getContinentCountries().size() == Aus) {
-                bonusTroops += 2;
-            }
-        return bonusTroops;
     }
 }
