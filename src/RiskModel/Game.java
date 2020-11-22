@@ -295,7 +295,7 @@ public class Game {
                 AITurn();
             }
         }
-        draftPhase();
+        setPlayerDraftTroops();
         gameState=GameState.DRAFT_PHASE;
         for (RiskView rv : riskViews) {
             rv.handleEndTurn(this, currentPlayer, draftArmies);
