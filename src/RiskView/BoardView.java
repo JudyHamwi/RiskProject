@@ -172,7 +172,6 @@ public class BoardView extends JPanel {
         for(ContinentView cv:continentViews){
             if(cv.hasCountryButton(country) != null){
                 cv.highlightButton(cv.hasCountryButton(country));
-                //highlightAdjacentCountries(country);
             }
         }
     }
