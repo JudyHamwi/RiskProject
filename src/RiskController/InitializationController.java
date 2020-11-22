@@ -1,6 +1,8 @@
 package RiskController;
 
 import RiskModel.Game;
+import RiskView.RiskView;
+import RiskView.RiskViewFrame;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -35,8 +37,7 @@ public class InitializationController implements ActionListener {
      * the game enters the initialization phase
      */
     public void actionPerformed(ActionEvent e) {
-            gameModel.setNumberOfPlayers(players);
-            gameModel.theInitialState();
-
+        gameModel.setNumberOfPlayers(players);
+        //gameModel.theInitialState();
     }
 }

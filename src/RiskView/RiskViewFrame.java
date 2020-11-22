@@ -28,6 +28,8 @@ public class RiskViewFrame extends JFrame implements RiskView {
     private JLabel background;
     private JPanel mainMenuPanel;
     private JPanel gameStatusPanel;
+    //private JPanel panelAI;
+    private JLabel labelAI;
     private JLabel gameStatus;
     private JLabel currentPlayer;
     private JMenu numberOfPlayers;
@@ -82,6 +84,10 @@ public class RiskViewFrame extends JFrame implements RiskView {
         RiskViewFrame view = new RiskViewFrame();
     }
 
+    public JFrame getRiskFrame() {
+        return this;
+    }
+
     /**
      * Creates the Initial page of the Risk Game
      * @return panel to be added to the main frame of the Risk Game
@@ -116,15 +122,23 @@ public class RiskViewFrame extends JFrame implements RiskView {
     /**
      * Creates the list of number of AI players the users can choose from to play the game
      */
-    public void setNumberOfAIPlayersMenu(){
+    public void handleSetNumOfAIPlayers(int numberOfAI){
         this.numberOfAIPlayers = new JMenu("AI Players");
         numberOfAIPlayers.setName("AIplayers");
-        for(int i = 2; i < MAX_NUM_PLAYERS; i++){
+        for(int i = 0; i < numberOfAI; i++){
             JMenuItem numPlayer = new JMenuItem(i + " AI Players");
             numPlayer.addActionListener(new AIInitializationController(gameModel, i));
             numberOfAIPlayers.add(numPlayer);
         }
+        this.numberOfPlayers.setVisible(false);
         menuBar.add(numberOfAIPlayers);
+    }
+
+    public void setAIPanel() {
+        //panelAI = new JPanel();
+        //panelAI.setLayout(new BorderLayout());
+        labelAI = new JLabel("AI's move: ");
+        gameStatusPanel.add(labelAI, BorderLayout.NORTH);
     }
 
     /**
@@ -136,17 +150,18 @@ public class RiskViewFrame extends JFrame implements RiskView {
     @Override
     public void handleNewGame(Game game, Board board) {
         setNumberOfPlayersMenu();
-        setNumberOfAIPlayersMenu();
+        //setNumOfAIPlayers();
         this.remove(mainMenuPanel);
         boardView = new BoardView(this,game, board);
         this.add(boardView, BorderLayout.CENTER);
         this.add(gameStatusPanel, BorderLayout.SOUTH);
         menuBar.add(numberOfPlayers);
-        menuBar.add(numberOfAIPlayers);
+        //menuBar.add(numberOfAIPlayers);
         menu.setText("Menu");
         menu.remove(newGame);
         menu.add(helpMenuItem);
-        JOptionPane.showMessageDialog(this, "WELCOME TO RISK! \nPlease select the number of players" +
+        JOptionPane.showMessageDialog(this, "WELCOME TO RISK! \nPlease select the number of players and the " +
+                "number of AI players" +
                 " through the menu bar");
     }
 
@@ -157,12 +172,16 @@ public class RiskViewFrame extends JFrame implements RiskView {
      * @param player with the current turn
      * @param numPlayers number of players playing the game
      */
-    public void handleInitialization(Game game, GameState state, Player player, int numPlayers, int draftArmies){
+    public void handleInitialization(Game game, GameState state, Player player, int numPlayers, int draftArmies, boolean ifAI){
         gameStatus.setText(state.toString());
         currentPlayer.setText(player.toString());
         boardView.InitializeBoard(numPlayers);
         boardView.addInGamePanel(game, player);
-        this.numberOfPlayers.setVisible(false);
+        if (ifAI) {
+            setAIPanel();
+        }
+        //boardView.addAIPanel();
+        //this.numberOfPlayers.setVisible(false);
         boardView.getAttackPhaseButton().setEnabled(true);
         boardView.getDraftArmies().setText("Draft Armies: "+ draftArmies);
         boardView.getDraftArmies().setVisible(true);
@@ -328,4 +347,10 @@ public class RiskViewFrame extends JFrame implements RiskView {
     public void handleAITurn(){
 
     }
+
+    public void handleUpdateAIMove(int numberOfCountries, Player player) {
+        labelAI.setText("AI " + player + " has conquered " + numberOfCountries);
+    }
+
+
 }

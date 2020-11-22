@@ -29,6 +29,7 @@ public class AIInitializationController implements ActionListener {
     }
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        gameModel.setNumberOfAIPlayers(players);
+        gameModel.theInitialState();
     }
 }

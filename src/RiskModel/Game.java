@@ -28,6 +28,7 @@ public class Game {
     public  LinkedList<Player> players;
     private int numPlayers;
     private int numOfAIPlayers;
+    private int numAIPlayers;
     public Player currentPlayer;
     private ArrayList<RiskView> riskViews;
     private Country attackCountry;
@@ -35,6 +36,7 @@ public class Game {
     private Country moveFromCountry;
     private int armiesFortify;
     private int draftArmies;
+    boolean ifAI;
 
     /**
      * Starts a new RISKModel.Game
@@ -52,9 +54,8 @@ public class Game {
      *
      * @param numberOfPlayers that will play the game
      */
-    public void initialize(int numberOfPlayers, int numberOfAIPlayers) {
+    public void initialize(int numberOfPlayers) {
         addPlayers(numberOfPlayers);
-        setAIPlayers(numberOfAIPlayers);
         initialArmyForPlayer();
         distributeCountries();
         distributeRandomArmyToCountry();
@@ -115,7 +116,22 @@ public class Game {
 
     public void setNumberOfPlayers(int numberOfPlayers){
         numPlayers=numberOfPlayers;
+
+        for (RiskView rv : riskViews) {
+            rv.handleSetNumOfAIPlayers(numPlayers);
+        }
     }
+
+    public void setNumberOfAIPlayers(int numberOfAIPlayers) {
+        numAIPlayers = numberOfAIPlayers;
+
+        if(numberOfAIPlayers != 0 ) {
+            ifAI = true;
+        } else {
+            ifAI = false;
+        }
+    }
+
     /**
      * sets the number of initial armies according to the number of players
      */
@@ -236,11 +252,11 @@ public class Game {
      * Initialzes the state of the game at the start of the game
      */
     public void theInitialState() {
-        initialize(numPlayers, numOfAIPlayers);
+        initialize(numPlayers);
         gameState=GameState.DRAFT_PHASE;
         setPlayerDraftTroops();
         for (RiskView rv : riskViews) {
-            rv.handleInitialization(this, gameState, currentPlayer, numPlayers,draftArmies);
+            rv.handleInitialization(this, gameState, currentPlayer, numPlayers,draftArmies, ifAI);
         }
     }
 
@@ -319,7 +335,7 @@ public class Game {
         String pH;
         pH = ("Aim to conquer enemy territories!" + "\n" + "\n" + "In game, you have choices to attack countries and end your turn."
                 + "\n" + "To attack, press the country you want to attack with, then press on the attack button followed by a country you wish to attack " +
-                "\n" + "Press the attack button to determine" +
+                 "\n" + "Press the attack button to determine" +
                 " if you can successfully attack your enemy's territory." + "\n" + "Pass your turn to another player by pressing" +
                 " the end turn button." + "\n" + "\n" + "GOOD LUCK!");
 
@@ -393,8 +409,7 @@ public class Game {
             for (RiskView rv : riskViews) {
                 rv.handleCanAttackFrom(this, attackCountry);
             }
-        }
-        else {
+        } else {
             for (RiskView rv : riskViews) {
                 rv.handleCanNotAttackFrom(this);
             }
@@ -455,8 +470,7 @@ public class Game {
             if (draftArmies == 0) {
                 gameState = GameState.IN_PROGRESS;
             }
-        }
-        else {
+        } else {
             for (RiskView rv : riskViews) {
                 rv.handleCanNotDraftFrom(this);
             }
