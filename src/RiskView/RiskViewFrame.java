@@ -346,8 +346,9 @@ public class RiskViewFrame extends JFrame implements RiskView {
      * Update the view after the completion of the AI turn
      */
     @Override
-    public void handleAITurn(){
-
+    public void handleAITurn(int numberOfAttacks, Player player){
+        JOptionPane.showMessageDialog(this,"AI "+ player+" attacked "+ numberOfAttacks+ "times");
+        boardView.updateBoardForAI();
     }
 
     public void handleUpdateAIMove(int numberOfCountries, Player player) {
