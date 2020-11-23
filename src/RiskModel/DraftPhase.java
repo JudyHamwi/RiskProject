@@ -15,20 +15,28 @@ public class DraftPhase {
         setupBonusArmiesForOccupiedContinents();
     }
 
+    /**
+     * gets the number of bonus armies for all occupied countries.
+     * @return number of bonus armies for the occupied countries
+     */
     public int getBonusArmiesForOccupiedCountries() {
         return bonusArmiesForOccupiedCountries;
     }
 
+    /**
+     * gets the number of bonus armies for an occupied continent.
+     * @return number of bonus armies for the occupied continents
+     */
     public int getBonusArmiesForOccupiedContinents() {
         return bonusArmiesForOccupiedContinents;
     }
 
-    // you will always receive 3 armies on a turn even if you occupy fewer than 9 countries
-    // so if numberOfOccupiedCountries < 9 --> bonus armies = 3;
-    // else...
-    //count the number of countries that the player occupy
-    // divide by 3 and ignore any fraction
-
+    /**
+     * setup the number of bonus armies that a player recieves at the beginning of each turn.
+     * A player receives 3 bonus armies if they have less than 12 occupied countries
+     * Otherwise it counts the number of countries that the player occupies and then divides it
+     * by 3 and it ignoring any fraction.
+     */
     public void setupBonusArmiesForOccupiedCountries(){
         int numOfOccupiedCountries = currentPlayer.getTotalNumberOfCountries();
         if (numOfOccupiedCountries < 12 ){
@@ -38,14 +46,15 @@ public class DraftPhase {
         }
     }
 
-    /*you will receive armies for each continent you control at the start of your turn
-        When a continent is fully occupied by one player, the player gets:
-        +5 for North America
-        +2 for south america
-        +5 for Europe
-        +7 for Asia
-        +3 for Africa
-        +2 for Australia
+    /**
+     * setup the number of bonus armies at the start of each turn that a player receives if they occupy all cuntries in a continent
+     * each continent have specific number of bonus armies:
+     * +5 for North America
+     * +2 for south america
+     * +5 for Europe
+     * +7 for Asia
+     * +3 for Africa
+     * +2 for Australia
      */
     public void setupBonusArmiesForOccupiedContinents(){
         List<Continent> occupiedContinents =  currentPlayer.getContinentsOwned();
@@ -54,8 +63,10 @@ public class DraftPhase {
         }
     }
 
-    // After calculating the number of extra troops, the player
-    // gets to choose where to place them ( On their occupied territory)
+    /**
+     * gets the sum of total bonus armies from occupied countries and continents at the start of each turn for every player.
+     * @return the total number of bonus armies for the current player
+     */
     public int getTotalBonusArmies(){
         return (this.bonusArmiesForOccupiedContinents+ this.bonusArmiesForOccupiedCountries);
     }
