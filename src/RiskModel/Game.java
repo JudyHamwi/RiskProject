@@ -478,7 +478,7 @@ public class Game {
         connectedCountries(countryFrom, listConnectedCountries);
         return listConnectedCountries;
     }
-    
+
 
     public void setContinentsOwned(){
         for(int i = 0; i < board.getContinents().size(); i++){
