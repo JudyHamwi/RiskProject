@@ -537,18 +537,14 @@ public class Game {
      * The AI attacks as much as possible with the following conditions
      * The country it attacks has less troops, or the attacking country has more than 3 troops
      */
-    public int AIAttack() {
-        int numberOfAttacks = 0;
-        ArrayList<Country> copyOfCountriesOwned = new ArrayList<>();
-        for (Country c: currentPlayer.getCountriesOwned()){
-            copyOfCountriesOwned.add(c);
-        }
-        for (Country c: copyOfCountriesOwned){
-            if(c.getNumberOfArmies()>1){
-                for (Country ac : c.getAdjacentCountries()){
+    public int AIAttack(){
+        int numberOfAttacks=0;
+        for (int i = 0; i<currentPlayer.getCountriesOwned().size(); i++ ){
+            if(currentPlayer.getCountriesOwned().get(i).getNumberOfArmies()>1){
+                for (Country ac : currentPlayer.getCountriesOwned().get(i).getAdjacentCountries()){
                     if (ac.getCurrentOwner() != currentPlayer){
-                        if(c.getNumberOfArmies() > ac.getNumberOfArmies() || c.getNumberOfArmies() > 3){
-                            AttackPhase aiAttack = new AttackPhase(currentPlayer, c, ac);
+                        if(currentPlayer.getCountriesOwned().get(i).getNumberOfArmies() > ac.getNumberOfArmies() || currentPlayer.getCountriesOwned().get(i).getNumberOfArmies() > 3){
+                            AttackPhase aiAttack = new AttackPhase(currentPlayer,currentPlayer.getCountriesOwned().get(i) , ac);
                             aiAttack.attack();
                             numberOfAttacks++;
                         }
@@ -557,7 +553,6 @@ public class Game {
             }
         }
         return numberOfAttacks;
-
     }
 
     /**
