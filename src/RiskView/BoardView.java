@@ -223,15 +223,6 @@ public class BoardView extends JPanel {
     }
 
     /**
-     * remove highlights from all countries
-     */
-    public void removeAllHighlightCountries(){
-        for(ContinentView cv:continentViews){
-            cv.removeAllHighlightedButtons();
-        }
-    }
-
-    /**
      * remove the highlight from the countries adjacent to the country that will not be used to attack
      * @param country that the adjacent countries highlight will be removed
      */
@@ -257,8 +248,8 @@ public class BoardView extends JPanel {
     /**
      * update the ownership of the countries and number of armies on each country after the
      * attack is complete
-     * @param attackerCountry
-     * @param defenderCountry
+     * @param attackerCountry the country that initiated the attack
+     * @param defenderCountry the country that was attacked
      */
     public void TransferOwnership(Country attackerCountry, Country defenderCountry){
         JButton attacker=new JButton();
@@ -312,7 +303,7 @@ public class BoardView extends JPanel {
 
     /**
      * Add new army to country in draft phase
-     * @param country
+     * @param country that the army was added to
      */
     public void addArmyToCountry(Country country){
         for (ContinentView cv : continentViews){
@@ -330,6 +321,9 @@ public class BoardView extends JPanel {
         return draftArmies;
     }
 
+    /**
+     * updates the state of the board view after an AI turn
+     */
     public void updateBoardForAI(){
         for(ContinentView continentView:continentViews){
             continentView.initializePlayerCountries();

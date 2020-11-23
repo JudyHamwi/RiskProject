@@ -27,6 +27,11 @@ public class AIInitializationController implements ActionListener {
         this.gameModel=game;
         this.players=players;
     }
+
+    /**
+     * calls the model to initialize the game  with the set up based on the  number of AI players selected
+     * @param e selected AI player menu item
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         gameModel.setNumberOfAIPlayers(players);

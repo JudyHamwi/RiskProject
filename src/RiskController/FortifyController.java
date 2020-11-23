@@ -22,12 +22,24 @@ public class FortifyController implements ActionListener {
     private RiskView riskView;
     private Country country;
 
+    /**
+     * Creates the Fortify Controller that listens to the player's decisions in the fortify phase
+     * @param rv
+     * @param game
+     * @param c
+     */
     public FortifyController(RiskView rv,Game game, Country c){
         gameModel=game;
         riskView=rv;
         country=c;
     }
 
+    /**
+     * Responds to the action chosen by the user. It handles the country the player is fortifying from,
+     * the fortify button that prepares the game to recieve the country being fortifued to, and handling
+     * the country being fortified to.
+     * @param e the press of the button for fortifying country, fortifying to country, and fortify button
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         JButton b = (JButton) e.getSource();

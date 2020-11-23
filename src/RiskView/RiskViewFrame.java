@@ -122,6 +122,8 @@ public class RiskViewFrame extends JFrame implements RiskView {
 
     /**
      * Creates the list of number of AI players the users can choose from to play the game
+     * @param numberOfAI players than can be chosen as options based on the number of
+     * players in the game
      */
     public void handleSetNumOfAIPlayers(int numberOfAI){
         this.numberOfAIPlayers = new JMenu("AI Players");
@@ -133,13 +135,6 @@ public class RiskViewFrame extends JFrame implements RiskView {
         }
         this.numberOfPlayers.setVisible(false);
         menuBar.add(numberOfAIPlayers);
-    }
-
-    public void setAIPanel() {
-        //panelAI = new JPanel();
-        //panelAI.setLayout(new BorderLayout());
-        labelAI = new JLabel("AI's move: ");
-        gameStatusPanel.add(labelAI, BorderLayout.NORTH);
     }
 
     /**
@@ -178,11 +173,6 @@ public class RiskViewFrame extends JFrame implements RiskView {
         currentPlayer.setText(player.toString());
         boardView.InitializeBoard(numPlayers);
         boardView.addInGamePanel(game, player);
-        if (ifAI) {
-            setAIPanel();
-        }
-        //boardView.addAIPanel();
-        //this.numberOfPlayers.setVisible(false);
         numberOfAIPlayers.setVisible(false);
         boardView.getAttackPhaseButton().setEnabled(true);
         boardView.getDraftArmies().setText("Draft Armies: "+ draftArmies);
@@ -255,6 +245,13 @@ public class RiskViewFrame extends JFrame implements RiskView {
         boardView.getFortifyButton().setEnabled(false);
     }
 
+    /**
+     * updates the view of the board when a player can fortify from a country
+     * with the selected number of armies are both valid
+     * @param game model that deals with the logic of the game
+     * @param country that the player wants to fortufy from
+     * @param connectedCountries list of countries that the player can fortify to
+     */
     @Override
     public void handleCanFortifyFrom(Game game, Country country, ArrayList<Country> connectedCountries) {
         boardView.highlightFortifyingCountries(connectedCountries);
@@ -263,7 +260,7 @@ public class RiskViewFrame extends JFrame implements RiskView {
 
     /**
      * warning message displayed when there are not enough armies to fortify from a country
-     * @param game
+     * @param game model that deals with the logic of the game
      */
     @Override
     public void handleCanNotFortifyArmies(Game game) {
@@ -272,8 +269,8 @@ public class RiskViewFrame extends JFrame implements RiskView {
     }
 
     /**
-     * warning message displayed if the player can not fortify
-     * @param game
+     * warning message displayed if the player can not fortify from a country
+     * @param game model that deals with the logic of the game
      */
     @Override
     public void handleCanNotFortify(Game game) {
@@ -282,15 +279,21 @@ public class RiskViewFrame extends JFrame implements RiskView {
 
     /**
      * view updated when the fortiphy phase occurs sucessfully
-     * @param game
-     * @param movingFrom
-     * @param movingTo
+     * @param game model that deals with the logic of the game
+     * @param movingFrom country that the player is fortifying from
+     * @param movingTo country that the player is fortifying to
      */
     @Override
     public void handleFortifyPhase(Game game,Country movingFrom, Country movingTo) {
         boardView.TransferOwnership(movingFrom,movingTo);
     }
 
+    /**
+     * updates the view of the board when a player adds an army to country in the draft phase
+     * @param game model that deals with the logic of the game
+     * @param country that the play added an army to
+     * @param draftArmies the remaining number of armies a player can draft
+     */
     @Override
     public void handleAddedArmy(Game game, Country country, int draftArmies) {
         boardView.addArmyToCountry(country);
@@ -300,6 +303,11 @@ public class RiskViewFrame extends JFrame implements RiskView {
         }
     }
 
+    /**
+     * updates an error message when a player tries to draft an army to country
+     * they do not own
+     * @param game model that deals with the logic of the game
+     */
     @Override
     public void handleCanNotDraftFrom(Game game) {
         JOptionPane.showMessageDialog(this,"You do not own this country !");
@@ -307,7 +315,7 @@ public class RiskViewFrame extends JFrame implements RiskView {
 
     /**
      * get the board view
-     * @return
+     * @return Boarview of the view
      */
     public BoardView getBoardView(){
         return boardView;
@@ -342,15 +350,13 @@ public class RiskViewFrame extends JFrame implements RiskView {
 
     /**
      * Update the view after the completion of the AI turn
+     * @param numberOfAttacks that the AI player atacked
+     * @param player the AI player
      */
     @Override
     public void handleAITurn(int numberOfAttacks, Player player){
         JOptionPane.showMessageDialog(this,"AI "+ player+" attacked "+ numberOfAttacks+ "times");
         boardView.updateBoardForAI();
-    }
-
-    public void handleUpdateAIMove(int numberOfCountries, Player player) {
-        labelAI.setText("AI " + player + " has conquered " + numberOfCountries);
     }
 
 
