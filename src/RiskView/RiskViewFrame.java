@@ -251,14 +251,12 @@ public class RiskViewFrame extends JFrame implements RiskView {
      * updates the view when the user enters the fortify phase
      */
     public void handleNewFortifyPhase(){
-        boardView.removeAllHighlightCountries();
         boardView.getFortifyPhaseButton().setEnabled(false);
         boardView.getFortifyButton().setEnabled(false);
     }
 
     @Override
     public void handleCanFortifyFrom(Game game, Country country, ArrayList<Country> connectedCountries) {
-        boardView.removeAllHighlightCountries();
         boardView.highlightFortifyingCountries(connectedCountries);
         boardView.getFortifyButton().setEnabled(true);
     }

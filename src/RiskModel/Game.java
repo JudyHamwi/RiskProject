@@ -60,9 +60,6 @@ public class Game {
         distributeCountries();
         distributeRandomArmyToCountry();
         currentPlayer = players.getFirst();
-        if(currentPlayer.getIsAI()){
-            AITurn();
-        }
     }
 
     /**
@@ -254,6 +251,9 @@ public class Game {
         draftPhase();
         for (RiskView rv : riskViews) {
             rv.handleInitialization(this, gameState, currentPlayer, numPlayers,draftArmies, ifAI);
+        }
+        if(currentPlayer.getIsAI()){
+            AITurn();
         }
     }
 
@@ -513,7 +513,7 @@ public class Game {
      */
     private void setAIPlayers(int numAIPlayers){
         if(!(numAIPlayers==0)) {
-            for (int i = 0; i < numAIPlayers + 1; i++) {
+            for (int i = 0; i < numAIPlayers; i++) {
                 players.get(i).setAI();
             }
         }
