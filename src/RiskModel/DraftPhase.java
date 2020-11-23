@@ -63,4 +63,5 @@ public class DraftPhase {
         return (this.bonusArmiesForOccupiedContinents+ this.bonusArmiesForOccupiedCountries);
     }
 
+
 }
