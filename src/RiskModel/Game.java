@@ -21,7 +21,7 @@ import java.util.*;
 
 public class Game {
 
-    protected Board board;
+    private Board board;
     private GameState gameState;
     private boolean finished;
     private int playerArmy;
@@ -55,7 +55,7 @@ public class Game {
      */
     public void initialize(int numberOfPlayers) {
         addPlayers(numberOfPlayers);
-        setNumberOfAIPlayers(numAIPlayers);
+        setAIPlayers(numAIPlayers);
         initialArmyForPlayer();
         distributeCountries();
         distributeRandomArmyToCountry();
@@ -104,6 +104,10 @@ public class Game {
         }
     }
 
+    /**
+     * sets the number of players in the game
+     * @param numberOfPlayers number of players in the game
+     */
     public void setNumberOfPlayers(int numberOfPlayers){
         numPlayers=numberOfPlayers;
 
@@ -112,9 +116,13 @@ public class Game {
         }
     }
 
+    /**
+     * sets the AI players in the game
+     * @param numberOfAIPlayers number of AI players in the game
+     */
     public void setNumberOfAIPlayers(int numberOfAIPlayers) {
         numAIPlayers = numberOfAIPlayers;
-        setAIPlayers(numAIPlayers);
+
         if(numberOfAIPlayers != 0 ) {
             ifAI = true;
         } else {
@@ -146,7 +154,7 @@ public class Game {
     /**
      * Distributes one army to every country owned by the players
      */
-    protected void distributeOneArmyToCountry() {
+    private void distributeOneArmyToCountry() {
         for (Player p : players) {
             for (Country c : p.getCountriesOwned()) {
                 c.addArmy(1);
@@ -199,6 +207,11 @@ public class Game {
 
     }
 
+    /**
+     * Implementation of the fortify phase of the game. It fortifies the armies from a country to another
+     * country owned by the player and is following the adjacent route of the countries.
+     * @param movingTo country being fortified to
+     */
     public void fortifyPhase(Country movingTo) {
         if (currentPlayer.canMove(moveFromCountry, movingTo, listOfConnectedCountries(moveFromCountry))) {
             FortifyPhase playerFortify = new FortifyPhase(currentPlayer, moveFromCountry, movingTo);
@@ -286,13 +299,6 @@ public class Game {
             currentPlayer = players.get(i + 1);
         }
         endTurnDraft();
-    }
-
-    /**
-     * Changes the current player to the next player
-     */
-    public void nextTurn(){
-        currentPlayer = players.get(players.indexOf(currentPlayer)+1);
     }
 
     /**
@@ -422,6 +428,12 @@ public class Game {
         }
     }
 
+    /**
+     * checks if the fortifying country the player chose is valid and also checks if the
+     * number of armies being fortified with is also valid
+     * @param moveFrom country being fortified from
+     * @param armiesMoved number of armies to be fortified with
+     */
     public void checkFortifyCountry(Country moveFrom, int armiesMoved) {
         if(currentPlayer.ifPlayerOwns(moveFrom)) {
             if (armiesMoved < moveFrom.getNumberOfArmies() && armiesMoved > 0 && moveFrom.getNumberOfArmies()>1) {
@@ -485,7 +497,7 @@ public class Game {
     }
 
     /**
-     *
+     * implements the draft phase of the game
      */
     public void draftPhase(){
             DraftPhase playerDraft = new DraftPhase(currentPlayer);
@@ -493,6 +505,12 @@ public class Game {
             currentPlayer.addPlayerArmy(draftArmies); //add the bonus army to the total number of armies the player has
     }
 
+    /**
+     * retrieves the valid connected countries that the player can fortify to from the
+     * country chosen
+     * @param countryFrom country to fortify from
+     * @param connectedCountryList list to be populated with the connected countries
+     */
     public void connectedCountries(Country countryFrom, ArrayList<Country> connectedCountryList) {
         for (Country c : countryFrom.getAdjacentCountries()) {
             if (connectedCountryList.contains(c) == false && c.getCurrentOwner() == currentPlayer) {
@@ -502,6 +520,11 @@ public class Game {
         }
     }
 
+    /**
+     * returns the list of connected countries to the country being fortified from
+     * @param countryFrom country to fortify from
+     * @return list of connected countries to the country fortify from
+     */
     public ArrayList<Country> listOfConnectedCountries(Country countryFrom){
         ArrayList<Country> listConnectedCountries = new ArrayList<>();
         connectedCountries(countryFrom, listConnectedCountries);
@@ -509,6 +532,9 @@ public class Game {
     }
 
 
+    /**
+     * set the continents owned by the player
+     */
     public void setContinentsOwned(){
         for(int i = 0; i < board.getContinents().size(); i++){
             //check continent ownership and add it to the player's owned continents list
@@ -519,10 +545,10 @@ public class Game {
     }
 
     /**
-     *
-     * @param numAIPlayers
+     *sets the AI players in the game
+     * @param numAIPlayers number of AI players in the game
      */
-    public void setAIPlayers(int numAIPlayers){
+    private void setAIPlayers(int numAIPlayers){
         if(!(numAIPlayers==0)) {
             for (int i = 0; i < numAIPlayers; i++) {
                 players.get(i).setAI();
@@ -531,11 +557,8 @@ public class Game {
     }
 
     /**
-     * gets the number of AI Players
-     * @return the number of AI Players
+     * Draft phase for an AI player. Adds armies to the countries with the least number of armies
      */
-    public int getNumAIPlayers(){ return this.numAIPlayers;}
-
     public void AIDraft(){
         draftPhase();
         int lowestArmyCountryIndex = 0;
