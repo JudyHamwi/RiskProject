@@ -557,7 +557,7 @@ public class Game {
     }
 
     /**
-     * Draft phase for an AI player. Adds armies to the countries with the least number of armies 
+     * Draft phase for an AI player. Adds armies to the countries with the least number of armies
      */
     public void AIDraft(){
         draftPhase();
