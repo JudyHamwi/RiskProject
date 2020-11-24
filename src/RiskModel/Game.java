@@ -21,7 +21,7 @@ import java.util.*;
 
 public class Game {
 
-    private Board board;
+    protected Board board;
     private GameState gameState;
     private boolean finished;
     private int playerArmy;
@@ -55,7 +55,7 @@ public class Game {
      */
     public void initialize(int numberOfPlayers) {
         addPlayers(numberOfPlayers);
-        setAIPlayers(numAIPlayers);
+        setNumberOfAIPlayers(numAIPlayers);
         initialArmyForPlayer();
         distributeCountries();
         distributeRandomArmyToCountry();
@@ -114,7 +114,7 @@ public class Game {
 
     public void setNumberOfAIPlayers(int numberOfAIPlayers) {
         numAIPlayers = numberOfAIPlayers;
-
+        setAIPlayers(numAIPlayers);
         if(numberOfAIPlayers != 0 ) {
             ifAI = true;
         } else {
@@ -146,7 +146,7 @@ public class Game {
     /**
      * Distributes one army to every country owned by the players
      */
-    private void distributeOneArmyToCountry() {
+    protected void distributeOneArmyToCountry() {
         for (Player p : players) {
             for (Country c : p.getCountriesOwned()) {
                 c.addArmy(1);
@@ -286,6 +286,13 @@ public class Game {
             currentPlayer = players.get(i + 1);
         }
         endTurnDraft();
+    }
+
+    /**
+     * Changes the current player to the next player
+     */
+    public void nextTurn(){
+        currentPlayer = players.get(players.indexOf(currentPlayer)+1);
     }
 
     /**
@@ -477,11 +484,15 @@ public class Game {
         gameState=state;
     }
 
+    /**
+     *
+     */
     public void draftPhase(){
             DraftPhase playerDraft = new DraftPhase(currentPlayer);
             draftArmies= playerDraft.getTotalBonusArmies();
             currentPlayer.addPlayerArmy(draftArmies); //add the bonus army to the total number of armies the player has
     }
+
     public void connectedCountries(Country countryFrom, ArrayList<Country> connectedCountryList) {
         for (Country c : countryFrom.getAdjacentCountries()) {
             if (connectedCountryList.contains(c) == false && c.getCurrentOwner() == currentPlayer) {
@@ -511,13 +522,19 @@ public class Game {
      *
      * @param numAIPlayers
      */
-    private void setAIPlayers(int numAIPlayers){
+    public void setAIPlayers(int numAIPlayers){
         if(!(numAIPlayers==0)) {
             for (int i = 0; i < numAIPlayers; i++) {
                 players.get(i).setAI();
             }
         }
     }
+
+    /**
+     * gets the number of AI Players
+     * @return the number of AI Players
+     */
+    public int getNumAIPlayers(){ return this.numAIPlayers;}
 
     public void AIDraft(){
         draftPhase();

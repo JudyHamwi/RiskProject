@@ -15,12 +15,14 @@ import java.util.LinkedList;
 public class Board {
     private final LinkedList<Continent> continents;
     private ArrayList<Country> countries;
+    private ArrayList<Continent> testContinents;
 
     /**
      * Constructor of RISKModel.Board that creates a new RISKModel.Board
      */
     public Board() {
         continents = new LinkedList<>();
+        testContinents = new ArrayList<>();
         countries = new ArrayList<>();
         createBoard();
     }
@@ -62,10 +64,10 @@ public class Board {
 
 
     /**
-     * The textual represention of the RISKModel.Board. Contains information about every continent, country
+     * The textual representation of the RISKModel.Board. Contains information about every continent, country
      * and the player that owns the country
      *
-     * @return the textal representation of the board.
+     * @return the textual representation of the board.
      */
     public String toString() {
         String Board = "RISK BOARD: \n" + "Continents: \n";
@@ -104,6 +106,7 @@ public class Board {
         this.addContinent(SouthAmerica);
         this.addContinent(Africa);
         this.addContinent(Australia);
+        fillTestContinents();
 
         //create the countries in North America
         createContinentNorthAmerica(NorthAmerica);
@@ -526,6 +529,16 @@ public class Board {
         getCountry("NewGuinea").setAdjacentCountry(getCountry("WesternAustralia"));
         getCountry("WesternAustralia").setAdjacentCountry(getCountry("EasternAustralia"));
         getCountry("WesternAustralia").setAdjacentCountry(getCountry("NewGuinea"));
+    }
+
+    private void fillTestContinents(){
+        for (Continent c: this.continents){
+            testContinents.add(c);
+        }
+    }
+
+    public ArrayList<Continent> getTestContinents(){
+        return testContinents;
     }
 
 }

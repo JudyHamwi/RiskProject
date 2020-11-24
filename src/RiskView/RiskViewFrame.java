@@ -29,8 +29,6 @@ public class RiskViewFrame extends JFrame implements RiskView {
     private JLabel background;
     private JPanel mainMenuPanel;
     private JPanel gameStatusPanel;
-    //private JPanel panelAI;
-    private JLabel labelAI;
     private JLabel gameStatus;
     private JLabel currentPlayer;
     private JMenu numberOfPlayers;

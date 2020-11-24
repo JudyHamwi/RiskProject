@@ -1,5 +1,14 @@
 package RiskTestCases;
-
+/**
+ * One of the phases of the game. Player enters RISKModel.FortifyPhase after their RISKModel.AttackPhase.
+ * @version 2.0
+ * @author Sarah Jaber
+ * @author Walid Baitul Islam
+ * @author Judy Hamwi
+ * @author Diana Miraflor
+ *
+ * Test the Game class
+ */
 import RiskModel.*;
 import RiskView.RiskView;
 import org.junit.After;
@@ -37,11 +46,6 @@ public class GameTest {
     }
 
     @Test
-    public void testGetState(){
-        assertEquals("Game is initializing",GameState.INITIALIZING, game.getState());
-    }
-
-    @Test
     public void testAddPlayers(){
         game.setNumberOfPlayers(2);
         game.addPlayers(numPlayers);
@@ -50,7 +54,7 @@ public class GameTest {
     }
 
     @Test
-    public void testcheckWinner(){
+    public void testCheckWinner(){
         game.setNumberOfPlayers(numPlayers);
         game.addPlayers(numPlayers);
         game.players.get(0).addCountry(attackingCountry);
@@ -60,20 +64,20 @@ public class GameTest {
     }
 
     @Test
-    public void testtheInitialState() {
+    public void testTheInitialState() {
         game.setNumberOfPlayers(numPlayers);
         game.theInitialState();
         assertEquals(2,numPlayers);
         assertEquals(21, game.currentPlayer.getTotalNumberOfCountries());
-        assertEquals(GameState.IN_PROGRESS, game.getState());
+        assertEquals(GameState.DRAFT_PHASE, game.getState());
         assertEquals(game.players.get(0), game.currentPlayer);
         assertEquals(1, game.currentPlayer.getPlayerID());
         game.initialArmyForPlayer();
-        assertEquals(50, game.currentPlayer.getPlayerArmy());
+        assertEquals(57, game.currentPlayer.getPlayerArmy());
     }
 
     @Test
-    public void testremovePlayer(){
+    public void testRemovePlayer(){
         game.setNumberOfPlayers(numPlayers);
         game.addPlayers(numPlayers);
         game.players.get(0).addCountry(attackingCountry);

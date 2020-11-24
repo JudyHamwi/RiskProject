@@ -68,7 +68,7 @@ public class DraftPhase {
      * @return the total number of bonus armies for the current player
      */
     public int getTotalBonusArmies(){
-        return (this.bonusArmiesForOccupiedContinents+ this.bonusArmiesForOccupiedCountries);
+        return (this.bonusArmiesForOccupiedContinents + this.bonusArmiesForOccupiedCountries);
     }
 
 }

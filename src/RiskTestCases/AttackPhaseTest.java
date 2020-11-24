@@ -1,5 +1,14 @@
 package RiskTestCases;
-
+/**
+ * One of the phases of the game. Player enters RISKModel.FortifyPhase after their RISKModel.AttackPhase.
+ * @version 2.0
+ * @author Sarah Jaber
+ * @author Walid Baitul Islam
+ * @author Judy Hamwi
+ * @author Diana Miraflor
+ *
+ * Test the Attack Phase class
+ */
 import RiskModel.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,21 +46,21 @@ public class AttackPhaseTest {
     }
 
     @Test
-    public void testnumberOfDiceForAttacker() {
+    public void testNumberOfDiceForAttacker() {
         int attackerArmies = 1;
         attackPhase.setAttackerArmies(attackerArmies);
         assertEquals(1,attackPhase.numberOfDiceForAttacker());
     }
 
     @Test
-    public void testnumberOfDiceForDefender() {
+    public void testNumberOfDiceForDefender() {
         int attackerArmies = 4;
         attackPhase.setAttackerArmies(attackerArmies);
         assertEquals(2,attackPhase.numberOfDiceForDefender());
     }
 
     @Test
-    public void testcompareDice() {
+    public void testCompareDice() {
         attackerDiceValues.add(6);
         attackerDiceValues.add(5);
         defenderDiceValues.add(4);
@@ -63,7 +72,7 @@ public class AttackPhaseTest {
     }
 
     @Test
-    public void testattack() {
+    public void testAttack() {
         attackerDiceValues.add(6);
         attackerDiceValues.add(5);
         defenderDiceValues.add(4);
