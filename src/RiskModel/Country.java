@@ -1,5 +1,6 @@
 package RiskModel;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class Country {
      */
     public Country(String name){
         countryName=name;
-        adjacentCountries=new LinkedList<>();
+        adjacentCountries=new ArrayList<>();
         numberOfArmies=0;
     }
 
@@ -106,4 +107,15 @@ public class Country {
     public boolean hasOwner(){
         return currentOwner!=null;
     }
+
+    /**
+     * Sets the number of army to a specific value
+     * @param army is the number it should be set too
+     */
+    public void setArmy(int army){
+        this.numberOfArmies = army;
+    }
+
 }
+
+

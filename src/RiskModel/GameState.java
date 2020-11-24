@@ -7,5 +7,5 @@ package RiskModel;
  *  the game is still being played or if the game has been finished.
  */
 public enum GameState {
-    INITIALIZING, IN_PROGRESS, COMPLETED;
+    INITIALIZING, IN_PROGRESS, COMPLETED, ATTACK_PHASE, DRAFT_PHASE, FORTIFY_PHASE;
 }

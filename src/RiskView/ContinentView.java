@@ -1,6 +1,8 @@
 package RiskView;
 
 import RiskController.AttackController;
+import RiskController.DraftPhaseController;
+import RiskController.FortifyController;
 import RiskModel.Continent;
 import RiskModel.Country;
 import RiskModel.Game;
@@ -68,6 +70,8 @@ public class ContinentView extends JPanel {
             this.add(b);
             countryButtons.add(b);
             b.addActionListener(new AttackController(rv, game, c));
+            b.addActionListener(new FortifyController(rv,game,c));
+            b.addActionListener(new DraftPhaseController(rv,game,c));
         }
     }
 
@@ -104,14 +108,6 @@ public class ContinentView extends JPanel {
     }
 
     /**
-     * returns the list of the selected buttons
-     * @return list of selected buttons
-     */
-    public ArrayList<JButton> getSelectedButtons() {
-        return selectedButtons;
-    }
-
-    /**
      * checks if the continent has a country button
      * @param country to be checked in the continent
      * @return button country if the continent has the country and
@@ -135,18 +131,15 @@ public class ContinentView extends JPanel {
     }
 
     /**
-     * checks if the continent has the defender country
-     * @param country to check if it is in the continent
-     * @return button of the country if the continent has the country
-     * and false otherwise
+     * updates the country button when an army is added to a country
+     * in the draft phase
+     * @param country the army was added to
      */
-    public JButton defenderCountryButton(Country country) {
+    public void addArmy(Country country){
         for (JButton b : countryButtons) {
             if (b.getName().equals(country.getCountryName())) {
-                return b;
+                b.setText(country.getCountryName() + " " + country.getNumberOfArmies());
             }
         }
-        return null;
     }
-
 }

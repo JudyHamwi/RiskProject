@@ -14,14 +14,16 @@ public class Continent {
     private String continentName;
     private LinkedList<Country> countries;
     private Player currentOwner;
+    private int bonusArmies;
 
     /**
      * Contrusctor of RISKModel.Continent that creates a new RISKModel.Continent
      * @param name of the RISKModel.Continent
      */
-    public Continent(String name) {
+    public Continent(String name, int bonusArmies) {
         continentName = name;
         countries = new LinkedList<>();
+        this.bonusArmies = bonusArmies;
     }
 
     /**
@@ -41,13 +43,20 @@ public class Continent {
     }
 
     /**
+     * Returns the number of bonus armies a player gets each turn when the player occupy this continent
+     * @return
+     */
+    public int getBonusArmies() {
+        return bonusArmies;
+    }
+
+    /**
      * get the name of the continent
      * @return name of the continent
      */
     public String getContinentName() {
         return continentName;
     }
-
     /**
      * Text representation of the continent.
      * @return text representation of the continent
@@ -60,6 +69,7 @@ public class Continent {
         }
         return null;
     }
+
     public String toString() {
         String continent = continentName + ": \n";
         for (Country c : countries) {
@@ -75,4 +85,5 @@ public class Continent {
         }
         return continent;
     }
+
 }

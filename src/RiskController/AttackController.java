@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import RiskModel.Country;
 import RiskModel.Game;
+import RiskModel.GameState;
 import RiskView.RiskView;
 
 import javax.swing.*;
@@ -45,13 +46,15 @@ public class AttackController implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        JButton b=(JButton) e.getSource();
-        if(b.getName().equals("attackButton")){
-            riskView.handleNewAttack();
-        } else if (riskView.getBoardView().getAttackButton().isEnabled()){
-            gameModel.checkAttackingCountry(country);
-        } else {
-            gameModel.attackPhase(country);
+        JButton b = (JButton) e.getSource();
+        if (gameModel.getState() == GameState.ATTACK_PHASE) {
+            if (b.getName().equals("attackButton")) {
+                riskView.handleNewAttack();
+            } else if (riskView.getBoardView().getAttackButton().isEnabled()) {
+                gameModel.checkAttackingCountry(country);
+            } else {
+                gameModel.attackPhase(country);
+            }
         }
     }
 }
