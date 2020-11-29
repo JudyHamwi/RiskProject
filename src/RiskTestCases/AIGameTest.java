@@ -57,12 +57,12 @@ public class AIGameTest {
         game.currentPlayer = game.players.getFirst();
     }
 
-    @Test
+    /*@Test
     public void testSetAIPlayers(){
         int numberOfAIPlayers = 2;
         game.setNumberOfAIPlayers(numberOfAIPlayers);
         assertEquals(numberOfAIPlayers, game.getNumAIPlayers());
-    }
+    }*/
 
     @Test
     public void testDraftAI(){

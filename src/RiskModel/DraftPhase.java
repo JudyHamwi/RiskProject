@@ -3,9 +3,13 @@ package RiskModel;
 import java.util.List;
 
 public class DraftPhase {
+    public static final int MIN_BONUS_ARMIES = 3;
+    public static final int DEFAULT_NUMBER_OF_COUNTRIES = 12;
+
     private Player currentPlayer;
     private int bonusArmiesForOccupiedCountries;
     private int bonusArmiesForOccupiedContinents;
+
 
     public DraftPhase(Player player) {
         this.currentPlayer = player;
@@ -32,17 +36,17 @@ public class DraftPhase {
     }
 
     /**
-     * setup the number of bonus armies that a player recieves at the beginning of each turn.
+     * setup the number of bonus armies that a player receives at the beginning of each turn.
      * A player receives 3 bonus armies if they have less than 12 occupied countries
      * Otherwise it counts the number of countries that the player occupies and then divides it
      * by 3 and it ignoring any fraction.
      */
     public void setupBonusArmiesForOccupiedCountries(){
         int numOfOccupiedCountries = currentPlayer.getTotalNumberOfCountries();
-        if (numOfOccupiedCountries < 12 ){
-            this.bonusArmiesForOccupiedCountries = 3;
+        if (numOfOccupiedCountries < DEFAULT_NUMBER_OF_COUNTRIES ){
+            this.bonusArmiesForOccupiedCountries = MIN_BONUS_ARMIES;
         } else {
-            this.bonusArmiesForOccupiedCountries = Math.floorDiv(numOfOccupiedCountries , 3);
+            this.bonusArmiesForOccupiedCountries = Math.floorDiv(numOfOccupiedCountries , MIN_BONUS_ARMIES);
         }
     }
 
