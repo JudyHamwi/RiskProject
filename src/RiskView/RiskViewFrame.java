@@ -126,7 +126,7 @@ public class RiskViewFrame extends JFrame implements RiskView {
     public void handleSetNumOfAIPlayers(int numberOfAI){
         this.numberOfAIPlayers = new JMenu("AI Players");
         numberOfAIPlayers.setName("AIplayers");
-        for(int i = 0; i < numberOfAI; i++){
+        for(int i = 0; i < MAX_NUM_PLAYERS-numberOfAI; i++){
             JMenuItem numPlayer = new JMenuItem(i + " AI Players");
             numPlayer.addActionListener(new AIInitializationController(gameModel, i));
             numberOfAIPlayers.add(numPlayer);
@@ -166,7 +166,7 @@ public class RiskViewFrame extends JFrame implements RiskView {
      * @param player with the current turn
      * @param numPlayers number of players playing the game
      */
-    public void handleInitialization(Game game, GameState state, Player player, int numPlayers, int draftArmies, boolean ifAI){
+    public void handleInitialization(Game game, GameState state, Player player, int numPlayers, int draftArmies){
         gameStatus.setText(state.toString());
         currentPlayer.setText(player.toString());
         boardView.InitializeBoard(numPlayers);

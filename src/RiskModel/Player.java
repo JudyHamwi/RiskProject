@@ -1,7 +1,6 @@
 package RiskModel;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -20,7 +19,7 @@ public class Player {
     private List<Country> countriesOwned;
     private List<Continent> continentsOwned;
     private int placeArmy;
-    private boolean isAI;
+    private int bonusArmy;
 
     /**
      * RISKModel.Player that plays in the RISKModel.Game
@@ -30,7 +29,6 @@ public class Player {
         this.countriesOwned = new ArrayList<>();
         this.continentsOwned = new ArrayList<>();
         this.placeArmy=0;
-        this.isAI = false;
     }
 
     /**
@@ -212,15 +210,31 @@ public class Player {
      * Checks if the player is an AI
      * @return boolean check
      */
-    public boolean getIsAI(){
-        return this.isAI;
-    }
 
     /**
      * Sets an existing player to an AI player
      */
-    public void setAI(){
-        this.isAI = true;
+
+    public void draftPhase() {
+        DraftPhase playerDraft = new DraftPhase(this);
+        this.bonusArmy = playerDraft.getTotalBonusArmies();
     }
+
+    public int getBonusArmies(){
+        return bonusArmy;
+    }
+
+    public void placeBonusArmy(){
+        bonusArmy--;
+    }
+
+    public boolean attackPhase(Country defenderCountry, Country attackCountry) {
+        if (this.canAttack(attackCountry, defenderCountry)) {
+            AttackPhase playerAttack = new AttackPhase(this, attackCountry, defenderCountry);
+            return playerAttack.attack();
+        }
+        return false;
+    }
+ }
 
 }

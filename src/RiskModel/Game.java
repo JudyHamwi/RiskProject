@@ -28,14 +28,13 @@ public class Game {
     public LinkedList<Player> players;
     private int numPlayers;
     private int numAIPlayers;
+    private int numNonAIPlayers;
     public Player currentPlayer;
     private ArrayList<RiskView> riskViews;
     private Country attackCountry;
     private HashMap<Integer, Integer> armiesForPlayers;
     private Country moveFromCountry;
     private int armiesFortify;
-    private int draftArmies;
-    boolean ifAI;
 
     /**
      * Starts a new RISKModel.Game
@@ -49,13 +48,11 @@ public class Game {
     }
 
     /**
-     * Initalizes the start of the RISKModel.Game
+     * Initializes the start of the RISKModel.Game
      *
      * @param numberOfPlayers that will play the game
      */
     public void initialize(int numberOfPlayers) {
-        addPlayers(numberOfPlayers);
-        setAIPlayers(numAIPlayers);
         initialArmyForPlayer();
         distributeCountries();
         distributeRandomArmyToCountry();
@@ -80,6 +77,17 @@ public class Game {
         for (int i = 0; i < numberOfPlayers; i++) {
             players.add(new Player());
         }
+        for(RiskView rv:riskViews){
+            rv.handleSetNumOfAIPlayers(numPlayers);
+        }
+
+    }
+
+    public void addAIPlayers(int numberOfAIPlayers){
+        for (int i=0; i<numberOfAIPlayers;i++){
+            players.add(new AIPlayer());
+        }
+        numPlayers=players.size();
     }
 
     /**
@@ -104,33 +112,6 @@ public class Game {
         }
     }
 
-    /**
-     * sets the number of players in the game
-     *
-     * @param numberOfPlayers number of players in the game
-     */
-    public void setNumberOfPlayers(int numberOfPlayers) {
-        numPlayers = numberOfPlayers;
-
-        for (RiskView rv : riskViews) {
-            rv.handleSetNumOfAIPlayers(numPlayers);
-        }
-    }
-
-    /**
-     * sets the AI players in the game
-     *
-     * @param numberOfAIPlayers number of AI players in the game
-     */
-    public void setNumberOfAIPlayers(int numberOfAIPlayers) {
-        numAIPlayers = numberOfAIPlayers;
-
-        if (numberOfAIPlayers != 0) {
-            ifAI = true;
-        } else {
-            ifAI = false;
-        }
-    }
 
     /**
      * sets the number of initial armies according to the number of players
@@ -182,11 +163,12 @@ public class Game {
         }
     }
 
+    /*
     /**
      * Initiates the attack phase of the game, which is entered when a player decided to attack
      *
      * @param defenderCountry the country that will be defending from the attack
-     */
+
     public void attackPhase(Country defenderCountry) {
         if (currentPlayer.canAttack(attackCountry, defenderCountry)) {
             AttackPhase playerAttack = new AttackPhase(currentPlayer, attackCountry, defenderCountry);
@@ -206,6 +188,18 @@ public class Game {
                 }
             }
         }
+
+    }
+    */
+
+    /**
+     * attack phase
+     */
+    public void attack(Country defenderCountry){
+        boolean successAttack = currentPlayer.attackPhase(defenderCountry, attackCountry);
+        Player playerRemoved = removePlayer();
+        boolean winner = checkWinner();
+        setContinentsOwned();
 
     }
 
@@ -264,12 +258,11 @@ public class Game {
     public void theInitialState() {
         initialize(numPlayers);
         gameState = GameState.DRAFT_PHASE;
-        draftPhase();
+        currentPlayer.draftPhase();
         for (RiskView rv : riskViews) {
-            rv.handleInitialization(this, gameState, currentPlayer, numPlayers, draftArmies, ifAI);
+            rv.handleInitialization(this, gameState, currentPlayer, numPlayers, currentPlayer.getBonusArmies());
         }
         if (currentPlayer.getIsAI()) {
-            AITurn();
         }
     }
 
@@ -309,12 +302,11 @@ public class Game {
      */
     public void endTurnDraft() {
         if (currentPlayer.getIsAI()) {
-            AITurn();
         } else {
-            draftPhase();
+            currentPlayer.draftPhase();
             gameState = GameState.DRAFT_PHASE;
             for (RiskView rv : riskViews) {
-                rv.handleEndTurn(this, currentPlayer, draftArmies);
+                rv.handleEndTurn(this, currentPlayer, currentPlayer.getBonusArmies());
             }
         }
     }
@@ -478,14 +470,14 @@ public class Game {
     public void draftNewArmy(Country country) {
         if (country.getCurrentOwner().equals(currentPlayer)) {
             country.addArmy(1);
-            draftArmies--;
-            if (draftArmies == 0) {
+            currentPlayer.placeBonusArmy();
+            if (currentPlayer.getBonusArmies() == 0) {
                 gameState = GameState.ATTACK_PHASE;
             }
             for (RiskView rv : riskViews) {
-                rv.handleAddedArmy(this, country, draftArmies);
+                rv.handleAddedArmy(this, country, currentPlayer.getBonusArmies());
             }
-            if (draftArmies == 0) {
+            if (currentPlayer.getBonusArmies() == 0) {
                 gameState = GameState.IN_PROGRESS;
             }
         } else {
@@ -500,15 +492,6 @@ public class Game {
      */
     public void setPhase(GameState state) {
         gameState = state;
-    }
-
-    /**
-     * implements the draft phase of the game
-     */
-    public void draftPhase() {
-        DraftPhase playerDraft = new DraftPhase(currentPlayer);
-        draftArmies = playerDraft.getTotalBonusArmies();
-        currentPlayer.addPlayerArmy(draftArmies); //add the bonus army to the total number of armies the player has
     }
 
     /**
@@ -566,45 +549,6 @@ public class Game {
     }
 
     /**
-     * Draft phase for an AI player. Adds armies to the countries with the least number of armies
-     */
-    public void AIDraft() {
-        draftPhase();
-        int lowestArmyCountryIndex = 0;
-        Collections.shuffle(currentPlayer.getCountriesOwned()); //So it doesn't always choose the same country
-        for (int i = 1; i < currentPlayer.getTotalNumberOfCountries(); i++) {
-            if (currentPlayer.getCountriesOwned().get(i).getNumberOfArmies() < currentPlayer.getCountriesOwned().get(lowestArmyCountryIndex).getNumberOfArmies()) {
-                lowestArmyCountryIndex = i;
-            }
-        }
-        currentPlayer.getCountriesOwned().get(lowestArmyCountryIndex).addArmy(currentPlayer.getPlayerArmy());
-        currentPlayer.addPlayerArmy(-(currentPlayer.getPlayerArmy()));
-    }
-
-    /**
-     * AI Attacking method
-     * The AI attacks as much as possible with the following conditions
-     * The country it attacks has less troops, or the attacking country has more than 3 troops
-     */
-    public int AIAttack() {
-        int numberOfAttacks = 0;
-        for (int i = 0; i < currentPlayer.getCountriesOwned().size(); i++) {
-            if (currentPlayer.getCountriesOwned().get(i).getNumberOfArmies() > 1) {
-                for (Country ac : currentPlayer.getCountriesOwned().get(i).getAdjacentCountries()) {
-                    if (ac.getCurrentOwner() != currentPlayer) {
-                        if (currentPlayer.getCountriesOwned().get(i).getNumberOfArmies() > ac.getNumberOfArmies() || currentPlayer.getCountriesOwned().get(i).getNumberOfArmies() > 3) {
-                            AttackPhase aiAttack = new AttackPhase(currentPlayer, currentPlayer.getCountriesOwned().get(i), ac);
-                            aiAttack.attack();
-                            numberOfAttacks++;
-                        }
-                    }
-                }
-            }
-        }
-        return numberOfAttacks;
-    }
-
-    /**
      * Moves troops from one country to another
      * AI implementation splits the troops evenly between the two countries
      * If the number is odd, the extra troop is moved to countryTo
@@ -644,16 +588,4 @@ public class Game {
         }
     }
 
-    /**
-     * The complete turn of the AI player
-     */
-    public void AITurn() {
-        AIDraft();
-        int numberOfAttacks = AIAttack();
-        AIFortify();
-        for (RiskView rv : riskViews) {
-            rv.handleAITurn(numberOfAttacks, currentPlayer);
-        }
-        endTurn();
-    }
 }

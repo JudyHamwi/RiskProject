@@ -116,6 +116,21 @@ public class Country {
         this.numberOfArmies = army;
     }
 
+    public void connectedCountries(Country countryFrom, ArrayList<Country> connectedCountryList) {
+        for (Country c : countryFrom.getAdjacentCountries()) {
+            if (connectedCountryList.contains(c) == false && c.getCurrentOwner() == currentOwner) {
+                connectedCountryList.add(c);
+                connectedCountries(c, connectedCountryList);
+            }
+        }
+    }
+
+    public ArrayList<Country> listOfConnectedCountries(Country countryFrom) {
+        ArrayList<Country> listConnectedCountries = new ArrayList<>();
+        connectedCountries(countryFrom, listConnectedCountries);
+        return listConnectedCountries;
+    }
+
 }
 
 

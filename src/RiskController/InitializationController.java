@@ -37,6 +37,6 @@ public class InitializationController implements ActionListener {
      * the game enters the initialization phase
      */
     public void actionPerformed(ActionEvent e) {
-        gameModel.setNumberOfPlayers(players);
+        gameModel.addPlayers(players); //Total Players, sets the field of numPlayers to total number of players
     }
 }
