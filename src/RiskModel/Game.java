@@ -48,8 +48,7 @@ public class Game {
     /**
      * Initializes the start of the RISKModel.Game
      *
-     * @param numberOfPlayers that will play the game
-     */
+     * */
     public void initialize(int numberOfPlayers) {
         initialArmyForPlayer();
         distributeCountries();
@@ -76,7 +75,7 @@ public class Game {
             players.add(new Player());
         }
         for(RiskView rv:riskViews){
-            rv.handleSetNumOfAIPlayers(numPlayers);
+            rv.handleSetNumOfAIPlayers(numberOfPlayers);
         }
 
     }
@@ -263,9 +262,12 @@ public class Game {
     public void theInitialState() {
         initialize(numPlayers);
         gameState = GameState.DRAFT_PHASE;
-        currentPlayer.draftPhase();
+        Boolean turnComplete=currentPlayer.draftPhase();
         for (RiskView rv : riskViews) {
-            rv.handleInitialization(this, gameState, currentPlayer, numPlayers, currentPlayer.getBonusArmies());
+            rv.handleInitialization(this, gameState, currentPlayer, numPlayers, currentPlayer.getBonusArmies(), turnComplete);
+        }
+        if(turnComplete){
+            endTurn();
         }
     }
 

@@ -215,9 +215,10 @@ public class Player {
      * Sets an existing player to an AI player
      */
 
-    public void draftPhase() {
+    public boolean draftPhase() {
         DraftPhase playerDraft = new DraftPhase(this);
         this.bonusArmy = playerDraft.getTotalBonusArmies();
+        return false;
     }
 
     public int getBonusArmies(){

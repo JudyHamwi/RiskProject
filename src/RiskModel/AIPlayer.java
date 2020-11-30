@@ -4,14 +4,26 @@ import RiskView.RiskView;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class AIPlayer extends Player{
 
     private int numberOfAttacks;
-    private ArrayList<RiskView> riskViews;
+    private final int PLAYER_ID;
+    private List<Country> countriesOwned;
+    private List<Continent> continentsOwned;
+    private int placeArmy;
+    private int bonusArmy;
 
 
-    public void DraftPhase(){
+    public AIPlayer(){
+        PLAYER_ID=super.getNextPlayerId();
+        this.countriesOwned = new ArrayList<>();
+        this.continentsOwned = new ArrayList<>();
+        this.placeArmy=0;
+    }
+
+    public boolean draftPhase(){
         this.draftPhase();
         this.numberOfAttacks = 0;
         int lowestArmyCountryIndex = 0;
@@ -24,6 +36,7 @@ public class AIPlayer extends Player{
         this.getCountriesOwned().get(lowestArmyCountryIndex).addArmy(this.getBonusArmies());
         this.placeBonusArmy();
         AttackPhase();
+        return true;
     }
 
     public void AttackPhase(){
@@ -82,19 +95,15 @@ public class AIPlayer extends Player{
         countryTo.setArmy(sharedTroop + extraTroop);
     }
 
+    public int getPLAYER_ID(){
+        return PLAYER_ID;
+    }
     /**
-     * The complete turn of the AI player
+     * Text represenation of the player
+     * @return String representation of the player
      */
-    public void AITurn() {
-        DraftPhase();
-        int numberOfAttacks = this.getNumberOfAttacks();
-        FortifyPhase();
-        for (RiskView rv : riskViews) {
-            rv.handleAITurn(numberOfAttacks, this);
-        }
+    public String toString(){
+        return "AI Player" + getPlayerID();
     }
 
-    public int getNumberOfAttacks() {
-        return numberOfAttacks;
-    }
 }
