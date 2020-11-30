@@ -27,8 +27,6 @@ public class Game {
     private int playerArmy;
     public LinkedList<Player> players;
     private int numPlayers;
-    private int numAIPlayers;
-    private int numNonAIPlayers;
     public Player currentPlayer;
     private ArrayList<RiskView> riskViews;
     private Country attackCountry;
@@ -196,10 +194,19 @@ public class Game {
      * attack phase
      */
     public void attack(Country defenderCountry){
-        boolean successAttack = currentPlayer.attackPhase(defenderCountry, attackCountry);
-        Player playerRemoved = removePlayer();
-        boolean winner = checkWinner();
-        setContinentsOwned();
+        if(currentPlayer.canAttack(attackCountry,defenderCountry)) {
+            boolean attackSuccess = currentPlayer.attackPhase(defenderCountry, attackCountry);
+            Player playerRemoved = removePlayer();
+            boolean winner = checkWinner();
+            setContinentsOwned();
+            for (RiskView rv : riskViews) {
+                rv.handleAttackPhase(this, attackCountry, defenderCountry, attackSuccess, winner, playerRemoved);
+            }
+        }else {
+            for (RiskView rv : riskViews) {
+                rv.handleCanNotAttackFrom(this);
+            }
+        }
 
     }
 
@@ -211,9 +218,7 @@ public class Game {
      */
     public void fortifyPhase(Country movingTo) {
         if (currentPlayer.canMove(moveFromCountry, movingTo, listOfConnectedCountries(moveFromCountry))) {
-            FortifyPhase playerFortify = new FortifyPhase(currentPlayer, moveFromCountry, movingTo);
-            playerFortify.setNumOfArmiesToMove(armiesFortify);
-            Boolean fortifySuccess = playerFortify.fortify();
+            Boolean fortifySuccess=currentPlayer.fortifyPhase(moveFromCountry, movingTo, armiesFortify);
             for (RiskView rv : riskViews) {
                 rv.handleFortifyPhase(this, moveFromCountry, movingTo);
             }
@@ -262,8 +267,6 @@ public class Game {
         for (RiskView rv : riskViews) {
             rv.handleInitialization(this, gameState, currentPlayer, numPlayers, currentPlayer.getBonusArmies());
         }
-        if (currentPlayer.getIsAI()) {
-        }
     }
 
     /**
@@ -294,22 +297,8 @@ public class Game {
             int i = players.indexOf(p);
             currentPlayer = players.get(i + 1);
         }
-        endTurnDraft();
     }
 
-    /**
-     * decides if it will be a regular players turn or an AI turn
-     */
-    public void endTurnDraft() {
-        if (currentPlayer.getIsAI()) {
-        } else {
-            currentPlayer.draftPhase();
-            gameState = GameState.DRAFT_PHASE;
-            for (RiskView rv : riskViews) {
-                rv.handleEndTurn(this, currentPlayer, currentPlayer.getBonusArmies());
-            }
-        }
-    }
 
     /**
      * Prints the initial state of the game after the initialization happens
@@ -374,8 +363,6 @@ public class Game {
                 defendingC = c;
             }
         }
-
-        attackPhase(defendingC);
     }
 
     /**
@@ -531,19 +518,6 @@ public class Game {
             //check continent ownership and add it to the player's owned continents list
             if (currentPlayer.getCountriesOwned().containsAll(board.getContinents().get(i).getContinentCountries())) {
                 currentPlayer.addContinent(board.getContinents().get(i));
-            }
-        }
-    }
-
-    /**
-     * sets the AI players in the game
-     *
-     * @param numAIPlayers number of AI players in the game
-     */
-    private void setAIPlayers(int numAIPlayers) {
-        if (!(numAIPlayers == 0)) {
-            for (int i = 0; i < numAIPlayers; i++) {
-                players.get(i).setAI();
             }
         }
     }

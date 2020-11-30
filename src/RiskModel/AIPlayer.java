@@ -23,6 +23,7 @@ public class AIPlayer extends Player{
         }
         this.getCountriesOwned().get(lowestArmyCountryIndex).addArmy(this.getBonusArmies());
         this.placeBonusArmy();
+        AttackPhase();
     }
 
     public void AttackPhase(){
@@ -39,6 +40,8 @@ public class AIPlayer extends Player{
                 }
             }
         }
+        System.out.println(this+": " +numberOfAttacks );
+        FortifyPhase();
     }
 
     public void FortifyPhase(){

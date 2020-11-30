@@ -229,12 +229,16 @@ public class Player {
     }
 
     public boolean attackPhase(Country defenderCountry, Country attackCountry) {
-        if (this.canAttack(attackCountry, defenderCountry)) {
             AttackPhase playerAttack = new AttackPhase(this, attackCountry, defenderCountry);
             return playerAttack.attack();
-        }
-        return false;
     }
- }
+
+    public boolean fortifyPhase(Country moveFromCountry, Country movingTo, int armiesFortify){
+        FortifyPhase playerFortify=new FortifyPhase(this, moveFromCountry, movingTo);
+        playerFortify.setNumOfArmiesToMove(armiesFortify);
+        return playerFortify.fortify();
+    }
 
 }
+
+

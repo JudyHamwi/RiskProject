@@ -21,11 +21,11 @@ import static org.junit.Assert.*;
 
 public class GameTest {
 
-     private Game game;
-     private Country attackingCountry;
-     private Country defendingCountry;
-     private int numPlayers;
-     private Player currentPlayer;
+    private Game game;
+    private Country attackingCountry;
+    private Country defendingCountry;
+    private int numPlayers;
+    private Player currentPlayer;
 
 
     @Before
@@ -41,10 +41,11 @@ public class GameTest {
 
 
     @Test
-    public void testGame(){
+    public void testGame() {
         assertTrue(game.equals(game));
     }
 
+    /*
     @Test
     public void testAddPlayers(){
         game.setNumberOfPlayers(2);
@@ -52,6 +53,7 @@ public class GameTest {
         assertEquals(2, game.getNumPlayers());
         assertEquals(2, game.players.size());
     }
+
 
     @Test
     public void testCheckWinner(){
@@ -62,6 +64,7 @@ public class GameTest {
         Player p= game.removePlayer();
         assertTrue(game.checkWinner());
     }
+
 
     @Test
     public void testTheInitialState() {
@@ -75,6 +78,7 @@ public class GameTest {
         game.initialArmyForPlayer();
         assertEquals(57, game.currentPlayer.getPlayerArmy());
     }
+
 
     @Test
     public void testRemovePlayer(){
@@ -110,4 +114,7 @@ public class GameTest {
         game.checkAttackingCountry(attackingCountry);
         assertEquals("Alaska", game.getAttackingCountry().getCountryName());
     }
+}
+
+     */
 }

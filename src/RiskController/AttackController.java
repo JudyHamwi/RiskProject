@@ -53,7 +53,7 @@ public class AttackController implements ActionListener {
             } else if (riskView.getBoardView().getAttackButton().isEnabled()) {
                 gameModel.checkAttackingCountry(country);
             } else {
-                gameModel.attackPhase(country);
+                gameModel.attack(country);
             }
         }
     }

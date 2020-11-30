@@ -9,14 +9,12 @@ package RiskTestCases;
  *
  * Test the AI methods in Game class
  */
-import RiskModel.ControlGame;
 import RiskModel.Country;
 import RiskModel.Game;
 import RiskModel.Player;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -28,7 +26,7 @@ public class AIGameTest {
     Country c1, c2, c3, c4;
     List<Integer> attackerDiceValues;
     List<Integer> defenderDiceValues;
-
+/*
     @Before
     public void setUp() throws Exception {
         this.game = new Game();
@@ -57,14 +55,13 @@ public class AIGameTest {
         game.currentPlayer = game.players.getFirst();
     }
 
-    /*@Test
+    @Test
     public void testSetAIPlayers(){
         int numberOfAIPlayers = 2;
         game.setNumberOfAIPlayers(numberOfAIPlayers);
         assertEquals(numberOfAIPlayers, game.getNumAIPlayers());
-    }*/
 
-    @Test
+
     public void testDraftAI(){
         game.AIDraft();
         int numberOfArmiesOnC1 = 4;
@@ -80,4 +77,5 @@ public class AIGameTest {
         assertEquals(numArmiesOnC2, c2.getNumberOfArmies());
     }
 
+    */
 }
