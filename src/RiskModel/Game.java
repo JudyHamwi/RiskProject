@@ -268,9 +268,9 @@ public class Game {
     public void theInitialState() {
         initialize(numPlayers);
         gameState = GameState.DRAFT_PHASE;
-        boolean turnComplete=currentPlayer.draftPhase();
+        currentPlayer.draftPhase();
         for (RiskView rv : riskViews) {
-            rv.handleInitialization(this, gameState, currentPlayer, numPlayers, currentPlayer.getBonusArmies(), turnComplete);
+            rv.handleInitialization(this, gameState, currentPlayer, numPlayers, currentPlayer.getBonusArmies());
         }
     }
 

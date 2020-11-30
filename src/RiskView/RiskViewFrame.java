@@ -166,7 +166,7 @@ public class RiskViewFrame extends JFrame implements RiskView {
      * @param player with the current turn
      * @param numPlayers number of players playing the game
      */
-    public void handleInitialization(Game game, GameState state, Player player, int numPlayers, int draftArmies, boolean turnComplete){
+    public void handleInitialization(Game game, GameState state, Player player, int numPlayers, int draftArmies){
         gameStatus.setText(state.toString());
         currentPlayer.setText(player.toString());
         boardView.InitializeBoard(numPlayers);
@@ -175,10 +175,6 @@ public class RiskViewFrame extends JFrame implements RiskView {
         boardView.getAttackPhaseButton().setEnabled(true);
         boardView.getDraftArmies().setText("Draft Armies: "+ draftArmies);
         boardView.getDraftArmies().setVisible(true);
-        if(turnComplete){
-            JOptionPane.showMessageDialog(this,"AI "+ player+" drafted, attacked, and fortified");
-            boardView.updateBoardForAI();
-        }
     }
 
     /**
