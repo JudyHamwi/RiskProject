@@ -9,22 +9,13 @@ import java.util.List;
 public class AIPlayer extends Player{
 
     private int numberOfAttacks;
-    private final int PLAYER_ID;
-    private List<Country> countriesOwned;
-    private List<Continent> continentsOwned;
-    private int placeArmy;
-    private int bonusArmy;
-
 
     public AIPlayer(){
-        PLAYER_ID=super.getNextPlayerId();
-        this.countriesOwned = new ArrayList<>();
-        this.continentsOwned = new ArrayList<>();
-        this.placeArmy=0;
+        super();
+        numberOfAttacks=0;
     }
 
     public boolean draftPhase(){
-        this.draftPhase();
         this.numberOfAttacks = 0;
         int lowestArmyCountryIndex = 0;
         Collections.shuffle(this.getCountriesOwned()); //So it doesn't always choose the same country
@@ -95,9 +86,6 @@ public class AIPlayer extends Player{
         countryTo.setArmy(sharedTroop + extraTroop);
     }
 
-    public int getPLAYER_ID(){
-        return PLAYER_ID;
-    }
     /**
      * Text represenation of the player
      * @return String representation of the player

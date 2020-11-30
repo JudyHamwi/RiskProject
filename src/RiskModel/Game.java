@@ -84,6 +84,12 @@ public class Game {
         for (int i=0; i<numberOfAIPlayers;i++){
             players.add(new AIPlayer());
         }
+        // test
+        for(Player p:players){
+            System.out.println(p);
+
+        }
+
         numPlayers=players.size();
     }
 
@@ -262,12 +268,9 @@ public class Game {
     public void theInitialState() {
         initialize(numPlayers);
         gameState = GameState.DRAFT_PHASE;
-        Boolean turnComplete=currentPlayer.draftPhase();
+        boolean turnComplete=currentPlayer.draftPhase();
         for (RiskView rv : riskViews) {
             rv.handleInitialization(this, gameState, currentPlayer, numPlayers, currentPlayer.getBonusArmies(), turnComplete);
-        }
-        if(turnComplete){
-            endTurn();
         }
     }
 
@@ -299,9 +302,28 @@ public class Game {
             int i = players.indexOf(p);
             currentPlayer = players.get(i + 1);
         }
+        endTurnDraft();
     }
 
+    /**
+     * decides if it will be a regular players turn or an AI turn
+     */
+    public void endTurnDraft() {
+            int draftArmies=draft();
+            gameState = GameState.DRAFT_PHASE;
+            for (RiskView rv : riskViews) {
+                rv.handleEndTurn(this, currentPlayer, draftArmies);
+            }
+        }
 
+
+    public int draft() {
+        Boolean turnComplete=currentPlayer.draftPhase();
+        if(turnComplete){
+            endTurn();
+        }
+        return currentPlayer.getBonusArmies();
+}
     /**
      * Prints the initial state of the game after the initialization happens
      */
