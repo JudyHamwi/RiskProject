@@ -17,7 +17,7 @@ public interface RiskView {
      JFrame getRiskFrame();
      void handleNewGame(Game game, Board board);
      void handleInitialization(Game game, GameState state, Player player, int numPlayers, int draftArmies);
-     void handleEndTurn(Game game, Player currentPlayer, int draftArmies);
+     void handleEndTurn(Game game, Player currentPlayer, int draftArmies, boolean turnComplete);
      void handlePrintHelp(Game game, String pH);
      void handleCanAttackFrom(Game game, Country country);
      void handleCanNotAttackFrom(Game game);
@@ -32,5 +32,4 @@ public interface RiskView {
      void handleAddedArmy(Game game, Country country, int draftArmies);
      void handleCanNotDraftFrom(Game game);
      void handleSetNumOfAIPlayers(int numPlayers);
-     void handleAITurn(int numberOfCountries, Player player);
 }

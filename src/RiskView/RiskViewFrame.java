@@ -182,16 +182,21 @@ public class RiskViewFrame extends JFrame implements RiskView {
      * @param game model that deals with the logic of the game
      * @param player with the current turn
      */
-    public void handleEndTurn(Game game, Player player, int draftArmies) {
-        currentPlayer.setText(player.toString());
-        JOptionPane.showMessageDialog(this, player.toString() + ", it is your turn!");
-        boardView.removeHighlightedButtons();
-        boardView.getAttackPhaseButton().setEnabled(true);
-        boardView.getFortifyButton().setEnabled(false);
-        boardView.getFortifyPhaseButton().setEnabled(false);
-        boardView.getAttackButton().setEnabled(false);
-        boardView.getDraftArmies().setText("Draft Armies: "+ draftArmies);
-        boardView.getDraftArmies().setVisible(true);
+    public void handleEndTurn(Game game, Player player, int draftArmies,boolean turnComplete) {
+        if (turnComplete) {
+            JOptionPane.showMessageDialog(this, "AI Complete their turn !");
+        } else {
+            currentPlayer.setText(player.toString());
+            JOptionPane.showMessageDialog(this, player.toString() + ", it is your turn!");
+            boardView.removeHighlightedButtons();
+            boardView.getAttackPhaseButton().setEnabled(true);
+            boardView.getFortifyButton().setEnabled(false);
+            boardView.getFortifyPhaseButton().setEnabled(false);
+            boardView.getAttackButton().setEnabled(false);
+            boardView.getDraftArmies().setText("Draft Armies: " + draftArmies);
+            boardView.getDraftArmies().setVisible(true);
+
+        }
     }
 
     /**
@@ -346,16 +351,9 @@ public class RiskViewFrame extends JFrame implements RiskView {
         selectedAttackButton=null;
     }
 
-    /**
-     * Update the view after the completion of the AI turn
-     * @param numberOfAttacks that the AI player atacked
-     * @param player the AI player
-     */
-    @Override
-    public void handleAITurn(int numberOfAttacks, Player player){
-        JOptionPane.showMessageDialog(this,"AI "+ player+" attacked "+ numberOfAttacks+ "times");
-        boardView.updateBoardForAI();
-    }
+    public void handleAIturn(Player player){
+        JOptionPane.showMessageDialog(this, player + "completed turn !");
 
+    }
 
 }

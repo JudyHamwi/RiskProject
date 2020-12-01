@@ -15,6 +15,10 @@ public class AIPlayer extends Player{
         numberOfAttacks=0;
     }
 
+    /**
+     * draft phase of an AI player adds armies to the country with the least number of armies
+     * @return
+     */
     public boolean draftPhase(){
         this.numberOfAttacks = 0;
         int lowestArmyCountryIndex = 0;
@@ -30,6 +34,10 @@ public class AIPlayer extends Player{
         return true;
     }
 
+    /**
+     * AI attack phase continously attacks countries that have less armies than it,
+     * or if the country has at least 3 armies to attack with
+     */
     public void AttackPhase(){
         for (int i = 0; i < this.getCountriesOwned().size(); i++) {
             if (this.getCountriesOwned().get(i).getNumberOfArmies() > 1) {
@@ -48,6 +56,10 @@ public class AIPlayer extends Player{
         FortifyPhase();
     }
 
+    /**
+     * the fortify phase moves armies to the country with the least number of armies
+     * by splitting the number of armies between the two countries equally
+     */
     public void FortifyPhase(){
         int highestArmyCountryIndex = 0;
         int lowestArmyConnectedCountryIndex = 0; //similar to the draft phase, searching for the country with lowest troops

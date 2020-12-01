@@ -80,16 +80,14 @@ public class Game {
 
     }
 
+    /**
+     * add the selectd number of AI players
+     * @param numberOfAIPlayers
+     */
     public void addAIPlayers(int numberOfAIPlayers){
         for (int i=0; i<numberOfAIPlayers;i++){
             players.add(new AIPlayer());
         }
-        // test
-        for(Player p:players){
-            System.out.println(p);
-
-        }
-
         numPlayers=players.size();
     }
 
@@ -166,37 +164,9 @@ public class Game {
         }
     }
 
-    /*
     /**
-     * Initiates the attack phase of the game, which is entered when a player decided to attack
-     *
-     * @param defenderCountry the country that will be defending from the attack
-
-    public void attackPhase(Country defenderCountry) {
-        if (currentPlayer.canAttack(attackCountry, defenderCountry)) {
-            AttackPhase playerAttack = new AttackPhase(currentPlayer, attackCountry, defenderCountry);
-            Boolean attackSuccess = playerAttack.attack();
-            Player playerRemoved = removePlayer();
-            boolean winner = checkWinner();
-            setContinentsOwned();
-            if (!currentPlayer.getIsAI()) {
-                for (RiskView rv : riskViews) {
-                    rv.handleAttackPhase(this, attackCountry, defenderCountry, attackSuccess, winner, playerRemoved);
-                }
-            }
-        } else {
-            if (!currentPlayer.getIsAI()) {
-                for (RiskView rv : riskViews) {
-                    rv.handleCanNotAttackFrom(this);
-                }
-            }
-        }
-
-    }
-    */
-
-    /**
-     * attack phase
+     * attack phase for the player that attacks a country from an adjacent country
+     * while validating the rules of the game.
      */
     public void attack(Country defenderCountry){
         if(currentPlayer.canAttack(attackCountry,defenderCountry)) {
@@ -223,7 +193,7 @@ public class Game {
      */
     public void fortifyPhase(Country movingTo) {
         if (currentPlayer.canMove(moveFromCountry, movingTo, listOfConnectedCountries(moveFromCountry))) {
-            Boolean fortifySuccess=currentPlayer.fortifyPhase(moveFromCountry, movingTo, armiesFortify);
+            currentPlayer.fortifyPhase(moveFromCountry, movingTo, armiesFortify);
             for (RiskView rv : riskViews) {
                 rv.handleFortifyPhase(this, moveFromCountry, movingTo);
             }
@@ -302,41 +272,25 @@ public class Game {
             int i = players.indexOf(p);
             currentPlayer = players.get(i + 1);
         }
+        //starts the draft phase of the next player
         endTurnDraft();
     }
 
     /**
-     * decides if it will be a regular players turn or an AI turn
+     * Initates the draft phase and providies the number of armies to draft
      */
     public void endTurnDraft() {
-            int draftArmies=draft();
-            gameState = GameState.DRAFT_PHASE;
+        gameState = GameState.DRAFT_PHASE;
+        Boolean turnComplete = currentPlayer.draftPhase();
+        int draftArmies = currentPlayer.getBonusArmies();
             for (RiskView rv : riskViews) {
-                rv.handleEndTurn(this, currentPlayer, draftArmies);
-            }
-        }
+                rv.handleEndTurn(this, currentPlayer, draftArmies, turnComplete);
 
-
-    public int draft() {
-        Boolean turnComplete=currentPlayer.draftPhase();
-        if(turnComplete){
-            endTurn();
-        }
-        return currentPlayer.getBonusArmies();
-}
-    /**
-     * Prints the initial state of the game after the initialization happens
-     */
-    private void printInitialState() {
-        System.out.println("HERE IS THE INITIAL STATE OF THE MAP: ");
-        for (Player p : players) {
-            System.out.println(p);
-            System.out.println("owns: " + p.getCountriesOwned());
-            for (Country c : p.getCountriesOwned()) {
-                System.out.println(" " + c + " Number of Armies: " + c.getNumberOfArmies());
             }
-        }
-        printHelp();
+            if(turnComplete){
+                endTurn();
+            }
+
     }
 
     /**
@@ -364,30 +318,6 @@ public class Game {
         }
     }
 
-    /**
-     * Responds to the command of the player to attack
-     *
-     * @param p player that wants to attack
-     */
-    public void attack(Player p) {
-
-        String attackingCountry = null;
-        String defendingCountry = null;
-        Country attackingC = null;
-        Country defendingC = null;
-        this.gameState = GameState.IN_PROGRESS;
-        for (Country c : board.getCountries()) {
-            if (c.getCountryName().equals(attackingCountry)) {
-                attackingC = c;
-            }
-        }
-
-        for (Country c : board.getCountries()) {
-            if (c.getCountryName().equals(defendingCountry)) {
-                defendingC = c;
-            }
-        }
-    }
 
     /**
      * adds the view to the list of viewers of the game model
@@ -543,46 +473,6 @@ public class Game {
             if (currentPlayer.getCountriesOwned().containsAll(board.getContinents().get(i).getContinentCountries())) {
                 currentPlayer.addContinent(board.getContinents().get(i));
             }
-        }
-    }
-
-    /**
-     * Moves troops from one country to another
-     * AI implementation splits the troops evenly between the two countries
-     * If the number is odd, the extra troop is moved to countryTo
-     *
-     * @param countryFrom is supplying the troops
-     * @param countryTo   is accepting the troops
-     */
-    public void moveTroopsAI(Country countryFrom, Country countryTo) {
-        int totalTroops = countryFrom.getNumberOfArmies() + countryTo.getNumberOfArmies();
-        int extraTroop = totalTroops % 2; //Only equals 1 if odd number of troops
-        int sharedTroop = (totalTroops - extraTroop) / 2; //Always be an even number
-        countryFrom.setArmy(sharedTroop);
-        countryTo.setArmy(sharedTroop + extraTroop);
-    }
-
-    /**
-     * The fortify method completed for an AI Player
-     */
-    public void AIFortify() {
-        int highestArmyCountryIndex = 0;
-        int lowestArmyConnectedCountryIndex = 0; //similar to the draft phase, searching for the country with lowest troops
-        ArrayList<Country> fortCountries = new ArrayList<>();
-        Collections.shuffle(currentPlayer.getCountriesOwned());
-        for (int i = 1; i < currentPlayer.getTotalNumberOfCountries(); i++) {
-            if (currentPlayer.getCountriesOwned().get(i).getNumberOfArmies() > currentPlayer.getCountriesOwned().get(highestArmyCountryIndex).getNumberOfArmies()) {
-                highestArmyCountryIndex = i; //Index of country with the highest amount of Troops
-            }
-        }
-        connectedCountries(currentPlayer.getCountriesOwned().get(highestArmyCountryIndex), fortCountries); //After this,the fortCountries List should contain all connected countries
-        if (fortCountries.isEmpty() == false) { //Makes sure there are connected countries
-            for (int i = 1; i < fortCountries.size(); i++) {
-                if (fortCountries.get(i).getNumberOfArmies() < fortCountries.get(lowestArmyConnectedCountryIndex).getNumberOfArmies()) {
-                    lowestArmyConnectedCountryIndex = i;
-                }
-            }
-            moveTroopsAI(currentPlayer.getCountriesOwned().get(highestArmyCountryIndex), fortCountries.get(lowestArmyConnectedCountryIndex));
         }
     }
 
