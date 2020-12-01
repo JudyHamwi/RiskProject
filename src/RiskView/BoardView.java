@@ -324,7 +324,7 @@ public class BoardView extends JPanel {
     /**
      * updates the state of the board view after an AI turn
      */
-    public void updateBoardForAI(){
+    public void updateBoard(){
         for(ContinentView continentView:continentViews){
             continentView.initializePlayerCountries();
         }

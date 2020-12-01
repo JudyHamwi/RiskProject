@@ -184,6 +184,7 @@ public class RiskViewFrame extends JFrame implements RiskView {
      */
     public void handleEndTurn(Game game, Player player, int draftArmies,boolean turnComplete) {
         if (turnComplete) {
+            boardView.updateBoard();
             JOptionPane.showMessageDialog(this, "AI Complete their turn !");
         } else {
             currentPlayer.setText(player.toString());
@@ -351,9 +352,5 @@ public class RiskViewFrame extends JFrame implements RiskView {
         selectedAttackButton=null;
     }
 
-    public void handleAIturn(Player player){
-        JOptionPane.showMessageDialog(this, player + "completed turn !");
-
-    }
 
 }
