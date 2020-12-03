@@ -156,7 +156,7 @@ public class Game {
     /**
      * Distributes one army to every country owned by the players
      */
-    private void distributeOneArmyToCountry() {
+    public void distributeOneArmyToCountry() {
         for (Player p : players) {
             for (Country c : p.getCountriesOwned()) {
                 c.addArmy(1);
@@ -557,7 +557,7 @@ public class Game {
      *
      * @param numAIPlayers number of AI players in the game
      */
-    private void setAIPlayers(int numAIPlayers) {
+    public void setAIPlayers(int numAIPlayers) {
         if (!(numAIPlayers == 0)) {
             for (int i = 0; i < numAIPlayers; i++) {
                 players.get(i).setAI();

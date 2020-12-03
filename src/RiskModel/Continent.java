@@ -11,6 +11,8 @@ import java.util.*;
  * @author Diana Miraflor
  */
 public class Continent {
+    public static final String CONTINENT_TAG = "continent";
+    public static final String CONTINENT_ATTRIBUTE = "name";
     private String continentName;
     private LinkedList<Country> countries;
     private Player currentOwner;
@@ -24,6 +26,11 @@ public class Continent {
         continentName = name;
         countries = new LinkedList<>();
         this.bonusArmies = bonusArmies;
+    }
+
+    public Continent(String name) {
+        continentName = name;
+        countries = new LinkedList<>();
     }
 
     /**
@@ -86,4 +93,20 @@ public class Continent {
         return continent;
     }
 
+    public String toXMLAttribute() {
+        return '"' + getContinentName() + '"';
+    }
+
+    public String toXMLContinent() {
+        StringBuilder continentBuilder = new StringBuilder();
+        continentBuilder.append("<" + CONTINENT_TAG + " name=" + this.toXMLAttribute() +  ">");
+
+        for (int i = 0; i < countries.size(); i++) {
+            continentBuilder.append(countries.get(i).toXML());
+        }
+
+        continentBuilder.append("</" + CONTINENT_TAG + ">");
+
+        return continentBuilder.toString();
+    }
 }

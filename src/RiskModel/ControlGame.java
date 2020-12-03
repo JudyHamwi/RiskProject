@@ -53,7 +53,7 @@ public class ControlGame extends Game {
     private void controlDistributeCountries(){
         int contentIndex = 0;
         for (Player p: players){
-            for (Country c: board.getTestContinents().get(contentIndex).getContinentCountries()){
+            for (Country c: getBoard().getTestContinents().get(contentIndex).getContinentCountries()){
                 p.addCountry(c);
             }
             contentIndex ++;

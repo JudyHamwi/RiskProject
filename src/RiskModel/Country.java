@@ -19,6 +19,10 @@ public class Country {
     private int numberOfArmies;
     private Player currentOwner;
 
+    public static final String COUNTRY_TAG = "country";
+    public static final String ADJACENT_TAG = "adjacent";
+    public static final String ATTRIBUTE_COUNTRY = "name";
+
     /**
      * Constructor to create a new RISKModel.Country with a specific name
      * @param name of the country
@@ -116,6 +120,30 @@ public class Country {
         this.numberOfArmies = army;
     }
 
+    public String toXML() {
+        StringBuilder countryXMLBuilder = new StringBuilder();
+        countryXMLBuilder.append("<" + COUNTRY_TAG + " name=" + this.toXMLAttribute() + " >");
+
+        for(int i = 0; i < adjacentCountries.size(); i++) {
+            countryXMLBuilder.append(elementBuilder(adjacentCountries.get(i).getCountryName()));
+        }
+
+        countryXMLBuilder.append("</" + COUNTRY_TAG + ">");
+        return countryXMLBuilder.toString();
+    }
+
+    public String toXMLAttribute() {
+        return '"' + getCountryName() + '"';
+    }
+
+    public String elementBuilder(String country) {
+        StringBuilder adjacentElements = new StringBuilder();
+        adjacentElements.append("<" + ADJACENT_TAG + ">");
+        adjacentElements.append(country);
+        adjacentElements.append("</" + ADJACENT_TAG + ">");
+
+        return adjacentElements.toString();
+    }
 }
 
 
