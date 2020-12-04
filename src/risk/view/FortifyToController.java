@@ -24,7 +24,7 @@ public class FortifyToController implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (fortifyPhase.selectMovingTo(country)) {
             view.handleFortifyToSelected();
-            fortifier.wakeUser();
+            //fortifier.wakeUser();
         } else {
             // show some message
         }
