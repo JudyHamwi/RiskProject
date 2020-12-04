@@ -2,7 +2,6 @@ package risk.model.board;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class BoardRepository {
@@ -20,10 +19,12 @@ public class BoardRepository {
     }
 
     public static BoardRepository getPremadeBoardRepository(){
+
         return new BoardRepository(DEFAULT_MAP_ROOT);
     }
 
     public static BoardRepository getUserBoardRepository(){
+
         return new BoardRepository(USER_MAP_ROOT);
     }
 
@@ -83,5 +84,4 @@ public class BoardRepository {
                 .append(JSON_EXTENSION)
                 .toString();
     }
-
 }
