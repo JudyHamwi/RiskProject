@@ -1,6 +1,9 @@
-package RiskModel;
+package risk.model.board;
 
-import java.util.*;
+import risk.model.player.Player;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * RISKModel.Continent in the RISKModel.Board of RISK RISKModel.Game.
@@ -12,8 +15,7 @@ import java.util.*;
  */
 public class Continent {
     private String continentName;
-    private LinkedList<Country> countries;
-    private Player currentOwner;
+    private List<Country> countries;
     private int bonusArmies;
 
     /**
@@ -38,7 +40,7 @@ public class Continent {
      * getter for the countries in the continent
      * @return LikedList<Conuntry> List of countries in the continent
      */
-    public LinkedList<Country> getContinentCountries() {
+    public List<Country> getCountries() {
         return countries;
     }
 
@@ -61,7 +63,7 @@ public class Continent {
      * Text representation of the continent.
      * @return text representation of the continent
      */
-    public Country getCountryFromContinent(String name){
+    public Country getCountry(String name){
         for (Country c:countries){
             if(c.getCountryName().equals(name)){
                 return c;
@@ -70,6 +72,7 @@ public class Continent {
         return null;
     }
 
+    @Override
     public String toString() {
         String continent = continentName + ": \n";
         for (Country c : countries) {
@@ -86,4 +89,12 @@ public class Continent {
         return continent;
     }
 
+    public boolean isOwnedBy(final Player player) {
+        for (Country country : countries) {
+            if (!country.isOwnedBy(player)) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

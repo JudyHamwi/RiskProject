@@ -1,0 +1,29 @@
+package risk.model.board;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+public class JsonBoardFactory implements BoardFactory {
+
+    private final String filePath;
+    private final BoardMarshaller boardMarshaller = new BoardMarshaller();
+
+    public JsonBoardFactory(final String filePath) {
+        this.filePath = filePath;
+    }
+
+    @Override
+    public Board build() {
+        final String boardJson;
+        try {
+            boardJson = Files.readString(Path.of(filePath));
+        } catch (final IOException e) {
+            throw new RuntimeException("Unable to read the json string form file at: " + filePath);
+        }
+
+        final Board board = boardMarshaller.fromJson(boardJson);
+
+        return board;
+    }
+}
