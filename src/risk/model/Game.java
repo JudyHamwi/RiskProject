@@ -62,7 +62,7 @@ public class Game {
         }
     }
 
-    private void startNewGame() {
+    public void startNewGame() {
         gameState = GameState.INITIALIZING;
         board.assignCountries(players);
         board.distributeArmies(players);
@@ -156,6 +156,7 @@ public class Game {
     public void addPlayer(final Player player) {
         players.add(player);
     }
+
 
     private Player getNextPlayer() {
         final int currentPlayerPos = players.indexOf(currentPlayer);

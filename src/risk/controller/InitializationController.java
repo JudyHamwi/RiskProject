@@ -49,5 +49,6 @@ public class InitializationController implements ActionListener {
         for (int i = 0; i < players; i++) {
             game.addPlayer(playerFactory.createUser(game.getViews()));
         }
+        view.handleSetNumOfAIPlayers(players);
     }
 }

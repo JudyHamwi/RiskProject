@@ -40,5 +40,6 @@ public class AIInitializationController implements ActionListener {
         for (int i = 0; i < aiCount; i++) {
             gameModel.addPlayer(playerFactory.createAI(gameModel.getBoard()));
         }
+        gameModel.startNewGame();
     }
 }

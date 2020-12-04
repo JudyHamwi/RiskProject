@@ -3,9 +3,11 @@ package risk.controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import risk.model.Dice;
 import risk.model.board.Country;
 import risk.model.Game;
 import risk.model.GameState;
+import risk.model.phase.AttackPhase;
 import risk.view.RiskView;
 
 import javax.swing.*;
@@ -23,6 +25,7 @@ public class AttackController implements ActionListener {
     private Game gameModel;
     private Country country;
     private RiskView riskView;
+    private AttackPhase attackPhase;
 
 
     /**
@@ -36,6 +39,8 @@ public class AttackController implements ActionListener {
         this.gameModel = game;
         this.country=country;
         this.riskView=riskView;
+        //maybe should be moved
+        attackPhase=new AttackPhase(game.getCurrentPlayer(), new Dice());
     }
 
     /**
@@ -50,11 +55,13 @@ public class AttackController implements ActionListener {
         if (gameModel.getState() == GameState.ATTACK_PHASE) {
             if (b.getName().equals("attackButton")) {
                 riskView.handleNewAttack();
+                //add handler in model
             } else if (riskView.getBoardView().getAttackButton().isEnabled()) {
-                //gameModel.selectAttackingCountry(country);
+                attackPhase.selectAttackingCountry(country);
+                //add handler in model
             } else {
-                //gameModel.attackPhase(country);
-                //gameModel.getAttackPhase().attack(defenderCountry);
+                attackPhase.selectDefendingCountry(country);
+                attackPhase.runAttack();
             }
         }
     }

@@ -42,6 +42,7 @@ public class DraftPhaseController implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
+        //compared to rundraft in game
         if (draftPhase.placeArmy(country)) {
             drafter.wakeUser(country);
         } else {
