@@ -1,8 +1,8 @@
-package RiskController;
+package risk.controller;
 
-import RiskModel.Game;
-import RiskModel.GameState;
-import RiskView.BoardView;
+import risk.model.Game;
+import risk.model.GameState;
+import risk.view.BoardView;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -35,7 +35,7 @@ public class AttackPhaseController implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        game.setPhase(GameState.ATTACK_PHASE);
+        game.setState(GameState.ATTACK_PHASE);
         boardView.getAttackPhaseButton().setEnabled(false);
         boardView.getAttackButton().setEnabled(true);
         boardView.getFortifyPhaseButton().setEnabled(true);

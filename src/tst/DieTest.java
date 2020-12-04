@@ -1,6 +1,6 @@
-package RiskTestCases;
+package tst;
 
-import RiskModel.Die;
+import risk.model.Die;
 import org.junit.Before;
 import org.junit.Test;
 

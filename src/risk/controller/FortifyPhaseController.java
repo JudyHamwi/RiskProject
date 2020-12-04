@@ -1,8 +1,8 @@
-package RiskController;
+package risk.controller;
 
-import RiskModel.Game;
-import RiskModel.GameState;
-import RiskView.BoardView;
+import risk.model.Game;
+import risk.model.GameState;
+import risk.view.BoardView;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,9 +21,9 @@ public class FortifyPhaseController implements ActionListener {
     private BoardView boardView;
 
     /**
-     * creates the fortify phase controller to prepare the game for the fortufy phase
-     * @param game model that deals with the logic of the game
-     * @param boardView view of the board
+     * creates the fortify phase risk.controller to prepare the game for the fortufy phase
+     * @param game risk.model that deals with the logic of the game
+     * @param boardView risk.view of the board
      */
     public FortifyPhaseController(Game game, BoardView boardView){
         this.game=game;
@@ -31,7 +31,7 @@ public class FortifyPhaseController implements ActionListener {
     }
 
     /**
-     * sets up the view to get ready to handle the fortify phase
+     * sets up the risk.view to get ready to handle the fortify phase
      * @param e handles the press of the fortify phase
      */
     @Override

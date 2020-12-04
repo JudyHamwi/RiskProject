@@ -1,12 +1,12 @@
-package RiskController;
+package risk.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import RiskModel.Country;
-import RiskModel.Game;
-import RiskModel.GameState;
-import RiskView.RiskView;
+import risk.model.board.Country;
+import risk.model.Game;
+import risk.model.GameState;
+import risk.view.RiskView;
 
 import javax.swing.*;
 
@@ -28,7 +28,7 @@ public class AttackController implements ActionListener {
     /**
      * Creates the Attack Controller that listens to the player's decisions in the attack phase
      * @param riskView contains the buttons that the player makes the moves in
-     * @param game model that deals with the logic of the attack phase
+     * @param game risk.model that deals with the logic of the attack phase
      * @param country that player selected to attack from or to if they are picking a country,
      *                or null if the player chooses the Attack button
      */

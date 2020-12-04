@@ -1,8 +1,11 @@
-package RiskTestCases;
+package tst;
 
-import RiskModel.*;
+import risk.model.board.Continent;
+import risk.model.board.Country;
 import org.junit.Before;
 import org.junit.Test;
+import risk.model.phase.DraftPhase;
+import risk.model.player.Player;
 
 import static org.junit.Assert.*;
 /**

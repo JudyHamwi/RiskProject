@@ -1,4 +1,4 @@
-package RiskTestCases;
+package tst;
 /**
  * One of the phases of the game. Player enters RISKModel.FortifyPhase after their RISKModel.AttackPhase.
  * @version 2.0
@@ -9,13 +9,11 @@ package RiskTestCases;
  *
  * Test the Game class
  */
-import RiskModel.*;
-import RiskView.RiskView;
-import org.junit.After;
+import risk.model.*;
+import risk.model.board.Country;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.LinkedList;
+import risk.model.player.Player;
 
 import static org.junit.Assert.*;
 

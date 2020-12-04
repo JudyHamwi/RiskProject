@@ -1,8 +1,8 @@
-package RiskTestCases;
+package tst;
 
-import RiskModel.Country;
-import RiskModel.FortifyPhase;
-import RiskModel.Player;
+import risk.model.board.Country;
+import risk.model.phase.FortifyPhase;
+import risk.model.player.Player;
 import org.junit.Before;
 import org.junit.Test;
 

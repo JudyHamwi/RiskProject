@@ -1,7 +1,7 @@
-package RiskTestCases;
+package tst;
 
-import RiskModel.Country;
-import RiskModel.Player;
+import risk.model.board.Country;
+import risk.model.player.Player;
 import org.junit.Before;
 import org.junit.Test;
 

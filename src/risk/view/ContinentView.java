@@ -1,16 +1,20 @@
-package RiskView;
+package risk.view;
 
-import RiskController.AttackController;
-import RiskController.DraftPhaseController;
-import RiskController.FortifyController;
-import RiskModel.Continent;
-import RiskModel.Country;
-import RiskModel.Game;
+import risk.controller.AttackController;
+import risk.controller.DraftPhaseController;
+import risk.controller.FortifyController;
+import risk.model.board.Continent;
+import risk.model.board.Country;
+import risk.model.Game;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.List;
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.Map;
+import java.util.function.Function;
 
 /**
  * View of the continents and their countries on the board.
@@ -22,29 +26,23 @@ import java.util.LinkedList;
  */
 public class ContinentView extends JPanel {
 
-    private ArrayList<JButton> countryButtons;
+    private Map<Country, JButton> countryButtons;
     private Continent continent;
     private Color color;
     private JLabel continentLabel;
     private BoardView boardView;
-    private Game game;
-    private RiskView rv;
     private ArrayList<JButton> selectedButtons;
 
     /**
      * creates the view of a continent
-     * @param rv view of the main frame of the game
-     * @param game model that deals with the logic of the game
      * @param bv view of the board of the game
      * @param continent created in the continent view
      * @param color of the displayed continent
      */
-    public ContinentView(RiskView rv, Game game, BoardView bv, Continent continent, Color color) {
+    public ContinentView(BoardView bv, Continent continent, Color color) {
         this.selectedButtons = new ArrayList<>();
-        this.rv = rv;
-        countryButtons = new ArrayList<>();
+        countryButtons = new HashMap<>();
         this.continent = continent;
-        this.game = game;
         boardView = bv;
         continentLabel = new JLabel(continent.getContinentName());
         this.color = color;
@@ -60,7 +58,7 @@ public class ContinentView extends JPanel {
         this.setBackground(color);
         this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         this.setLayout(new GridLayout(5, 5, 5, 5));
-        LinkedList<Country> continentCountries = continent.getContinentCountries();
+        List<Country> continentCountries = continent.getCountries();
         for (Country c : continentCountries) {
             JButton b = new JButton(c.getCountryName());
             b.setText(c.getCountryName());
@@ -68,11 +66,24 @@ public class ContinentView extends JPanel {
             b.setFont(new Font("Arial", Font.BOLD, 12));
             b.setBounds(100, 100, 100, 100);
             this.add(b);
-            countryButtons.add(b);
-            b.addActionListener(new AttackController(rv, game, c));
-            b.addActionListener(new FortifyController(rv,game,c));
-            b.addActionListener(new DraftPhaseController(rv,game,c));
+            countryButtons.put(c, b);
         }
+    }
+
+    public void clearCountryListeners() {
+        countryButtons.values().forEach(b -> {
+            final ActionListener[] listeners = b.getActionListeners();
+            for (ActionListener listener : listeners) {
+                b.removeActionListener(listener);
+            }
+        });
+    }
+
+    public void setupCountryListener(final Function<Country, ActionListener> actionListenerFromCountry) {
+        countryButtons.forEach((country, button) -> {
+            final ActionListener listener = actionListenerFromCountry.apply(country);
+            button.addActionListener(listener);
+        });
     }
 
     /**
@@ -80,13 +91,10 @@ public class ContinentView extends JPanel {
      * initialization phase
      */
     public void initializePlayerCountries() {
-            for (JButton b : countryButtons) {
-                Country country = continent.getCountryFromContinent(b.getName());
-                    b.setForeground(boardView.getColors()[country.getCurrentOwner().getPlayerID() - 1]);
-                    b.setText(country.getCountryName() + " " + country.getNumberOfArmies());
-
-            }
-
+        countryButtons.forEach((country, button) -> {
+            button.setForeground(boardView.getColors()[country.getCurrentOwner().getId() - 1]);
+            button.setText(country.getCountryName() + " " + country.getNumberOfArmies());
+        });
     }
 
     /**
@@ -113,13 +121,8 @@ public class ContinentView extends JPanel {
      * @return button country if the continent has the country and
      * null otherwise
      */
-    public JButton hasCountryButton(Country country) {
-        for (JButton b : countryButtons) {
-            if (b.getName().equals(country.getCountryName())) {
-                return b;
-            }
-        }
-        return null;
+    public JButton getCountryButton(Country country) {
+        return countryButtons.get(country);
     }
 
     /**
@@ -136,10 +139,7 @@ public class ContinentView extends JPanel {
      * @param country the army was added to
      */
     public void addArmy(Country country){
-        for (JButton b : countryButtons) {
-            if (b.getName().equals(country.getCountryName())) {
-                b.setText(country.getCountryName() + " " + country.getNumberOfArmies());
-            }
-        }
+        final JButton button = countryButtons.get(country);
+        button.setText(country.getCountryName() + " " + country.getNumberOfArmies());
     }
 }

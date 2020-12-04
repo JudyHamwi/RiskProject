@@ -1,4 +1,4 @@
-package RiskController;
+package risk.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

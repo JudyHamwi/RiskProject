@@ -1,8 +1,8 @@
-package RiskController;
+package risk.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import RiskModel.Game;
+import risk.model.Game;
 
 /**
  * EndTurn Controller listens to player's move of ending their turn
@@ -18,7 +18,7 @@ public class EndTurnController implements ActionListener {
     /**
      * creates the listener that listens to the player ending their turn and passing the turn
      * to the next player
-     * @param game model that responds to the logic of ending the turn
+     * @param game risk.model that responds to the logic of ending the turn
      */
     public EndTurnController(Game game) {
         this.gameModel = game;

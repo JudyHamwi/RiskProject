@@ -1,9 +1,9 @@
-package RiskController;
+package risk.controller;
 
-import RiskModel.Country;
-import RiskModel.Game;
-import RiskModel.GameState;
-import RiskView.RiskView;
+import risk.model.board.Country;
+import risk.model.Game;
+import risk.model.GameState;
+import risk.view.RiskView;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

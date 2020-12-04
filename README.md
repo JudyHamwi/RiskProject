@@ -22,11 +22,11 @@ the number of players, number of AI players playing the game, attack a country
 by choosing the country to attack from and attack to, draft bonus armies,
 fortify armies, end their turn, and exit the game by button presses. 
 
-- Run main() of RiskView.RiskViewFrame to load the game
+- Run main() of risk.view.RiskViewFrame to load the game
 
 - The project is made up of twenty-six files:
    
-RiskController
+risk.controller
 - AIInitializationController.java
 - AttackController.java
 - AttackPhaseController.java
@@ -39,7 +39,7 @@ RiskController
 - NewGameController.java
 - QuitGameController.java
 
-RiskModel
+risk.model
 - AttackPhase.java
 - Board.java
 - Continent.java
@@ -52,10 +52,10 @@ RiskModel
 - GameState.java
 - Player.java
 
-RiskView
+risk.view
 - BoardView.java
 - ContinentView.java
-- RiskView.java
+- risk.view.java
 - RiskViewFrame.java
 
 Changes:
@@ -63,7 +63,7 @@ ________
 
 Milestone 2
 - The game is a GUI-based version
-- Added unit tests for the model of the game
+- Added unit tests for the risk.model of the game
 - UML and sequence diagrams are up to date
 - Fixed errors from Milestone 1 such as:
 	- Added "Road Map" and "Known Issues" in README file
@@ -91,7 +91,7 @@ MILESTONE 2 (Accomplished)
 Achieved by November 9, 2020
 - GUI-based version of the RISK game
 	- Add View and Control of MVC
-- JUnit tests for the game's model
+- JUnit tests for the game's risk.model
 - Fix errors from Milestone 1 and update UML and sequence diagrams
 
 MILESTONE 3
