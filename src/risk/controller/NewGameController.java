@@ -20,8 +20,8 @@ public class NewGameController implements ActionListener {
 
     /**
      * creates a listener to listen to the user starting a new game
-     * @param rv risk.view of the game containing the menu to start a new game
-     * @param game risk.model that deals with creating a new game
+     * @param rv view of the game containing the menu to start a new game
+     * @param game model that deals with creating a new game
      */
     public NewGameController(RiskView rv, Game game){
         this.rv = rv;

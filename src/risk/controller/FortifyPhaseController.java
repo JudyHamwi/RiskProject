@@ -21,9 +21,9 @@ public class FortifyPhaseController implements ActionListener {
     private BoardView boardView;
 
     /**
-     * creates the fortify phase risk.controller to prepare the game for the fortufy phase
-     * @param game risk.model that deals with the logic of the game
-     * @param boardView risk.view of the board
+     * creates the fortify phase controller to prepare the game for the fortufy phase
+     * @param game model that deals with the logic of the game
+     * @param boardView view of the board
      */
     public FortifyPhaseController(Game game, BoardView boardView){
         this.game=game;
@@ -31,12 +31,12 @@ public class FortifyPhaseController implements ActionListener {
     }
 
     /**
-     * sets up the risk.view to get ready to handle the fortify phase
+     * sets up the view to get ready to handle the fortify phase
      * @param e handles the press of the fortify phase
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        game.setPhase(GameState.FORTIFY_PHASE);
+        game.setState(GameState.FORTIFY_PHASE);
         boardView.getFortifyPhaseButton().setEnabled(false);
         boardView.getAttackButton().setEnabled(false);
         boardView.getFortifyButton().setEnabled(true);

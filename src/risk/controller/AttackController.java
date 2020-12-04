@@ -28,7 +28,7 @@ public class AttackController implements ActionListener {
     /**
      * Creates the Attack Controller that listens to the player's decisions in the attack phase
      * @param riskView contains the buttons that the player makes the moves in
-     * @param game risk.model that deals with the logic of the attack phase
+     * @param game model that deals with the logic of the attack phase
      * @param country that player selected to attack from or to if they are picking a country,
      *                or null if the player chooses the Attack button
      */
@@ -51,9 +51,10 @@ public class AttackController implements ActionListener {
             if (b.getName().equals("attackButton")) {
                 riskView.handleNewAttack();
             } else if (riskView.getBoardView().getAttackButton().isEnabled()) {
-                gameModel.checkAttackingCountry(country);
+                //gameModel.selectAttackingCountry(country);
             } else {
-                gameModel.attackPhase(country);
+                //gameModel.attackPhase(country);
+                //gameModel.getAttackPhase().attack(defenderCountry);
             }
         }
     }

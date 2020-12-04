@@ -20,24 +20,23 @@ public class FortifyController implements ActionListener {
 
     private Game gameModel;
     private RiskView riskView;
-    private Country country;
 
     /**
      * Creates the Fortify Controller that listens to the player's decisions in the fortify phase
+     *
      * @param rv
      * @param game
-     * @param c
      */
-    public FortifyController(RiskView rv,Game game, Country c){
-        gameModel=game;
-        riskView=rv;
-        country=c;
+    public FortifyController(RiskView rv, Game game) {
+        gameModel = game;
+        riskView = rv;
     }
 
     /**
      * Responds to the action chosen by the user. It handles the country the player is fortifying from,
      * the fortify button that prepares the game to recieve the country being fortifued to, and handling
      * the country being fortified to.
+     *
      * @param e the press of the button for fortifying country, fortifying to country, and fortify button
      */
     @Override
@@ -45,15 +44,15 @@ public class FortifyController implements ActionListener {
         JButton b = (JButton) e.getSource();
         if (gameModel.getState() == GameState.FORTIFY_PHASE) {
             if (b.getName().equals("fortifyButton")) {
-                riskView.handleNewFortifyPhase();
+                //riskView.handleNewFortifyPhase(gameModel.getCurrentPlayer(), );
             } else if (riskView.getBoardView().getFortifyButton().isEnabled()) {
-                String armiesFortify=JOptionPane.showInputDialog(riskView.getRiskFrame(),"Number of armies to fortify");
-                int armiesMoved=Integer.parseInt(armiesFortify);
-                gameModel.checkFortifyCountry(country, armiesMoved);
+                String armiesFortify = JOptionPane.showInputDialog(riskView.getRiskFrame(), "Number of armies to fortify");
+                int armiesMoved = Integer.parseInt(armiesFortify);
+                //gameModel.checkFortifyCountry(country, armiesMoved);
             } else {
-                gameModel.fortifyPhase(country);
+                //gameModel.fortifyPhase(country);
             }
         }
-        }
-
+    }
 }
+

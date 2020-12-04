@@ -18,7 +18,7 @@ public class EndTurnController implements ActionListener {
     /**
      * creates the listener that listens to the player ending their turn and passing the turn
      * to the next player
-     * @param game risk.model that responds to the logic of ending the turn
+     * @param game model that responds to the logic of ending the turn
      */
     public EndTurnController(Game game) {
         this.gameModel = game;
@@ -30,6 +30,6 @@ public class EndTurnController implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        gameModel.endTurn();
+        //gameModel.runEndTurn();
     }
 }

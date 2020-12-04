@@ -17,7 +17,7 @@ public class HelpController implements ActionListener {
 
     /**
      * creates the listener to listen to the user asking for help
-     * @param game risk.model that deals with the user asking for help
+     * @param game model that deals with the user asking for help
      */
     public HelpController(Game game) {
         this.game = game;
