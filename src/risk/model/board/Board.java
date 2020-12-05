@@ -123,4 +123,6 @@ public class Board {
         }
         return continents;
     }
+    //TODO: Add validation methods for custom maps
+
 }

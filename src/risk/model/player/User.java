@@ -83,11 +83,23 @@ public class User implements Player {
         }
     }
 
+    @Override
+    public void performEndTurn(List<RiskView> views) {
+
+    }
+
+    /**
+     * wakes up the user from sleep and sets a response.
+     * @param response result of asynchronous processing
+     */
     public void wakeUser(final Object response) {
         uiLock.release();
         responseFromUI = response;
     }
 
+    /**
+     * Puts the user to sleep and wait for the UI to wake him up.
+     */
     private void waitForUI() {
         try {
             responseFromUI = null;

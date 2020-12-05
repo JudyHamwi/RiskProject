@@ -32,7 +32,7 @@ public class Game {
     private final List<Player> players = new ArrayList<>();
     private final List<RiskView> riskViews = new ArrayList<>();
 
-    private GameState gameState = GameState.INITIALIZING;
+    private GameState gameState;
     private Player currentPlayer;
 
     /**
@@ -41,60 +41,74 @@ public class Game {
     public Game(final Board board, final PhaseFactory phaseFactory) {
         this.board = board;
         this.phaseFactory = phaseFactory;
+        this.gameState = GameState.INITIALIZING;
     }
 
     /**
      * Play loop of the game that responds to the player's turns commands
      */
     public void play() {
-        startNewGame();
-
         while(GameState.COMPLETED != gameState) {
-            runDraft();
-            runAttack();
-            removeDeadPlayers();
-            if (foundWinner()) {
-                runEndGame();
-                break;
+            switch(gameState){
+                case INITIALIZING:
+                    startNewGame();
+                    break;
+                case DRAFT_PHASE:
+                    runDraft();
+                    break;
+                case ATTACK_PHASE:
+                    runAttack();
+                    removeDeadPlayers();
+                    if (foundWinner()) {
+                        gameState = GameState.COMPLETED;
+                    }
+                    break;
+                case FORTIFY_PHASE:
+                    runFortify();
+                    break;
+                case END_TURN:
+                    runEndTurn();
+                    break;
+                default:
+                    return;
             }
-            runFortify();
-            runEndTurn();
         }
+        runEndGame();
     }
 
-    private void startNewGame() {
-        gameState = GameState.INITIALIZING;
+    public void startNewGame() {
         board.assignCountries(players);
         board.distributeArmies(players);
         currentPlayer = players.get(0);
         riskViews.forEach(rv -> rv.handleInitialize(this));
+        gameState = GameState.DRAFT_PHASE;
     }
 
     private void runDraft() {
-        gameState = GameState.DRAFT_PHASE;
         final DraftPhase draftPhase = phaseFactory.buildDraftPhase(this);
         currentPlayer.performDraft(draftPhase);
+        gameState = GameState.ATTACK_PHASE;
     }
 
     private void runAttack() {
-        gameState = GameState.ATTACK_PHASE;
         final AttackPhase attackPhase = phaseFactory.buildAttackPhase(this);
         currentPlayer.performAttack(attackPhase);
+        gameState = GameState.FORTIFY_PHASE;
     }
 
     private void runFortify() {
-        gameState = GameState.FORTIFY_PHASE;
         final FortifyPhase fortifyPhase = phaseFactory.buildFortifyPhase(this);
         currentPlayer.performFortify(fortifyPhase);
+        gameState = GameState.END_TURN;
     }
 
     /**
      * ends the turn of the current player and passes the turn to the next player
      */
     private void runEndTurn() {
-        gameState = GameState.END_TURN;
         currentPlayer = getNextPlayer();
         riskViews.forEach(rv -> rv.handleEndTurn(currentPlayer));
+        gameState = GameState.DRAFT_PHASE;
     }
 
     /**
@@ -156,6 +170,7 @@ public class Game {
     public void addPlayer(final Player player) {
         players.add(player);
     }
+
 
     private Player getNextPlayer() {
         final int currentPlayerPos = players.indexOf(currentPlayer);

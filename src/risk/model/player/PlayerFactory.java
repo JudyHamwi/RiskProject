@@ -6,7 +6,7 @@ import risk.view.RiskView;
 import java.util.List;
 
 public class PlayerFactory {
-    private int nextPlayerId = 0;
+    private int nextPlayerId = 1;
 
     public User createUser(final List<RiskView> views) {
         return new User(nextPlayerId++, views);

@@ -45,7 +45,7 @@ public class BoardRepository {
 
         String mapJson;
         try (BufferedReader fileReader = new BufferedReader(new FileReader(filePath))){
-            mapJson = fileReader.readLine();
+            mapJson = fileReader.readLine(); //But it's more than one line
         } catch (IOException e) {
             throw new RuntimeException("Was not able to load map: " + name, e);
         }

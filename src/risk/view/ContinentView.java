@@ -79,9 +79,9 @@ public class ContinentView extends JPanel {
         });
     }
 
-    public void setupCountryListener(final Function<Country, ActionListener> actionListenerFromCountry) {
+    public void setupCountryListener(final Function<Country, ActionListener> countryActionListener) {
         countryButtons.forEach((country, button) -> {
-            final ActionListener listener = actionListenerFromCountry.apply(country);
+            final ActionListener listener = countryActionListener.apply(country);
             button.addActionListener(listener);
         });
     }

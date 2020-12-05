@@ -21,7 +21,7 @@ public class FortifyPhaseController implements ActionListener {
     private BoardView boardView;
 
     /**
-     * creates the fortify phase controller to prepare the game for the fortufy phase
+     * creates the fortify phase controller to prepare the game for the fortify phase
      * @param game model that deals with the logic of the game
      * @param boardView view of the board
      */

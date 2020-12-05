@@ -41,4 +41,5 @@ public class AttackPhaseController implements ActionListener {
         boardView.getFortifyPhaseButton().setEnabled(true);
 
     }
+    //Add selectAttacker and selectDefender controllers
 }
