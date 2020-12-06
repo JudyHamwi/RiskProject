@@ -20,7 +20,7 @@ public class TurnSummary {
     }
 
 
-    // Same for other 3
+    // Same for other 2
 }
 
 /*
