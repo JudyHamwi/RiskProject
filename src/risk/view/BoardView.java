@@ -149,7 +149,7 @@ public class BoardView extends JPanel {
         endTurnButton = new JButton("End turn");
         fortifyPhaseButton = new JButton("Fortify Phase");
         fortifyPhaseButton.setEnabled(false);
-        ;
+        
         fortifyButton = new JButton("fortify");
         fortifyButton.setName("fortifyButton");
         fortifyButton.setEnabled(false);
@@ -182,15 +182,6 @@ public class BoardView extends JPanel {
         this.add(inGamePanel(game, player));
     }
 
-    /*
-    public void setupCountryListeners(User user, DraftPhase draftPhase) {
-        for(ContinentView continentView:continentViews){
-            continentView.setupAttackCountryListener();
-            continentView.setupFortifyCountryListener();
-        }
-    }
-
-     */
     public void setupCountryListeners(final Function<Country, ActionListener> actionListenerFromCountry) {
         continentViews.forEach(cv -> {
             cv.clearCountryListeners();
