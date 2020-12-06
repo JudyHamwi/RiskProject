@@ -71,6 +71,14 @@ public class Country {
         return adjacentCountries;
     }
 
+    public void setAdjacentCountries(List<Country> countries) {
+        this.adjacentCountries = countries;
+    }
+
+    public void clearAdjacentCountries() {
+        adjacentCountries.clear();
+    }
+
     /**
      * returns the current owner of the country
      *
@@ -125,13 +133,8 @@ public class Country {
         return currentOwner != null;
     }
 
-    private void buildConnectedCountries(final Country current, List<Country> connectedCountryList) {
-        for (Country adjacent : current.getAdjacentCountries()) {
-            if (!connectedCountryList.contains(adjacent) && Objects.equals(adjacent.getCurrentOwner(), currentOwner)) {
-                connectedCountryList.add(adjacent);
-                buildConnectedCountries(adjacent, connectedCountryList);
-            }
-        }
+    public boolean isOwnedBy(final Player player) {
+        return Objects.equals(currentOwner, player);
     }
 
     public List<Country> getConnectedCountries() {
@@ -140,15 +143,13 @@ public class Country {
         return listConnectedCountries;
     }
 
-    public boolean isOwnedBy(final Player player) {
-        return Objects.equals(currentOwner, player);
-    }
-
-    public static void clearAdjacentCountries(Country country) {
-    }
-
-    public void setAdjacentCountries(List<Country> countries) {
-        this.adjacentCountries = countries;
+    private void buildConnectedCountries(final Country current, List<Country> connectedCountryList) {
+        for (Country adjacent : current.getAdjacentCountries()) {
+            if (!connectedCountryList.contains(adjacent) && Objects.equals(adjacent.getCurrentOwner(), currentOwner)) {
+                connectedCountryList.add(adjacent);
+                buildConnectedCountries(adjacent, connectedCountryList);
+            }
+        }
     }
 }
 

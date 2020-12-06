@@ -2,6 +2,7 @@ package risk.controller;
 
 import risk.model.Game;
 import risk.model.GameState;
+import risk.model.player.User;
 import risk.view.BoardView;
 import risk.view.RiskView;
 
@@ -34,7 +35,8 @@ public class FortifyPhaseController implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        game.play();
+        final User user = (User) game.getCurrentPlayer();
+        user.wakeUser(GameState.FORTIFY_PHASE);
     }
 
 }

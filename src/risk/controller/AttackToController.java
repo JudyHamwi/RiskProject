@@ -1,9 +1,9 @@
 package risk.controller;
 
-import risk.model.Game;
+import risk.model.GameState;
 import risk.model.board.Country;
 import risk.model.phase.AttackPhase;
-import risk.view.RiskView;
+import risk.model.player.User;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,22 +11,19 @@ import java.awt.event.ActionListener;
 public class AttackToController implements ActionListener {
 
 
-    private Game gameModel;
     private Country country;
-    private RiskView riskView;
     private AttackPhase attackPhase;
+    private User user;
 
-    public AttackToController(RiskView riskView, Game game, Country country, AttackPhase attackPhase){
+    public AttackToController(Country country, AttackPhase attackPhase, User user){
         this.country=country;
-        this.riskView=riskView;
         this.attackPhase=attackPhase;
-        gameModel=game;
+        this.user = user;
     }
     @Override
     public void actionPerformed(ActionEvent e) {
         if(attackPhase.selectDefendingCountry(country)) {
-            attackPhase.runAttack();
-            attackPhase.reset();
+            user.wakeUser(GameState.ATTACK_PHASE);
         }
     }
 }

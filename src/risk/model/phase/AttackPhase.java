@@ -28,43 +28,34 @@ public class AttackPhase {
     private Player attacker;
     private final Dice dice;
 
-     Country attackerCountry;
-     Country defenderCountry;
+    Country attackerCountry;
+    Country defenderCountry;
 
-    private List<RiskView> riskViews;
 
     /**
      * Constructor of Attack Phase initializes the fields.
      */
-    public AttackPhase( Player attacker, final Dice dice) {
+    public AttackPhase(Player attacker, final Dice dice) {
         this.attacker = attacker;
         this.dice = dice;
-        riskViews=new ArrayList<>();
 
     }
 
     public boolean selectAttackingCountry(Country selectedCountry) {
-        if (selectedCountry.isOwnedBy(attacker) && selectedCountry.getNumberOfArmies() >= MIN_ARMIES_TO_ATTACK_WITH
-                && hasAdjacentEnemy(selectedCountry)) {
+        if (isValidAttackingCountry(selectedCountry)) {
             attackerCountry = selectedCountry;
             System.out.println(attackerCountry);
-            for(RiskView rv:riskViews){
-                rv.handleCanAttackFrom(selectedCountry);
-            }
             return true;
         } else {
             System.out.format("%s cannot be selected as the country needs to be owned by %s and have at least %s armies\n",
                     selectedCountry, attacker, MIN_ARMIES_TO_ATTACK_WITH);
-            for(RiskView rv:riskViews){
-                rv.handleCanNotAttackFrom();
-            }
             return false;
         }
     }
 
     public boolean selectDefendingCountry(Country selectedCountry) {
-         Player attacker = attackerCountry.getCurrentOwner();
-         Player defender = selectedCountry.getCurrentOwner();
+        Player attacker = attackerCountry.getCurrentOwner();
+        Player defender = selectedCountry.getCurrentOwner();
 
         if (attackerCountry.isAdjacent(selectedCountry) && !attacker.equals(defender)) {
             defenderCountry = selectedCountry;
@@ -72,9 +63,6 @@ public class AttackPhase {
         } else {
             System.out.format("%s cannot be selected as the country needs to be adjacent to %s and not be owned by %s\n",
                     selectedCountry, attackerCountry, attacker);
-            for(RiskView rv:riskViews){
-                rv.handleCanNotAttackFrom();
-            }
 
             return false;
         }
@@ -117,6 +105,12 @@ public class AttackPhase {
         return defenderCountry;
     }
 
+    public boolean isValidAttackingCountry(Country selectedCountry){
+        return selectedCountry.isOwnedBy(attacker) && selectedCountry.getNumberOfArmies() >= MIN_ARMIES_TO_ATTACK_WITH
+                && hasAdjacentEnemy(selectedCountry);
+    }
+
+
     private boolean hasAdjacentEnemy(final Country attackerCountry) {
         return attackerCountry.getAdjacentCountries().stream()
                 .map(Country::getCurrentOwner)
@@ -157,26 +151,11 @@ public class AttackPhase {
 
             System.out.format("%s has conquered %s and is occupied by %s armies\n", attackerCountry.getCurrentOwner(),
                     defenderCountry, defenderCountry.getNumberOfArmies());
-            for(RiskView riskView:riskViews){
-                riskView.handleAttackResult(attackerCountry,defenderCountry,true,false,null,this);
-            }
             return true;
         } else {
             System.out.format("%s was not conquered and has %s remaining armies\n", defenderCountry,
                     defenderCountry.getNumberOfArmies());
-            for(RiskView riskView:riskViews){
-                riskView.handleAttackResult(attackerCountry,defenderCountry,false,false,null,this);
-            }
             return false;
         }
     }
-
-    /**
-     * set the risk views of the model
-     */
-    public void setRiskViews(List<RiskView> riskViews){
-        this.riskViews=riskViews;
-
-    }
-
 }

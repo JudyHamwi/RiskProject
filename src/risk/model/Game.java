@@ -48,32 +48,38 @@ public class Game {
      * Play loop of the game that responds to the player's turns commands
      */
     public void play() {
-        while(GameState.COMPLETED != gameState) {
-            switch(gameState){
-                case INITIALIZING:
-                    startNewGame();
-                    break;
-                case DRAFT_PHASE:
-                    runDraft();
-                    break;
-                case ATTACK_PHASE:
-                    runAttack();
-                    removeDeadPlayers();
-                    if (foundWinner()) {
-                        gameState = GameState.COMPLETED;
+        Thread gameLoop = new Thread("game loop"){
+            @Override
+            public void run() {
+                while(GameState.COMPLETED != gameState) {
+                    switch(gameState){
+                        case INITIALIZING:
+                            startNewGame();
+                            break;
+                        case DRAFT_PHASE:
+                            runDraft();
+                            break;
+                        case ATTACK_PHASE:
+                            runAttack();
+                            removeDeadPlayers();
+                            if (foundWinner()) {
+                                gameState = GameState.COMPLETED;
+                            }
+                            break;
+                        case FORTIFY_PHASE:
+                            runFortify();
+                            break;
+                        case END_TURN:
+                            runEndTurn();
+                            break;
+                        default:
+                            return;
                     }
-                    break;
-                case FORTIFY_PHASE:
-                    runFortify();
-                    break;
-                case END_TURN:
-                    runEndTurn();
-                    break;
-                default:
-                    return;
+                }
+                runEndGame();
             }
-        }
-        runEndGame();
+        };
+        gameLoop.start();
     }
 
     public void startNewGame() {
@@ -86,29 +92,17 @@ public class Game {
 
     private void runDraft() {
         final DraftPhase draftPhase = phaseFactory.buildDraftPhase(this);
-        currentPlayer.performDraft(draftPhase);
-        for(RiskView rv:riskViews){
-            User user=(User) currentPlayer;
-            rv.handleNewDraftPhase(user,draftPhase);
-        }
-        gameState = GameState.ATTACK_PHASE;
+        gameState = currentPlayer.performDraft(draftPhase);
     }
 
     private void runAttack() {
         final AttackPhase attackPhase = phaseFactory.buildAttackPhase(this);
-        currentPlayer.performAttack(attackPhase);
-        for(RiskView riskView:riskViews){
-            riskView.handleNewAttackPhase(attackPhase);
-        }
-        gameState = GameState.FORTIFY_PHASE;
+        gameState =currentPlayer.performAttack(attackPhase);
     }
 
     private void runFortify() {
         final FortifyPhase fortifyPhase = phaseFactory.buildFortifyPhase(this);
         currentPlayer.performFortify(fortifyPhase);
-        for(RiskView riskView:riskViews){
-            riskView.handleNewFortifyPhase(currentPlayer,fortifyPhase);
-        }
         gameState = GameState.END_TURN;
     }
 

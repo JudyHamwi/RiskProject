@@ -12,6 +12,7 @@ import risk.model.player.Player;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
@@ -164,17 +165,19 @@ public class BoardView extends JPanel {
         inGamePanel.add(draftArmies);
 
         endTurnButton.addActionListener(new EndTurnController(game));
-        attackPhaseButton.addActionListener(new AttackPhaseController(game, this,rv));
+        attackPhaseButton.addActionListener(new AttackStartController(game));
         fortifyPhaseButton.addActionListener(new FortifyPhaseController(game));
 
         return inGamePanel;
     }
 
-    public void setUpAttackListeners(AttackPhase attackphase){
-        attackButton.addActionListener(new StartAttackController(game));
+    public void setUpAttackListeners(){
+        removeActionListeners(attackButton);
+        attackButton.addActionListener(new AttackCommitFromController(game));
     }
 
     public void setUpFortifyListeners(FortifyPhase fortifyPhase){
+        removeActionListeners(fortifyButton);
         fortifyButton.addActionListener(new FortifyController(rv,fortifyPhase));
     }
 
@@ -193,6 +196,10 @@ public class BoardView extends JPanel {
             cv.clearCountryListeners();
             cv.setupCountryListener(actionListenerFromCountry);
         });
+    }
+
+    public void clearCountryListeners(){
+        continentViews.forEach(cv -> cv.clearCountryListeners());
     }
 
     /**
@@ -237,6 +244,13 @@ public class BoardView extends JPanel {
                     cv.highlightButton(cv.getCountryButton(country));
                 }
             }
+        }
+    }
+
+    private void removeActionListeners(JButton button) {
+        ActionListener[] actionListenersArray = button.getActionListeners();
+        for (ActionListener actionListener : actionListenersArray) {
+            button.removeActionListener(actionListener);
         }
     }
 
@@ -354,4 +368,7 @@ public class BoardView extends JPanel {
         }
     }
 
+    public JButton getEndTurnButton() {
+        return this.endTurnButton;
+    }
 }

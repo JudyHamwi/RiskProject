@@ -36,11 +36,11 @@ public interface RiskView {
 
      void handleCanNotAttackFrom( );
 
-     void handleNewAttack(AttackPhase attackPhase);
+     void handleNewAttack(AttackPhase attackPhase, User user);
 
      BoardView getBoardView();
 
-     void handleAttackResult(Country attackerCountry, Country defenderCountry, boolean attackSuccess, boolean winner, Player playerRemoved,AttackPhase attackPhase);
+     void handleAttackResult(Country attackerCountry, boolean defenderLost, AttackPhase attackPhase);
 
      void handleNewFortifyPhase(Player fortifier,FortifyPhase fortifyPhase);
 
@@ -70,4 +70,5 @@ public interface RiskView {
 
      void handleNewFortify(FortifyPhase fortifyPhase);
 
+     void clearCountryButtons();
 }

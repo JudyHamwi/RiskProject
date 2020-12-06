@@ -1,5 +1,6 @@
 package risk.model.player;
 
+import risk.model.GameState;
 import risk.model.board.Board;
 import risk.model.board.Country;
 import risk.model.phase.AttackPhase;
@@ -28,15 +29,16 @@ public class AI implements Player {
     }
 
     @Override
-    public void performDraft(final DraftPhase draftPhase) {
+    public GameState performDraft(final DraftPhase draftPhase) {
         while(draftPhase.haveArmiesToPlace()) {
             final Country countryToReinforce = getOwnedCountriesByArmySize().get(0);
             draftPhase.placeArmy(countryToReinforce);
         }
+        return GameState.ATTACK_PHASE;
     }
 
     @Override
-    public void performAttack(final AttackPhase attackPhase) {
+    public GameState performAttack(final AttackPhase attackPhase) {
         boolean attackingCountryFound = trySelectingAnAttackingCountry(attackPhase);
         while (attackingCountryFound) {
             final Country defendingCountry = selectAdjacentEnemyCountry(attackPhase.getAttackerCountry());
@@ -45,6 +47,7 @@ public class AI implements Player {
             attackPhase.reset();
             attackingCountryFound = trySelectingAnAttackingCountry(attackPhase);
         }
+        return GameState.FORTIFY_PHASE;
     }
 
     @Override

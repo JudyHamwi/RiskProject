@@ -22,14 +22,14 @@ import javax.swing.*;
  * @author Walid Baitul
  */
 
-public class StartAttackController implements ActionListener {
+public class AttackStartController implements ActionListener {
     private Game game;
 
 
     /**
      * Creates the Attack Controller that listens to the player's decisions in the attack phase
      */
-    public StartAttackController(Game game ) {
+    public AttackStartController(Game game ) {
         this.game = game;
     }
 
@@ -42,6 +42,6 @@ public class StartAttackController implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         final User attacker = (User) game.getCurrentPlayer();
-        attacker.wakeUser(null);
+        attacker.wakeUser(GameState.ATTACK_PHASE);
     }
 }

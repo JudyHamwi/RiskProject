@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import risk.model.Game;
 import risk.model.GameState;
+import risk.model.player.User;
 
 /**
  * EndTurn Controller listens to player's move of ending their turn
@@ -31,7 +32,7 @@ public class EndTurnController implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        game.setState(GameState.END_TURN);
-        game.play();
+        final User user = (User) game.getCurrentPlayer();
+        user.wakeUser(GameState.END_TURN);
     }
 }

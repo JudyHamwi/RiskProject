@@ -47,21 +47,47 @@ public class User implements Player {
     }
 
     @Override
-    public void performDraft(final DraftPhase draftPhase) {
+    public GameState performDraft(final DraftPhase draftPhase) {
         views.forEach(v -> v.handleNewDraftPhase(this, draftPhase));
         while (draftPhase.haveArmiesToPlace()) {
             waitForUI();
             final Country selectedCountry = (Country) responseFromUI;
-            if(!draftPhase.placeArmy(selectedCountry)){
+            if(draftPhase.placeArmy(selectedCountry)){
+                views.forEach(v-> v.handleAddedArmy(selectedCountry, draftPhase.getArmiesToPlace()));
+            } else{
                 views.forEach(v -> v.handleCanNotDraftFrom());
             }
         }
+        views.forEach( v-> v.clearCountryButtons());
         waitForUI();
+        return (GameState) responseFromUI;
     }
 
     @Override
-    public void performAttack(final AttackPhase attackPhase) {
+    public GameState performAttack(final AttackPhase attackPhase) {
+        while (true) {
+            views.forEach(v -> v.handleNewAttackPhase(attackPhase));
+            waitForUI();
+            if (getNextState() != GameState.ATTACK_PHASE) {
+                return getNextState();
+            }
 
+            views.forEach(v -> v.handleNewAttack(attackPhase, this));
+            waitForUI();
+            if (getNextState() != GameState.ATTACK_PHASE) {
+                return getNextState();
+            }
+
+            final boolean defenderLost = attackPhase.runAttack();
+
+            views.forEach(v -> v.handleAttackResult(attackPhase.getAttackerCountry(), defenderLost, attackPhase));
+            attackPhase.reset();
+        }
+    }
+
+    private GameState getNextState(){
+        final GameState nextState = (GameState) responseFromUI;
+        return nextState;
     }
 
     @Override
@@ -111,6 +137,15 @@ public class User implements Player {
         } catch (final InterruptedException e) {
             throw new RuntimeException(e);
         }
+        /*responseFromUI = null;
+        while(responseFromUI == null){
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+
+            }
+            System.out.println("waiting in loop");
+        }*/
     }
 
 

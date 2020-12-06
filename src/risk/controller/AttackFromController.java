@@ -10,20 +10,23 @@ import java.awt.event.ActionListener;
 
 public class AttackFromController implements ActionListener {
 
-    private Game gameModel;
     private Country country;
     private RiskView riskView;
     private AttackPhase attackPhase;
 
-    public AttackFromController(RiskView riskView, Game game, Country country, AttackPhase attackPhase){
+    public AttackFromController(RiskView riskView,Country country, AttackPhase attackPhase){
         this.country=country;
         this.riskView=riskView;
         this.attackPhase=attackPhase;
-        gameModel=game;
     }
     @Override
     public void actionPerformed(ActionEvent e) {
-        attackPhase.setRiskViews(gameModel.getViews());
-        attackPhase.selectAttackingCountry(country);
+        if(attackPhase.isValidAttackingCountry(country)){
+            riskView.handleCanAttackFrom(country);
+            attackPhase.selectAttackingCountry(country);
+            riskView.getBoardView().getAttackButton().setEnabled(true);
+        } else{
+            riskView.handleCanNotAttackFrom();
+        }
     }
 }

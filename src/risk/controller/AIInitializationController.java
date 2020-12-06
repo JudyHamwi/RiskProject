@@ -16,7 +16,7 @@ import java.awt.event.ActionListener;
  */
 public class AIInitializationController implements ActionListener {
     private final PlayerFactory playerFactory;
-    private final Game gameModel;
+    private final Game game;
     private final int aiCount;
 
     /**
@@ -26,7 +26,7 @@ public class AIInitializationController implements ActionListener {
      * @param aiCount number of players playing in the game
      */
     public AIInitializationController(final Game game, final int aiCount, final PlayerFactory playerFactory){
-        this.gameModel=game;
+        this.game =game;
         this.aiCount = aiCount;
         this.playerFactory = playerFactory;
     }
@@ -38,8 +38,8 @@ public class AIInitializationController implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         for (int i = 0; i < aiCount; i++) {
-            gameModel.addPlayer(playerFactory.createAI(gameModel.getBoard()));
+            game.addPlayer(playerFactory.createAI(game.getBoard()));
         }
-        gameModel.play();
+        game.play();
     }
 }
