@@ -7,4 +7,12 @@ import risk.model.board.Country;
  */
 public class DraftAction {
     private Country country;
+
+    public DraftAction(Country country) {
+        this.country = country;
+    }
+
+    public String toString() {
+        return "Draft Phase:\n" + country.toString() + " was drafted.";
+    }
 }
