@@ -82,7 +82,7 @@ public class AI implements Player {
             final int armiesToMove = selectedFrom.getNumberOfArmies() / 2;
             fortifyPhase.fortify(armiesToMove);
 
-            addFortifyActionSummary(selectedFrom, weakestConnectedCountry); // Summarizes AI's drafting phase
+            addFortifyActionSummary(selectedFrom, weakestConnectedCountry); // Summarizes AI's every fortify move
 
             break;
         }
