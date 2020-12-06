@@ -143,5 +143,12 @@ public class Country {
     public boolean isOwnedBy(final Player player) {
         return Objects.equals(currentOwner, player);
     }
+
+    public static void clearAdjacentCountries(Country country) {
+    }
+
+    public void setAdjacentCountries(List<Country> countries) {
+        this.adjacentCountries = countries;
+    }
 }
 

@@ -5,6 +5,7 @@ import risk.model.board.Country;
 import risk.model.phase.AttackPhase;
 import risk.model.phase.DraftPhase;
 import risk.model.phase.FortifyPhase;
+import risk.view.RiskView;
 
 import java.util.Comparator;
 import java.util.List;
@@ -66,6 +67,11 @@ public class AI implements Player {
                 break;
             }
         }
+    }
+
+    @Override
+    public void performEndTurn(List<RiskView> views) {
+        //for each view call handleAITurn. need to implement turn Summary object and populate it as we run the turns
     }
 
     private List<Country> getOwnedCountriesByArmySize() {

@@ -6,7 +6,6 @@ import risk.model.phase.AttackPhase;
 import risk.model.phase.DraftPhase;
 import risk.model.phase.FortifyPhase;
 import risk.model.phase.PhaseFactory;
-import risk.model.player.AI;
 import risk.model.player.Player;
 import risk.model.player.User;
 import risk.view.RiskView;
@@ -49,57 +48,67 @@ public class Game {
      * Play loop of the game that responds to the player's turns commands
      */
     public void play() {
-            runDraft();
-            runAttack();
-            removeDeadPlayers();
-            if (foundWinner()) {
-                runEndGame();
-            }else {
-                runFortify();
-                runEndTurn();
+        while(GameState.COMPLETED != gameState) {
+            switch(gameState){
+                case INITIALIZING:
+                    startNewGame();
+                    break;
+                case DRAFT_PHASE:
+                    runDraft();
+                    break;
+                case ATTACK_PHASE:
+                    runAttack();
+                    removeDeadPlayers();
+                    if (foundWinner()) {
+                        gameState = GameState.COMPLETED;
+                    }
+                    break;
+                case FORTIFY_PHASE:
+                    runFortify();
+                    break;
+                case END_TURN:
+                    runEndTurn();
+                    break;
+                default:
+                    return;
             }
-
+        }
+        runEndGame();
     }
 
     public void startNewGame() {
-        gameState = GameState.INITIALIZING;
         board.assignCountries(players);
         board.distributeArmies(players);
         currentPlayer = players.get(0);
         riskViews.forEach(rv -> rv.handleInitialize(this));
-        startDraft();
+        gameState = GameState.DRAFT_PHASE;
     }
 
     private void runDraft() {
-        gameState = GameState.DRAFT_PHASE;
         final DraftPhase draftPhase = phaseFactory.buildDraftPhase(this);
         currentPlayer.performDraft(draftPhase);
+        gameState = GameState.ATTACK_PHASE;
     }
 
     private void runAttack() {
-        gameState = GameState.ATTACK_PHASE;
         final AttackPhase attackPhase = phaseFactory.buildAttackPhase(this);
         currentPlayer.performAttack(attackPhase);
+        gameState = GameState.FORTIFY_PHASE;
     }
 
     private void runFortify() {
-        gameState = GameState.FORTIFY_PHASE;
         final FortifyPhase fortifyPhase = phaseFactory.buildFortifyPhase(this);
         currentPlayer.performFortify(fortifyPhase);
+        gameState = GameState.END_TURN;
     }
 
     /**
      * ends the turn of the current player and passes the turn to the next player
      */
-    public void runEndTurn() {
-        gameState = GameState.END_TURN;
+    private void runEndTurn() {
         currentPlayer = getNextPlayer();
         riskViews.forEach(rv -> rv.handleEndTurn(currentPlayer));
-        if(currentPlayer instanceof AI){
-            play();
-        }else {
-            startDraft();
-        }
+        gameState = GameState.DRAFT_PHASE;
     }
 
     /**
@@ -161,7 +170,6 @@ public class Game {
     public void addPlayer(final Player player) {
         players.add(player);
     }
-
 
     private Player getNextPlayer() {
         final int currentPlayerPos = players.indexOf(currentPlayer);

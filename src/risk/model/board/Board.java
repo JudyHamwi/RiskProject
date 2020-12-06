@@ -123,4 +123,10 @@ public class Board {
         }
         return continents;
     }
+
+    public GameConstants getGameConstants() {
+        return this.gameConstants;
+    }
+    //TODO: Add validation methods for custom maps
+
 }
