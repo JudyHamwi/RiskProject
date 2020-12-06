@@ -5,6 +5,7 @@ import risk.model.*;
 import risk.model.board.Board;
 import risk.model.board.Country;
 import risk.model.board.OriginalBoardFactory;
+import risk.model.phase.AttackPhase;
 import risk.model.phase.DraftPhase;
 import risk.model.phase.FortifyPhase;
 import risk.model.phase.PhaseFactory;
@@ -141,7 +142,7 @@ public class RiskViewFrame extends JFrame implements RiskView {
     public void handleSetNumOfAIPlayers(int numberOfAI) {
         this.numberOfAIPlayers = new JMenu("AI Players");
         numberOfAIPlayers.setName("AIplayers");
-        for (int i = 0; i < MAX_NUM_PLAYERS - numberOfAI; i++) {
+        for (int i = 0; i < MAX_NUM_PLAYERS - (numberOfAI-1); i++) {
             JMenuItem numPlayer = new JMenuItem(i + " AI Players");
             numPlayer.addActionListener(new AIInitializationController(gameModel, i, playerFactory));
             numberOfAIPlayers.add(numPlayer);
@@ -160,13 +161,11 @@ public class RiskViewFrame extends JFrame implements RiskView {
     @Override
     public void handleNewGame(Game game, Board board) {
         setNumberOfPlayersMenu();
-        //setNumOfAIPlayers();
         this.remove(mainMenuPanel);
         boardView = new BoardView(this, game, board);
         this.add(boardView, BorderLayout.CENTER);
         this.add(gameStatusPanel, BorderLayout.SOUTH);
         menuBar.add(numberOfPlayers);
-        //menuBar.add(numberOfAIPlayers);
         menu.setText("Menu");
         menu.remove(newGame);
         menu.add(helpMenuItem);
@@ -186,6 +185,7 @@ public class RiskViewFrame extends JFrame implements RiskView {
         boardView.InitializeBoard(game.getNumPlayers());
         boardView.addInGamePanel(game, game.getCurrentPlayer());
         numberOfAIPlayers.setVisible(false);
+
     }
 
     /**
@@ -199,15 +199,16 @@ public class RiskViewFrame extends JFrame implements RiskView {
         JOptionPane.showMessageDialog(this, player.toString() + ", it is your turn!");
     }
 
-    public void handleNewDraftPhase(final User drafter, final DraftPhase draftPhase) {
+    public void handleNewDraftPhase( User drafter, DraftPhase draftPhase) {
+        boardView.getDraftArmies().setVisible(true);
         boardView.getDraftArmies().setText("Draft Armies: " + draftPhase.getArmiesToPlace());
         boardView.getAttackPhaseButton().setEnabled(true);
         boardView.getFortifyButton().setEnabled(false);
         boardView.getFortifyPhaseButton().setEnabled(false);
         boardView.getAttackButton().setEnabled(false);
         boardView.getDraftArmies().setVisible(true);
+        boardView.setupCountryListeners(country -> new DraftPhaseController(this, drafter, country,gameModel,draftPhase));
 
-        boardView.setupCountryListeners(country -> new DraftPhaseController(this, drafter, draftPhase, country));
     }
 
     /**
@@ -220,24 +221,23 @@ public class RiskViewFrame extends JFrame implements RiskView {
         JOptionPane.showMessageDialog(this, string);
     }
 
+
     /**
      * updates the view when the player chooses an invalid country to attack from
      *
-     * @param game model that deals with the logic of the game
      */
     @Override
-    public void handleCanNotAttackFrom(Game game) {
+    public void handleCanNotAttackFrom() {
         JOptionPane.showMessageDialog(this, "Can not attack Country");
     }
 
     /**
      * updates the view when the player chooses a valid country to attack from
      *
-     * @param game    model that deals with the logic of the game
      * @param country that the player wants to attack from
      */
     @Override
-    public void handleCanAttackFrom(Game game, Country country) {
+    public void handleCanAttackFrom( Country country) {
         if (selectedAttackButton != null) {
             boardView.removeHighlightCountry(selectedAttackButton);
         }
@@ -252,21 +252,6 @@ public class RiskViewFrame extends JFrame implements RiskView {
      */
     public void handleNewAttack() {
         boardView.getAttackButton().setEnabled(false);
-    }
-
-    /**
-     * updates the view when the user enters the fortify phase
-     */
-    public void handleNewFortifyPhase(final User fortifier, final FortifyPhase fortifyPhase) {
-        boardView.getFortifyPhaseButton().setEnabled(false);
-        boardView.getFortifyButton().setEnabled(false);
-
-        boardView.setupCountryListeners(country -> new FortifyFromController(this, fortifier, fortifyPhase, country));
-
-    }
-
-    public void handleSelectFortifyTo(final User fortifier, final FortifyPhase fortifyPhase) {
-        boardView.setupCountryListeners(country -> new FortifyToController(this, fortifier, fortifyPhase, country));
     }
 
     @Override
@@ -290,10 +275,9 @@ public class RiskViewFrame extends JFrame implements RiskView {
     /**
      * warning message displayed if the player can not fortify from a country
      *
-     * @param game model that deals with the logic of the game
      */
     @Override
-    public void handleCanNotFortify(Game game) {
+    public void handleCanNotFortify() {
         JOptionPane.showMessageDialog(this, "Can not fortify !");
     }
 
@@ -341,13 +325,12 @@ public class RiskViewFrame extends JFrame implements RiskView {
     /**
      * update the view when the attack phase is complete
      *
-     * @param game            model that deals with the logic of the game
      * @param attackerCountry country that the player attacked from
      * @param defenderCountry country that the player attacks
      * @param attackSuccess   true of the player conquered the country and false otherwise
      */
     @Override
-    public void handleAttackResult(Game game, Country attackerCountry, Country defenderCountry, boolean attackSuccess, boolean winner, Player playerRemoved) {
+    public void handleAttackResult(Country attackerCountry, Country defenderCountry, boolean attackSuccess, boolean winner, Player playerRemoved) {
         if (attackSuccess) {
             JOptionPane.showMessageDialog(this, "You conquered the country!");
             if (playerRemoved != null) {
@@ -363,6 +346,15 @@ public class RiskViewFrame extends JFrame implements RiskView {
         boardView.removeHighlightCountry(attackerCountry);
         boardView.updateCountryButtons();
         selectedAttackButton = null;
+    }
+
+    @Override
+    public void handleNewFortifyPhase(Player fortifier) {
+        boardView.getFortifyPhaseButton().setEnabled(false);
+        boardView.getAttackButton().setEnabled(false);
+        boardView.getFortifyButton().setEnabled(true);
+        FortifyPhase fortifyPhase=new FortifyPhase(gameModel.getBoard(),gameModel.getCurrentPlayer());
+        boardView.setupCountryListeners(country -> new FortifyController(this,gameModel,country,fortifyPhase));
     }
 
     /**
@@ -386,6 +378,16 @@ public class RiskViewFrame extends JFrame implements RiskView {
     public int getNumber(final int min, final int max, final String message) {
         final String number = JOptionPane.showInputDialog(this, "Number of armies to move");
         return Integer.parseInt(number);
+    }
+
+    @Override
+    public void handleNewAttackPhase() {
+        boardView.getAttackPhaseButton().setEnabled(false);
+        boardView.getAttackButton().setEnabled(true);
+        boardView.getFortifyPhaseButton().setEnabled(true);
+        AttackPhase attackPhase=new AttackPhase(gameModel.getCurrentPlayer(),new Dice());
+        boardView.setupCountryListeners(country -> new AttackController(this,gameModel,country,attackPhase));
+
     }
 
 

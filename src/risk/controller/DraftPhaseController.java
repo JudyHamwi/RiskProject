@@ -1,5 +1,7 @@
 package risk.controller;
 
+import risk.model.Game;
+import risk.model.GameState;
 import risk.model.board.Country;
 import risk.model.phase.DraftPhase;
 import risk.model.player.User;
@@ -22,17 +24,20 @@ public class DraftPhaseController implements ActionListener {
     private final User drafter;
     private final DraftPhase draftPhase;
     private final Country country;
+    private  Game game;
 
     /**
      * creates the attack phase controller to listen to entering  the attack phase
      *
      * @param country that id being drafted
      */
-    public DraftPhaseController(final RiskView view, final User drafter, final DraftPhase draftPhase, final Country country) {
+    public DraftPhaseController(final RiskView view, final User drafter, final Country country, Game game,DraftPhase draftPhase) {
         this.view = view;
         this.drafter = drafter;
-        this.draftPhase = draftPhase;
         this.country = country;
+        this.game=game;
+        this.draftPhase=draftPhase;
+        draftPhase.setRiskViews(game.getViews());
     }
 
     /**
@@ -42,11 +47,15 @@ public class DraftPhaseController implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        //compared to rundraft in game
-        if (draftPhase.placeArmy(country)) {
-            drafter.wakeUser(country);
-        } else {
-            view.handleCanNotDraftFrom();
+        if (game.getState() == GameState.DRAFT_PHASE) {
+            if (draftPhase.haveArmiesToPlace()) {
+                if (draftPhase.placeArmy(country)) {
+                    drafter.wakeUser(country);
+                    view.handleAddedArmy(country, draftPhase.getArmiesToPlace());
+                } else {
+                    view.handleCanNotDraftFrom();
+                }
+            }
         }
     }
-}
+    }

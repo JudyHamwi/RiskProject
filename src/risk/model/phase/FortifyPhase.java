@@ -3,6 +3,9 @@ package risk.model.phase;
 import risk.model.board.Board;
 import risk.model.board.Country;
 import risk.model.player.Player;
+import risk.view.RiskView;
+
+import java.util.List;
 
 /**
  * One of the phases of the game. Player enters RISKModel.FortifyPhase after their RISKModel.AttackPhase.
@@ -20,7 +23,8 @@ public class FortifyPhase {
     private final Player player;
     private Country movingFrom;
     private Country movingTo;
-
+    private List<RiskView> riskViews;
+    private int armiesToMove;
 
     /**
      * Constructor for a new fortify phase object
@@ -46,10 +50,12 @@ public class FortifyPhase {
                 && !selectedCountry.getAdjacentCountries().isEmpty()
                 && selectedCountry.getNumberOfArmies() >= MIN_ARMIES_TO_FORTIFY_FROM) {
             movingFrom = selectedCountry;
+
             return true;
         } else {
             System.out.format("Cannot move armies from %s as %s does not own it or the country does not have any allies\n",
                     selectedCountry, player);
+
             return false;
         }
     }
@@ -73,7 +79,7 @@ public class FortifyPhase {
      *
      * @return
      */
-    public boolean fortify(final int armiesToMove) {
+    public boolean fortify() {
         if (checkNumOfArmies(armiesToMove)) {
             movingFrom.addArmies(-armiesToMove);
             movingTo.addArmies(armiesToMove);
@@ -91,7 +97,19 @@ public class FortifyPhase {
      *
      * @return boolean
      */
-    private boolean checkNumOfArmies(final int armiesToMove) {
+    public boolean checkNumOfArmies(int armiesToMove) {
         return movingFrom.getNumberOfArmies() > armiesToMove;
+    }
+
+    /**
+     * set the risk views of the model
+     */
+    public void setRiskViews(List<RiskView> riskViews){
+        this.riskViews=riskViews;
+
+    }
+
+    public void setArmiesToMove(int armiesToMove){
+        this.armiesToMove=armiesToMove;
     }
 }

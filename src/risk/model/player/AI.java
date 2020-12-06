@@ -30,7 +30,6 @@ public class AI implements Player {
     public void performDraft(final DraftPhase draftPhase) {
         while(draftPhase.haveArmiesToPlace()) {
             final Country countryToReinforce = getOwnedCountriesByArmySize().get(0);
-
             draftPhase.placeArmy(countryToReinforce);
         }
     }
@@ -41,9 +40,7 @@ public class AI implements Player {
         while (attackingCountryFound) {
             final Country defendingCountry = selectAdjacentEnemyCountry(attackPhase.getAttackerCountry());
             attackPhase.selectDefendingCountry(defendingCountry);
-
             attackPhase.runAttack();
-
             attackPhase.reset();
             attackingCountryFound = trySelectingAnAttackingCountry(attackPhase);
         }
@@ -64,7 +61,8 @@ public class AI implements Player {
                 fortifyPhase.selectMovingTo(weakestConnectedCountry);
 
                 final int armiesToMove = selectedFrom.getNumberOfArmies() / 2;
-                fortifyPhase.fortify(armiesToMove);
+                fortifyPhase.setArmiesToMove(armiesToMove);
+                fortifyPhase.fortify();
                 break;
             }
         }

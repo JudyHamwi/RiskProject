@@ -52,7 +52,6 @@ public class User implements Player {
         while (draftPhase.haveArmiesToPlace()) {
             waitForUI();
             final Country selectedCountry = (Country) responseFromUI;
-            views.forEach(v -> v.handleAddedArmy(selectedCountry, draftPhase.getArmiesToPlace()));
         }
     }
 
@@ -64,7 +63,7 @@ public class User implements Player {
     @Override
     public void performFortify(final FortifyPhase fortifyPhase) {
         while(true) {
-            views.forEach(v -> v.handleNewFortifyPhase(this, fortifyPhase));
+            views.forEach(v -> v.handleNewFortifyPhase(this));
             waitForUI();
             final GameState selectedAction = (GameState) responseFromUI;
             switch (selectedAction) {
@@ -74,7 +73,8 @@ public class User implements Player {
 
                     final RiskView view = (RiskView) responseFromUI;
                     final int armiesToMove = view.getNumber(0, fortifyPhase.getMovingFrom().getNumberOfArmies() - 1, "Number of armies to move");
-                    fortifyPhase.fortify(armiesToMove);
+                    fortifyPhase.setArmiesToMove(armiesToMove);
+                    fortifyPhase.fortify();
                     fortifyPhase.reset();
                     break;
                 case END_TURN:

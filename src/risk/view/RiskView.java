@@ -31,23 +31,23 @@ public interface RiskView {
 
      void handlePrintHelp(Game game, String pH);
 
-     void handleCanAttackFrom(Game game, Country country);
+     void handleCanAttackFrom(Country country);
 
-     void handleCanNotAttackFrom(Game game);
+     void handleCanNotAttackFrom( );
 
      void handleNewAttack();
 
      BoardView getBoardView();
 
-     void handleAttackResult(Game game, Country attackerCountry, Country defenderCountry, boolean attackSuccess, boolean winner, Player playerRemoved);
+     void handleAttackResult(Country attackerCountry, Country defenderCountry, boolean attackSuccess, boolean winner, Player playerRemoved);
 
-     void handleNewFortifyPhase(User fortifier, FortifyPhase fortifyPhase);
+     void handleNewFortifyPhase(Player fortifier);
 
      void handleFortifyFromSelected(Country country);
 
      void handleCanNotFortifyArmies(Game game);
 
-     void handleCanNotFortify(Game game);
+     void handleCanNotFortify();
 
      void handleFortifyToSelected();
 
@@ -64,4 +64,7 @@ public interface RiskView {
      void handleNewDraftPhase(User drafter, DraftPhase draftPhase);
 
      int getNumber(int min, int max, String message);
+
+     void handleNewAttackPhase();
+
 }

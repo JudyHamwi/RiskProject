@@ -6,7 +6,9 @@ import risk.model.phase.AttackPhase;
 import risk.model.phase.DraftPhase;
 import risk.model.phase.FortifyPhase;
 import risk.model.phase.PhaseFactory;
+import risk.model.player.AI;
 import risk.model.player.Player;
+import risk.model.player.User;
 import risk.view.RiskView;
 
 import java.util.ArrayList;
@@ -47,19 +49,16 @@ public class Game {
      * Play loop of the game that responds to the player's turns commands
      */
     public void play() {
-        startNewGame();
-
-        while(GameState.COMPLETED != gameState) {
             runDraft();
             runAttack();
             removeDeadPlayers();
             if (foundWinner()) {
                 runEndGame();
-                break;
+            }else {
+                runFortify();
+                runEndTurn();
             }
-            runFortify();
-            runEndTurn();
-        }
+
     }
 
     public void startNewGame() {
@@ -68,6 +67,7 @@ public class Game {
         board.distributeArmies(players);
         currentPlayer = players.get(0);
         riskViews.forEach(rv -> rv.handleInitialize(this));
+        startDraft();
     }
 
     private void runDraft() {
@@ -91,10 +91,15 @@ public class Game {
     /**
      * ends the turn of the current player and passes the turn to the next player
      */
-    private void runEndTurn() {
+    public void runEndTurn() {
         gameState = GameState.END_TURN;
         currentPlayer = getNextPlayer();
         riskViews.forEach(rv -> rv.handleEndTurn(currentPlayer));
+        if(currentPlayer instanceof AI){
+            play();
+        }else {
+            startDraft();
+        }
     }
 
     /**
@@ -214,4 +219,14 @@ public class Game {
 
         riskViews.forEach(rv -> rv.handlePrintHelp(this, pH));
     }
+
+    private void startDraft(){
+        gameState = GameState.DRAFT_PHASE;
+        DraftPhase draftPhase=new DraftPhase(board,currentPlayer);
+        for(RiskView rv:riskViews){
+            User user=(User) currentPlayer;
+            rv.handleNewDraftPhase(user,draftPhase);
+        }
+    }
+
 }

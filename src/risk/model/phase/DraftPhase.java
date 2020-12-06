@@ -4,6 +4,9 @@ import risk.model.board.Board;
 import risk.model.board.Continent;
 import risk.model.board.Country;
 import risk.model.player.Player;
+import risk.view.RiskView;
+
+import java.util.List;
 
 public class DraftPhase {
     public static final int MIN_BONUS_ARMIES = 3;
@@ -12,6 +15,7 @@ public class DraftPhase {
     private final Board board;
     private final Player player;
     private int armiesToPlace;
+    private List<RiskView> riskViews;
 
     public DraftPhase(final Board board, final Player player) {
         this.board = board;
@@ -30,6 +34,7 @@ public class DraftPhase {
             return true;
         } else {
             System.out.format("Cannot place army on %s and the player doesn't own it.\n", selectedCountry);
+
             return false;
         }
     }
@@ -71,5 +76,13 @@ public class DraftPhase {
             sum += bonusArmies;
         }
         return sum;
+    }
+
+    /**
+     * set the risk views of the model
+     */
+    public void setRiskViews(List<RiskView> riskViews){
+        this.riskViews=riskViews;
+
     }
 }

@@ -5,7 +5,9 @@ import risk.model.*;
 import risk.model.board.Board;
 import risk.model.board.Continent;
 import risk.model.board.Country;
+import risk.model.phase.DraftPhase;
 import risk.model.player.Player;
+import risk.model.player.User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -74,7 +76,7 @@ public class BoardView extends JPanel {
      */
     public void initializeContinents() {
         for (Continent c : board.getContinents()) {
-            ContinentView continentview = new ContinentView(this, c, colorArray[colorCounter]);
+            ContinentView continentview = new ContinentView(rv,this, c, colorArray[colorCounter],game);
             this.add(continentview);
             continentViews.add(continentview);
             colorCounter++;
@@ -162,10 +164,10 @@ public class BoardView extends JPanel {
         inGamePanel.add(draftArmies);
 
         endTurnButton.addActionListener(new EndTurnController(game));
-        attackPhaseButton.addActionListener(new AttackPhaseController(game, this));
-        attackButton.addActionListener(new AttackController(rv, game, null));
-        fortifyButton.addActionListener(new FortifyController(rv, game));
-        fortifyPhaseButton.addActionListener(new FortifyPhaseController(game, this));
+        attackPhaseButton.addActionListener(new AttackPhaseController(game, this,rv));
+        attackButton.addActionListener(new AttackController(rv, game, null,null));
+        fortifyButton.addActionListener(new FortifyController(rv, game,null,null));
+        fortifyPhaseButton.addActionListener(new FortifyPhaseController(game, this,rv));
 
         return inGamePanel;
     }
@@ -180,6 +182,15 @@ public class BoardView extends JPanel {
         this.add(inGamePanel(game, player));
     }
 
+    /*
+    public void setupCountryListeners(User user, DraftPhase draftPhase) {
+        for(ContinentView continentView:continentViews){
+            continentView.setupAttackCountryListener();
+            continentView.setupFortifyCountryListener();
+        }
+    }
+
+     */
     public void setupCountryListeners(final Function<Country, ActionListener> actionListenerFromCountry) {
         continentViews.forEach(cv -> {
             cv.clearCountryListeners();
@@ -345,4 +356,5 @@ public class BoardView extends JPanel {
             continentView.initializePlayerCountries();
         }
     }
+
 }

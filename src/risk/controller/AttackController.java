@@ -35,12 +35,12 @@ public class AttackController implements ActionListener {
      * @param country that player selected to attack from or to if they are picking a country,
      *                or null if the player chooses the Attack button
      */
-    public AttackController(RiskView riskView, Game game, Country country) {
-        this.gameModel = game;
+    public AttackController(RiskView riskView, Game game, Country country,AttackPhase attackPhase) {
         this.country=country;
         this.riskView=riskView;
-        //maybe should be moved
-        attackPhase=new AttackPhase(game.getCurrentPlayer(), new Dice());
+        this.attackPhase=attackPhase;
+        gameModel=game;
+
     }
 
     /**
@@ -51,18 +51,18 @@ public class AttackController implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
+        System.out.println("attack controller");
         JButton b = (JButton) e.getSource();
-        if (gameModel.getState() == GameState.ATTACK_PHASE) {
             if (b.getName().equals("attackButton")) {
                 riskView.handleNewAttack();
-                //add handler in model
             } else if (riskView.getBoardView().getAttackButton().isEnabled()) {
+                attackPhase.setRiskViews(gameModel.getViews());
                 attackPhase.selectAttackingCountry(country);
-                //add handler in model
             } else {
-                attackPhase.selectDefendingCountry(country);
-                attackPhase.runAttack();
+                if(attackPhase.selectDefendingCountry(country)) {
+                    attackPhase.runAttack();
+                }
             }
         }
-    }
+
 }

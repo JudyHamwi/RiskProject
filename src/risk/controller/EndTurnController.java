@@ -30,6 +30,6 @@ public class EndTurnController implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        //gameModel.runEndTurn();
+        gameModel.runEndTurn();
     }
 }

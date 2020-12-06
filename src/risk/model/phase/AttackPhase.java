@@ -3,7 +3,10 @@ package risk.model.phase;
 import risk.model.Dice;
 import risk.model.board.Country;
 import risk.model.player.Player;
+import risk.view.RiskView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.PriorityQueue;
 
@@ -22,11 +25,13 @@ public class AttackPhase {
     static final int MAX_ATTACKING_ARMIES = 3;
     static final int MIN_ARMIES_TO_ATTACK_WITH = 2;
 
-    private final Player attacker;
+    private Player attacker;
     private final Dice dice;
 
     private Country attackerCountry;
     private Country defenderCountry;
+
+    private List<RiskView> riskViews;
 
     /**
      * Constructor of Attack Phase initializes the fields.
@@ -34,21 +39,30 @@ public class AttackPhase {
     public AttackPhase(final Player attacker, final Dice dice) {
         this.attacker = attacker;
         this.dice = dice;
+        riskViews=new ArrayList<>();
+
     }
 
-    public boolean selectAttackingCountry(final Country selectedCountry) {
+    public boolean selectAttackingCountry(Country selectedCountry) {
         if (selectedCountry.isOwnedBy(attacker) && selectedCountry.getNumberOfArmies() >= MIN_ARMIES_TO_ATTACK_WITH
                 && hasAdjacentEnemy(selectedCountry)) {
             attackerCountry = selectedCountry;
+            System.out.println(attackerCountry);
+            for(RiskView rv:riskViews){
+                rv.handleCanAttackFrom(selectedCountry);
+            }
             return true;
         } else {
             System.out.format("%s cannot be selected as the country needs to be owned by %s and have at least %s armies\n",
                     selectedCountry, attacker, MIN_ARMIES_TO_ATTACK_WITH);
+            for(RiskView rv:riskViews){
+                rv.handleCanNotAttackFrom();
+            }
             return false;
         }
     }
 
-    public boolean selectDefendingCountry(final Country selectedCountry) {
+    public boolean selectDefendingCountry(Country selectedCountry) {
         final Player attacker = attackerCountry.getCurrentOwner();
         final Player defender = selectedCountry.getCurrentOwner();
 
@@ -58,6 +72,10 @@ public class AttackPhase {
         } else {
             System.out.format("%s cannot be selected as the country needs to be adjacent to %s and not be owned by %s\n",
                     selectedCountry, attackerCountry, attacker);
+            for(RiskView rv:riskViews){
+                rv.handleCanNotAttackFrom();
+            }
+
             return false;
         }
     }
@@ -139,12 +157,26 @@ public class AttackPhase {
 
             System.out.format("%s has conquered %s and is occupied by %s armies\n", attackerCountry.getCurrentOwner(),
                     defenderCountry, defenderCountry.getNumberOfArmies());
+            for(RiskView riskView:riskViews){
+                riskView.handleAttackResult(attackerCountry,defenderCountry,true,false,null);
+            }
             return true;
         } else {
             System.out.format("%s was not conquered and has %s remaining armies\n", defenderCountry,
                     defenderCountry.getNumberOfArmies());
+            for(RiskView riskView:riskViews){
+                riskView.handleAttackResult(attackerCountry,defenderCountry,false,false,null);
+            }
             return false;
         }
+    }
+
+    /**
+     * set the risk views of the model
+     */
+    public void setRiskViews(List<RiskView> riskViews){
+        this.riskViews=riskViews;
+
     }
 
 }

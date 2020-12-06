@@ -6,6 +6,9 @@ import risk.controller.FortifyController;
 import risk.model.board.Continent;
 import risk.model.board.Country;
 import risk.model.Game;
+import risk.model.phase.DraftPhase;
+import risk.model.player.Player;
+import risk.model.player.User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,6 +35,8 @@ public class ContinentView extends JPanel {
     private JLabel continentLabel;
     private BoardView boardView;
     private ArrayList<JButton> selectedButtons;
+    private RiskView riskView;
+    private Game game;
 
     /**
      * creates the view of a continent
@@ -39,10 +44,11 @@ public class ContinentView extends JPanel {
      * @param continent created in the continent view
      * @param color of the displayed continent
      */
-    public ContinentView(BoardView bv, Continent continent, Color color) {
+    public ContinentView(RiskView riskView,BoardView bv, Continent continent, Color color,Game game) {
         this.selectedButtons = new ArrayList<>();
         countryButtons = new HashMap<>();
         this.continent = continent;
+        this.game=game;
         boardView = bv;
         continentLabel = new JLabel(continent.getContinentName());
         this.color = color;
@@ -79,12 +85,14 @@ public class ContinentView extends JPanel {
         });
     }
 
+
     public void setupCountryListener(final Function<Country, ActionListener> actionListenerFromCountry) {
         countryButtons.forEach((country, button) -> {
-            final ActionListener listener = actionListenerFromCountry.apply(country);
+            ActionListener listener = actionListenerFromCountry.apply(country);
             button.addActionListener(listener);
         });
     }
+
 
     /**
      * Initializes the ownership of the countries and the number of countries in the
@@ -92,7 +100,7 @@ public class ContinentView extends JPanel {
      */
     public void initializePlayerCountries() {
         countryButtons.forEach((country, button) -> {
-            button.setForeground(boardView.getColors()[country.getCurrentOwner().getId() - 1]);
+            button.setForeground(boardView.getColors()[country.getCurrentOwner().getId()]);
             button.setText(country.getCountryName() + " " + country.getNumberOfArmies());
         });
     }

@@ -3,6 +3,7 @@ package risk.controller;
 import risk.model.Game;
 import risk.model.GameState;
 import risk.view.BoardView;
+import risk.view.RiskView;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,15 +19,17 @@ public class AttackPhaseController implements ActionListener {
 
     private Game game;
     private BoardView boardView;
+    private RiskView riskView;
 
     /**
      * creates the attack phase controller to listen to entering  the attack phase
      * @param game model that deals with the logic of the game
      * @param boardView board in the view
      */
-    public AttackPhaseController(Game game, BoardView boardView){
+    public AttackPhaseController(Game game, BoardView boardView, RiskView riskView){
         this.game=game;
         this.boardView=boardView;
+        this.riskView=riskView;
     }
 
     /**
@@ -36,9 +39,6 @@ public class AttackPhaseController implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         game.setState(GameState.ATTACK_PHASE);
-        boardView.getAttackPhaseButton().setEnabled(false);
-        boardView.getAttackButton().setEnabled(true);
-        boardView.getFortifyPhaseButton().setEnabled(true);
-
+        riskView.handleNewAttackPhase();
     }
 }

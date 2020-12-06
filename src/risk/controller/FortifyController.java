@@ -3,6 +3,8 @@ package risk.controller;
 import risk.model.board.Country;
 import risk.model.Game;
 import risk.model.GameState;
+import risk.model.phase.FortifyPhase;
+import risk.view.ContinentView;
 import risk.view.RiskView;
 
 import javax.swing.*;
@@ -20,6 +22,9 @@ public class FortifyController implements ActionListener {
 
     private Game gameModel;
     private RiskView riskView;
+    private FortifyPhase fortifyPhase;
+    private Country country;
+    private int armiesMoved;
 
     /**
      * Creates the Fortify Controller that listens to the player's decisions in the fortify phase
@@ -27,9 +32,11 @@ public class FortifyController implements ActionListener {
      * @param rv
      * @param game
      */
-    public FortifyController(RiskView rv, Game game) {
+    public FortifyController(RiskView rv, Game game,Country country,FortifyPhase fortifyPhase) {
         gameModel = game;
         riskView = rv;
+        this.fortifyPhase=fortifyPhase;
+        this.country=country;
     }
 
     /**
@@ -44,13 +51,26 @@ public class FortifyController implements ActionListener {
         JButton b = (JButton) e.getSource();
         if (gameModel.getState() == GameState.FORTIFY_PHASE) {
             if (b.getName().equals("fortifyButton")) {
-                //riskView.handleNewFortifyPhase(gameModel.getCurrentPlayer(), );
+                b.setEnabled(false);
             } else if (riskView.getBoardView().getFortifyButton().isEnabled()) {
+                fortifyPhase.setRiskViews(gameModel.getViews());
                 String armiesFortify = JOptionPane.showInputDialog(riskView.getRiskFrame(), "Number of armies to fortify");
-                int armiesMoved = Integer.parseInt(armiesFortify);
-                //gameModel.checkFortifyCountry(country, armiesMoved);
+                armiesMoved = Integer.parseInt(armiesFortify);
+                if(fortifyPhase.selectMovingFrom(country)){
+                    fortifyPhase.setArmiesToMove(armiesMoved);
+                    riskView.handleFortifyFromSelected(country);
+                }else {
+                    riskView.handleCanNotFortify();
+                }
             } else {
-                //gameModel.fortifyPhase(country);
+                if(fortifyPhase.selectMovingTo(country)){
+                    if(fortifyPhase.fortify()){
+                        riskView.handleFortifyToSelected();
+                        gameModel.runEndTurn();
+                    }else {
+                        riskView.handleCanNotFortify();
+                    }
+                }
             }
         }
     }
