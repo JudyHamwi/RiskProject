@@ -63,12 +63,12 @@ public class User implements Player {
     @Override
     public void performFortify(final FortifyPhase fortifyPhase) {
         while(true) {
-            views.forEach(v -> v.handleNewFortifyPhase(this));
+            views.forEach(v -> v.handleNewFortifyPhase(this,fortifyPhase));
             waitForUI();
             final GameState selectedAction = (GameState) responseFromUI;
             switch (selectedAction) {
                 case FORTIFY_PHASE:
-                    views.forEach(v -> v.handleFortifyFromSelected(fortifyPhase.getMovingFrom()));
+                    views.forEach(v -> v.handleFortifyFromSelected(fortifyPhase.getMovingFrom(),fortifyPhase));
                     waitForUI();
 
                     final RiskView view = (RiskView) responseFromUI;

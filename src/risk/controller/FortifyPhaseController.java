@@ -19,18 +19,13 @@ import java.awt.event.ActionListener;
 public class FortifyPhaseController implements ActionListener {
 
     private Game game;
-    private BoardView boardView;
-    private RiskView riskView;
 
     /**
      * creates the fortify phase controller to prepare the game for the fortufy phase
      * @param game model that deals with the logic of the game
-     * @param boardView view of the board
      */
-    public FortifyPhaseController(Game game, BoardView boardView,RiskView riskView){
+    public FortifyPhaseController(Game game){
         this.game=game;
-        this.boardView=boardView;
-        this.riskView=riskView;
     }
 
     /**
@@ -39,9 +34,7 @@ public class FortifyPhaseController implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        game.setState(GameState.FORTIFY_PHASE);
-        riskView.handleNewFortifyPhase(game.getCurrentPlayer());
-
+        game.startFortify();
     }
 
 }

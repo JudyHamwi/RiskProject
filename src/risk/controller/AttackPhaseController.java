@@ -38,7 +38,6 @@ public class AttackPhaseController implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        game.setState(GameState.ATTACK_PHASE);
-        riskView.handleNewAttackPhase();
+        game.startAttack();
     }
 }

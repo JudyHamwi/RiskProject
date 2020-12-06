@@ -5,7 +5,9 @@ import risk.model.*;
 import risk.model.board.Board;
 import risk.model.board.Continent;
 import risk.model.board.Country;
+import risk.model.phase.AttackPhase;
 import risk.model.phase.DraftPhase;
+import risk.model.phase.FortifyPhase;
 import risk.model.player.Player;
 import risk.model.player.User;
 
@@ -165,11 +167,17 @@ public class BoardView extends JPanel {
 
         endTurnButton.addActionListener(new EndTurnController(game));
         attackPhaseButton.addActionListener(new AttackPhaseController(game, this,rv));
-        attackButton.addActionListener(new AttackController(rv, game, null,null));
-        fortifyButton.addActionListener(new FortifyController(rv, game,null,null));
-        fortifyPhaseButton.addActionListener(new FortifyPhaseController(game, this,rv));
+        fortifyPhaseButton.addActionListener(new FortifyPhaseController(game));
 
         return inGamePanel;
+    }
+
+    public void setUpAttackListeners(AttackPhase attackphase){
+        attackButton.addActionListener(new AttackController(rv,attackphase));
+    }
+
+    public void setUpFortifyListeners(FortifyPhase fortifyPhase){
+        fortifyButton.addActionListener(new FortifyController(rv,fortifyPhase));
     }
 
     /**

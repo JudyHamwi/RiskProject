@@ -158,14 +158,14 @@ public class AttackPhase {
             System.out.format("%s has conquered %s and is occupied by %s armies\n", attackerCountry.getCurrentOwner(),
                     defenderCountry, defenderCountry.getNumberOfArmies());
             for(RiskView riskView:riskViews){
-                riskView.handleAttackResult(attackerCountry,defenderCountry,true,false,null);
+                riskView.handleAttackResult(attackerCountry,defenderCountry,true,false,null,this);
             }
             return true;
         } else {
             System.out.format("%s was not conquered and has %s remaining armies\n", defenderCountry,
                     defenderCountry.getNumberOfArmies());
             for(RiskView riskView:riskViews){
-                riskView.handleAttackResult(attackerCountry,defenderCountry,false,false,null);
+                riskView.handleAttackResult(attackerCountry,defenderCountry,false,false,null,this);
             }
             return false;
         }

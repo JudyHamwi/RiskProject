@@ -3,6 +3,7 @@ package risk.view;
 import risk.model.*;
 import risk.model.board.Board;
 import risk.model.board.Country;
+import risk.model.phase.AttackPhase;
 import risk.model.phase.DraftPhase;
 import risk.model.phase.FortifyPhase;
 import risk.model.player.Player;
@@ -35,15 +36,15 @@ public interface RiskView {
 
      void handleCanNotAttackFrom( );
 
-     void handleNewAttack();
+     void handleNewAttack(AttackPhase attackPhase);
 
      BoardView getBoardView();
 
-     void handleAttackResult(Country attackerCountry, Country defenderCountry, boolean attackSuccess, boolean winner, Player playerRemoved);
+     void handleAttackResult(Country attackerCountry, Country defenderCountry, boolean attackSuccess, boolean winner, Player playerRemoved,AttackPhase attackPhase);
 
-     void handleNewFortifyPhase(Player fortifier);
+     void handleNewFortifyPhase(Player fortifier,FortifyPhase fortifyPhase);
 
-     void handleFortifyFromSelected(Country country);
+     void handleFortifyFromSelected(Country country,FortifyPhase fortifyPhase);
 
      void handleCanNotFortifyArmies(Game game);
 
@@ -65,6 +66,8 @@ public interface RiskView {
 
      int getNumber(int min, int max, String message);
 
-     void handleNewAttackPhase();
+     void handleNewAttackPhase(AttackPhase attackPhase);
+
+     void handleNewFortify(FortifyPhase fortifyPhase);
 
 }

@@ -22,8 +22,6 @@ import javax.swing.*;
  */
 
 public class AttackController implements ActionListener {
-    private Game gameModel;
-    private Country country;
     private RiskView riskView;
     private AttackPhase attackPhase;
 
@@ -31,16 +29,11 @@ public class AttackController implements ActionListener {
     /**
      * Creates the Attack Controller that listens to the player's decisions in the attack phase
      * @param riskView contains the buttons that the player makes the moves in
-     * @param game model that deals with the logic of the attack phase
-     * @param country that player selected to attack from or to if they are picking a country,
      *                or null if the player chooses the Attack button
      */
-    public AttackController(RiskView riskView, Game game, Country country,AttackPhase attackPhase) {
-        this.country=country;
+    public AttackController(RiskView riskView,AttackPhase attackPhase ) {
         this.riskView=riskView;
         this.attackPhase=attackPhase;
-        gameModel=game;
-
     }
 
     /**
@@ -51,18 +44,8 @@ public class AttackController implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println("attack controller");
         JButton b = (JButton) e.getSource();
-            if (b.getName().equals("attackButton")) {
-                riskView.handleNewAttack();
-            } else if (riskView.getBoardView().getAttackButton().isEnabled()) {
-                attackPhase.setRiskViews(gameModel.getViews());
-                attackPhase.selectAttackingCountry(country);
-            } else {
-                if(attackPhase.selectDefendingCountry(country)) {
-                    attackPhase.runAttack();
-                }
-            }
-        }
+            riskView.handleNewAttack(attackPhase);
+    }
 
 }

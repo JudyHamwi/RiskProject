@@ -229,4 +229,20 @@ public class Game {
         }
     }
 
+    public void startAttack(){
+        gameState = GameState.ATTACK_PHASE;
+        AttackPhase attackPhase=new AttackPhase(currentPlayer,new Dice());
+        for(RiskView riskView:riskViews){
+            riskView.handleNewAttackPhase(attackPhase);
+        }
+    }
+
+    public void startFortify(){
+        gameState = GameState.FORTIFY_PHASE;
+        FortifyPhase fortifyPhase=new FortifyPhase(board,currentPlayer);
+        for(RiskView riskView:riskViews){
+            riskView.handleNewFortifyPhase(currentPlayer,fortifyPhase);
+        }
+    }
+
 }

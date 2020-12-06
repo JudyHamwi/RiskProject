@@ -20,23 +20,17 @@ import java.awt.event.ActionListener;
  */
 public class FortifyController implements ActionListener {
 
-    private Game gameModel;
     private RiskView riskView;
     private FortifyPhase fortifyPhase;
-    private Country country;
-    private int armiesMoved;
 
     /**
      * Creates the Fortify Controller that listens to the player's decisions in the fortify phase
      *
      * @param rv
-     * @param game
      */
-    public FortifyController(RiskView rv, Game game,Country country,FortifyPhase fortifyPhase) {
-        gameModel = game;
+    public FortifyController(RiskView rv,FortifyPhase fortifyPhase) {
         riskView = rv;
         this.fortifyPhase=fortifyPhase;
-        this.country=country;
     }
 
     /**
@@ -49,30 +43,8 @@ public class FortifyController implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         JButton b = (JButton) e.getSource();
-        if (gameModel.getState() == GameState.FORTIFY_PHASE) {
-            if (b.getName().equals("fortifyButton")) {
-                b.setEnabled(false);
-            } else if (riskView.getBoardView().getFortifyButton().isEnabled()) {
-                fortifyPhase.setRiskViews(gameModel.getViews());
-                String armiesFortify = JOptionPane.showInputDialog(riskView.getRiskFrame(), "Number of armies to fortify");
-                armiesMoved = Integer.parseInt(armiesFortify);
-                if(fortifyPhase.selectMovingFrom(country)){
-                    fortifyPhase.setArmiesToMove(armiesMoved);
-                    riskView.handleFortifyFromSelected(country);
-                }else {
-                    riskView.handleCanNotFortify();
-                }
-            } else {
-                if(fortifyPhase.selectMovingTo(country)){
-                    if(fortifyPhase.fortify()){
-                        riskView.handleFortifyToSelected();
-                        gameModel.runEndTurn();
-                    }else {
-                        riskView.handleCanNotFortify();
-                    }
-                }
+        riskView.handleNewFortify(fortifyPhase);
             }
-        }
-    }
+
 }
 
