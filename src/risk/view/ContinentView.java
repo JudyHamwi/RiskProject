@@ -46,6 +46,7 @@ public class ContinentView extends JPanel {
      */
     public ContinentView(RiskView riskView,BoardView bv, Continent continent, Color color,Game game) {
         this.selectedButtons = new ArrayList<>();
+        this.riskView=riskView;
         countryButtons = new HashMap<>();
         this.continent = continent;
         this.game=game;
@@ -78,7 +79,7 @@ public class ContinentView extends JPanel {
 
     public void clearCountryListeners() {
         countryButtons.values().forEach(b -> {
-            final ActionListener[] listeners = b.getActionListeners();
+             ActionListener[] listeners = b.getActionListeners();
             for (ActionListener listener : listeners) {
                 b.removeActionListener(listener);
             }
@@ -86,7 +87,7 @@ public class ContinentView extends JPanel {
     }
 
 
-    public void setupCountryListener(final Function<Country, ActionListener> actionListenerFromCountry) {
+    public void setupCountryListener(Function<Country, ActionListener> actionListenerFromCountry) {
         countryButtons.forEach((country, button) -> {
             ActionListener listener = actionListenerFromCountry.apply(country);
             button.addActionListener(listener);

@@ -347,6 +347,7 @@ public class RiskViewFrame extends JFrame implements RiskView {
         boardView.updateCountryButtons();
         selectedAttackButton = null;
         boardView.setupCountryListeners(country -> new AttackFromController(this,gameModel,country,attackPhase));
+
     }
 
     @Override

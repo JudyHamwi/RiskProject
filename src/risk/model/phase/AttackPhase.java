@@ -28,15 +28,15 @@ public class AttackPhase {
     private Player attacker;
     private final Dice dice;
 
-    private Country attackerCountry;
-    private Country defenderCountry;
+     Country attackerCountry;
+     Country defenderCountry;
 
     private List<RiskView> riskViews;
 
     /**
      * Constructor of Attack Phase initializes the fields.
      */
-    public AttackPhase(final Player attacker, final Dice dice) {
+    public AttackPhase( Player attacker, final Dice dice) {
         this.attacker = attacker;
         this.dice = dice;
         riskViews=new ArrayList<>();
@@ -63,8 +63,8 @@ public class AttackPhase {
     }
 
     public boolean selectDefendingCountry(Country selectedCountry) {
-        final Player attacker = attackerCountry.getCurrentOwner();
-        final Player defender = selectedCountry.getCurrentOwner();
+         Player attacker = attackerCountry.getCurrentOwner();
+         Player defender = selectedCountry.getCurrentOwner();
 
         if (attackerCountry.isAdjacent(selectedCountry) && !attacker.equals(defender)) {
             defenderCountry = selectedCountry;

@@ -26,6 +26,7 @@ public class AttackToController implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if(attackPhase.selectDefendingCountry(country)) {
             attackPhase.runAttack();
+            attackPhase.reset();
         }
     }
 }

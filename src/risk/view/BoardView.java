@@ -190,7 +190,7 @@ public class BoardView extends JPanel {
         this.add(inGamePanel(game, player));
     }
 
-    public void setupCountryListeners(final Function<Country, ActionListener> actionListenerFromCountry) {
+    public void setupCountryListeners(Function<Country, ActionListener> actionListenerFromCountry) {
         continentViews.forEach(cv -> {
             cv.clearCountryListeners();
             cv.setupCountryListener(actionListenerFromCountry);
