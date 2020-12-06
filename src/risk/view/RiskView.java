@@ -7,6 +7,7 @@ import risk.model.phase.DraftPhase;
 import risk.model.phase.FortifyPhase;
 import risk.model.player.Player;
 import risk.model.player.User;
+import risk.model.turnSummary.TurnSummary;
 
 import javax.swing.*;
 import java.util.List;
@@ -57,7 +58,7 @@ public interface RiskView {
 
      void handleSetNumOfAIPlayers(int numPlayers);
 
-     void handleAITurn(int numberOfCountries, Player player);
+     void handleAITurn(TurnSummary AISummary);
 
      void handleEndGame(Player winner);
 

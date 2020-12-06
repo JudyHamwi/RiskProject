@@ -21,7 +21,7 @@ public class AI implements Player {
 
     private final int id;
     private final Board board;
-    private TurnSummary AISummary;
+    private final TurnSummary AISummary;
 
     public AI(final int id, final Board board) {
         this.id = id;
@@ -91,6 +91,8 @@ public class AI implements Player {
     @Override
     public void performEndTurn(List<RiskView> views) {
         //for each view call handleAITurn. need to implement turn Summary object and populate it as we run the turns
+        views.forEach(v -> v.handleAITurn(AISummary));
+
     }
 
     private List<Country> getOwnedCountriesByArmySize() {

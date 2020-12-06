@@ -11,6 +11,7 @@ import risk.model.phase.PhaseFactory;
 import risk.model.player.Player;
 import risk.model.player.PlayerFactory;
 import risk.model.player.User;
+import risk.model.turnSummary.TurnSummary;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -368,18 +369,17 @@ public class RiskViewFrame extends JFrame implements RiskView {
     /**
      * Update the view after the completion of the AI turn
      *
-     * @param numberOfAttacks that the AI player atacked
-     * @param player          the AI player
+     * @param AISummary A class that summarizes an AI's turn.
      */
     @Override
-    public void handleAITurn(int numberOfAttacks, Player player) {
-        JOptionPane.showMessageDialog(this, "AI " + player + " attacked " + numberOfAttacks + "times");
+    public void handleAITurn(TurnSummary AISummary) {
+        JOptionPane.showMessageDialog(this, AISummary.printSummary());
         boardView.updateBoardForAI();
     }
 
     @Override
     public void handleEndGame(final Player winner) {
-        JOptionPane.showMessageDialog(this, winner + " Conquered the World !");
+        JOptionPane.showMessageDialog(this, winner + " Conquered the World!");
     }
 
     @Override

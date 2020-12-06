@@ -1,5 +1,7 @@
 package risk.model.turnSummary;
 
+import risk.view.RiskView;
+
 import java.util.LinkedList;
 import java.util.List;
 
