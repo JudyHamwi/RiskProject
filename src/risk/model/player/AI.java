@@ -5,8 +5,13 @@ import risk.model.board.Country;
 import risk.model.phase.AttackPhase;
 import risk.model.phase.DraftPhase;
 import risk.model.phase.FortifyPhase;
+import risk.model.turnSummary.AttackAction;
+import risk.model.turnSummary.DraftAction;
+import risk.model.turnSummary.FortifyAction;
+import risk.model.turnSummary.TurnSummary;
 import risk.view.RiskView;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
@@ -16,10 +21,12 @@ public class AI implements Player {
 
     private final int id;
     private final Board board;
+    private TurnSummary AISummary;
 
     public AI(final int id, final Board board) {
         this.id = id;
         this.board = board;
+        this.AISummary = new TurnSummary();
     }
 
     @Override
@@ -29,11 +36,11 @@ public class AI implements Player {
 
     @Override
     public void performDraft(final DraftPhase draftPhase) {
+        final Country countryToReinforce = getOwnedCountriesByArmySize().get(0);
         while(draftPhase.haveArmiesToPlace()) {
-            final Country countryToReinforce = getOwnedCountriesByArmySize().get(0);
-
             draftPhase.placeArmy(countryToReinforce);
         }
+        addDraftActionSummary(countryToReinforce);
     }
 
     @Override
@@ -45,29 +52,39 @@ public class AI implements Player {
 
             attackPhase.runAttack();
 
+            addAttackActionSummary(attackPhase.getAttackerCountry(), this, attackPhase.getAttackingArmiesLost(),
+                    attackPhase.getDefenderCountry(), attackPhase.getDefendingArmiesLost(),
+                    attackPhase.getDefenderCountry().getNumberOfArmies() < 1 );
+
             attackPhase.reset();
             attackingCountryFound = trySelectingAnAttackingCountry(attackPhase);
+
         }
+
     }
 
     @Override
     public void performFortify(final FortifyPhase fortifyPhase) {
-        final List<Country> strongestToWeakest = getOwnedCountriesByArmySize().stream()
-                .sorted(Comparator.comparing(Country::getNumberOfArmies).reversed())
-                .collect(Collectors.toList());
+        final List<Country> strongestToWeakest = new ArrayList<>();
+        for (Country country : getOwnedCountriesByArmySize()) {
+            strongestToWeakest.add(country);
+        }
+        strongestToWeakest.sort(Comparator.comparing(Country::getNumberOfArmies).reversed());
 
         for (final Country selectedFrom : strongestToWeakest) {
-            if (fortifyPhase.selectMovingFrom(selectedFrom)) {
-                final Country weakestConnectedCountry = selectedFrom.getConnectedCountries().stream()
-                        .sorted(Comparator.comparing(Country::getNumberOfArmies))
-                        .findFirst()
-                        .get();
-                fortifyPhase.selectMovingTo(weakestConnectedCountry);
-
-                final int armiesToMove = selectedFrom.getNumberOfArmies() / 2;
-                fortifyPhase.fortify(armiesToMove);
-                break;
+            if (!fortifyPhase.selectMovingFrom(selectedFrom)) {
+                continue;
             }
+            final Country weakestConnectedCountry = selectedFrom.getConnectedCountries().stream().min(Comparator.comparing(Country::getNumberOfArmies))
+                    .get();
+            fortifyPhase.selectMovingTo(weakestConnectedCountry);
+
+            final int armiesToMove = selectedFrom.getNumberOfArmies() / 2;
+            fortifyPhase.fortify(armiesToMove);
+
+            addFortifyActionSummary(selectedFrom, weakestConnectedCountry); // Summarizes AI's drafting phase
+
+            break;
         }
     }
 
@@ -98,6 +115,21 @@ public class AI implements Player {
                 .get();
     }
 
+    public void addAttackActionSummary(Country attackerCountry, Player attacker, int attackingUnitsLost,
+                                       Country defendingCountry, int defendingUnitsLost, boolean ifDefenderLost) {
+        AttackAction aa = new AttackAction(attackerCountry, attacker, attackingUnitsLost, defendingCountry, defendingUnitsLost, ifDefenderLost);
+        AISummary.recordAttack(aa);
+    }
+
+    public void addDraftActionSummary(Country draftingCountry) {
+        DraftAction da = new DraftAction(draftingCountry);
+        AISummary.recordDraft(da);
+    }
+
+    public void addFortifyActionSummary(Country moveFrom, Country moveTo) {
+        FortifyAction fa = new FortifyAction(moveFrom, moveTo);
+        AISummary.recordFortify(fa);
+    }
 
     @Override
     public boolean equals(Object o) {

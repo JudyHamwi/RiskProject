@@ -28,12 +28,17 @@ public class AttackPhase {
     private Country attackerCountry;
     private Country defenderCountry;
 
+    private int attackingArmiesLost;
+    private int defendingArmiesLost;
+
     /**
      * Constructor of Attack Phase initializes the fields.
      */
     public AttackPhase(final Player attacker, final Dice dice) {
         this.attacker = attacker;
         this.dice = dice;
+        this.attackingArmiesLost = 0;
+        this.defendingArmiesLost = 0;
     }
 
     public boolean selectAttackingCountry(final Country selectedCountry) {
@@ -79,11 +84,21 @@ public class AttackPhase {
 
             if (attackerValue > defenderValue) {
                 defenderCountry.addArmies(-1);
+                defendingArmiesLost += 1;
             } else if (defenderValue > attackerValue) {
                 attackerCountry.addArmies(-1);
+                attackingArmiesLost += 1;
             }
         }
         return transferArmiesIfDefenderDefeated();
+    }
+
+    public int getAttackingArmiesLost() {
+        return attackingArmiesLost;
+    }
+
+    public int getDefendingArmiesLost() {
+        return defendingArmiesLost;
     }
 
     public void reset() {
