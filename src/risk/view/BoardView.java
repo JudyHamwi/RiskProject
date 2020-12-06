@@ -6,10 +6,8 @@ import risk.model.board.Board;
 import risk.model.board.Continent;
 import risk.model.board.Country;
 import risk.model.phase.AttackPhase;
-import risk.model.phase.DraftPhase;
 import risk.model.phase.FortifyPhase;
 import risk.model.player.Player;
-import risk.model.player.User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -173,7 +171,7 @@ public class BoardView extends JPanel {
     }
 
     public void setUpAttackListeners(AttackPhase attackphase){
-        attackButton.addActionListener(new AttackController(rv,attackphase));
+        attackButton.addActionListener(new StartAttackController(game));
     }
 
     public void setUpFortifyListeners(FortifyPhase fortifyPhase){

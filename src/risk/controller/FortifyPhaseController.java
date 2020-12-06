@@ -34,7 +34,7 @@ public class FortifyPhaseController implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        game.startFortify();
+        game.play();
     }
 
 }

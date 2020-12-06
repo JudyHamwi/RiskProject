@@ -30,7 +30,7 @@ public class FortifyToController implements ActionListener {
                 user.wakeUser(user);
                 if (fortifyPhase.fortify()) {
                     view.handleFortifyToSelected();
-                    game.runEndTurn();
+                   // game.runEndTurn();
                 } else {
                     view.handleCanNotFortify();
                 }

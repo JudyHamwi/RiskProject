@@ -8,6 +8,7 @@ import risk.model.board.Country;
 import risk.model.Game;
 import risk.model.GameState;
 import risk.model.phase.AttackPhase;
+import risk.model.player.User;
 import risk.view.RiskView;
 
 import javax.swing.*;
@@ -21,19 +22,15 @@ import javax.swing.*;
  * @author Walid Baitul
  */
 
-public class AttackController implements ActionListener {
-    private RiskView riskView;
-    private AttackPhase attackPhase;
+public class StartAttackController implements ActionListener {
+    private Game game;
 
 
     /**
      * Creates the Attack Controller that listens to the player's decisions in the attack phase
-     * @param riskView contains the buttons that the player makes the moves in
-     *                or null if the player chooses the Attack button
      */
-    public AttackController(RiskView riskView,AttackPhase attackPhase ) {
-        this.riskView=riskView;
-        this.attackPhase=attackPhase;
+    public StartAttackController(Game game ) {
+        this.game = game;
     }
 
     /**
@@ -44,8 +41,7 @@ public class AttackController implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        JButton b = (JButton) e.getSource();
-            riskView.handleNewAttack(attackPhase);
+        final User attacker = (User) game.getCurrentPlayer();
+        attacker.wakeUser(null);
     }
-
 }

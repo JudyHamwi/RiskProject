@@ -1,14 +1,8 @@
 package risk.view;
 
-import risk.controller.AttackController;
-import risk.controller.DraftPhaseController;
-import risk.controller.FortifyController;
 import risk.model.board.Continent;
 import risk.model.board.Country;
 import risk.model.Game;
-import risk.model.phase.DraftPhase;
-import risk.model.player.Player;
-import risk.model.player.User;
 
 import javax.swing.*;
 import java.awt.*;

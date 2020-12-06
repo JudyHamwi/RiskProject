@@ -3,6 +3,7 @@ package risk.controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import risk.model.Game;
+import risk.model.GameState;
 
 /**
  * EndTurn Controller listens to player's move of ending their turn
@@ -13,7 +14,7 @@ import risk.model.Game;
  * @author Walid Baitul
  */
 public class EndTurnController implements ActionListener {
-    private Game gameModel;
+    private Game game;
 
     /**
      * creates the listener that listens to the player ending their turn and passing the turn
@@ -21,7 +22,7 @@ public class EndTurnController implements ActionListener {
      * @param game model that responds to the logic of ending the turn
      */
     public EndTurnController(Game game) {
-        this.gameModel = game;
+        this.game = game;
     }
 
     /**
@@ -30,6 +31,7 @@ public class EndTurnController implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        gameModel.runEndTurn();
+        game.setState(GameState.END_TURN);
+        game.play();
     }
 }

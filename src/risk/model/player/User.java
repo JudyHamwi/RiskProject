@@ -52,7 +52,11 @@ public class User implements Player {
         while (draftPhase.haveArmiesToPlace()) {
             waitForUI();
             final Country selectedCountry = (Country) responseFromUI;
+            if(!draftPhase.placeArmy(selectedCountry)){
+                views.forEach(v -> v.handleCanNotDraftFrom());
+            }
         }
+        waitForUI();
     }
 
     @Override

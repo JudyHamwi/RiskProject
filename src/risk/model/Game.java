@@ -87,18 +87,28 @@ public class Game {
     private void runDraft() {
         final DraftPhase draftPhase = phaseFactory.buildDraftPhase(this);
         currentPlayer.performDraft(draftPhase);
+        for(RiskView rv:riskViews){
+            User user=(User) currentPlayer;
+            rv.handleNewDraftPhase(user,draftPhase);
+        }
         gameState = GameState.ATTACK_PHASE;
     }
 
     private void runAttack() {
         final AttackPhase attackPhase = phaseFactory.buildAttackPhase(this);
         currentPlayer.performAttack(attackPhase);
+        for(RiskView riskView:riskViews){
+            riskView.handleNewAttackPhase(attackPhase);
+        }
         gameState = GameState.FORTIFY_PHASE;
     }
 
     private void runFortify() {
         final FortifyPhase fortifyPhase = phaseFactory.buildFortifyPhase(this);
         currentPlayer.performFortify(fortifyPhase);
+        for(RiskView riskView:riskViews){
+            riskView.handleNewFortifyPhase(currentPlayer,fortifyPhase);
+        }
         gameState = GameState.END_TURN;
     }
 

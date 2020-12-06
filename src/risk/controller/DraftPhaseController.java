@@ -24,19 +24,19 @@ public class DraftPhaseController implements ActionListener {
     private final User drafter;
     private final DraftPhase draftPhase;
     private final Country country;
-    private  Game game;
+    private Game game;
 
     /**
      * creates the attack phase controller to listen to entering  the attack phase
      *
      * @param country that id being drafted
      */
-    public DraftPhaseController(final RiskView view, final User drafter, final Country country, Game game,DraftPhase draftPhase) {
+    public DraftPhaseController(final RiskView view, final User drafter, final Country country, Game game, DraftPhase draftPhase) {
         this.view = view;
         this.drafter = drafter;
         this.country = country;
-        this.game=game;
-        this.draftPhase=draftPhase;
+        this.game = game;
+        this.draftPhase = draftPhase;
         draftPhase.setRiskViews(game.getViews());
     }
 
@@ -47,15 +47,6 @@ public class DraftPhaseController implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (game.getState() == GameState.DRAFT_PHASE) {
-            if (draftPhase.haveArmiesToPlace()) {
-                if (draftPhase.placeArmy(country)) {
-                    drafter.wakeUser(country);
-                    view.handleAddedArmy(country, draftPhase.getArmiesToPlace());
-                } else {
-                    view.handleCanNotDraftFrom();
-                }
-            }
-        }
+        drafter.wakeUser(country);
     }
-    }
+}
