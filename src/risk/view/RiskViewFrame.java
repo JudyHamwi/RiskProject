@@ -53,6 +53,7 @@ public class RiskViewFrame extends JFrame implements RiskView {
     private JMenu numberOfAIPlayers;
     private PlayerFactory playerFactory;
 
+
     /**
      * creates the View of the Risk Game
      */

@@ -45,7 +45,7 @@ public class BoardRepository {
 
         String mapJson;
         try (BufferedReader fileReader = new BufferedReader(new FileReader(filePath))){
-            mapJson = fileReader.readLine(); //But it's more than one line
+            mapJson = fileReader.readLine();
         } catch (IOException e) {
             throw new RuntimeException("Was not able to load map: " + name, e);
         }
@@ -84,4 +84,10 @@ public class BoardRepository {
                 .append(JSON_EXTENSION)
                 .toString();
     }
+
+    /*public static void main(String[] args) {
+        final Board board = new OriginalBoardFactory().build();
+        BoardRepository repo = new BoardRepository("images");
+        repo.saveMap("original",board);
+    }*/
 }

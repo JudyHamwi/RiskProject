@@ -4,6 +4,7 @@ import risk.model.GameConstants;
 import risk.model.player.Player;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * The RISKModel.Board of the RISK RISKModel.Game.
@@ -24,14 +25,10 @@ public class Board {
      */
     public Board(final List<Continent> continents, final GameConstants gameConstants) {
         this.continents = continents;
-        List<Country> countries = new ArrayList<>();
-        for (Continent continent : continents) {
-            List<Country> continentCountries = continent.getCountries();
-            for (Country country : continentCountries) {
-                countries.add(country);
-            }
-        }
-        this.countries = countries;
+        this.countries = continents.stream()
+                .map(Continent::getCountries)
+                .flatMap(List::stream)
+                .collect(Collectors.toList());
         this.gameConstants = gameConstants;
     }
 
@@ -59,16 +56,23 @@ public class Board {
     public String toString() {
         String Board = "RISK BOARD: \n" + "Continents: \n";
         for (Continent c : continents) {
-            Board = Board.concat(c.toString());
+            Board = Board.concat(c.toString() + "\n");
         }
         return Board;
     }
 
-
+    /**
+     * Retrieves all the countries in the RISKModel.Board
+     *
+     * @return List of countries in the RISKModel.Board
+     */
     public List<Country> getCountries() {
         return countries;
     }
 
+    /**
+     * create the RISKModel.Board for the RISK RISKModel.Game
+     */
     public void assignCountries(final List<Player> players) {
         final LinkedList<Country> countriesToAssign = new LinkedList<>();
         countriesToAssign.addAll(countries);
@@ -104,29 +108,36 @@ public class Board {
         });
     }
 
+    public GameConstants getGameConstants() {
+        return gameConstants;
+    }
+
     public List<Country> getCountriesOwnedBy(final Player player) {
-        List<Country> countries = new ArrayList<>();
-        for (Country country : this.countries) {
-            if (player.equals(country.getCurrentOwner())) {
-                countries.add(country);
-            }
-        }
-        return countries;
+        return countries.stream()
+                .filter(country -> player.equals(country.getCurrentOwner()))
+                .collect(Collectors.toList());
     }
 
     public List<Continent> getContinentsOwnedBy(final Player player) {
-        List<Continent> continents = new ArrayList<>();
-        for (Continent c : this.continents) {
-            if (c.isOwnedBy(player)) {
-                continents.add(c);
-            }
-        }
-        return continents;
+        return continents.stream()
+                .filter(c -> c.isOwnedBy(player))
+                .collect(Collectors.toList());
+
+
     }
 
-    public GameConstants getGameConstants() {
-        return this.gameConstants;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Board board = (Board) o;
+        return continents.equals(board.continents) &&
+                countries.equals(board.countries) &&
+                gameConstants.equals(board.gameConstants);
     }
-    //TODO: Add validation methods for custom maps
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(continents, countries, gameConstants);
+    }
 }
