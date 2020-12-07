@@ -35,7 +35,7 @@ public class FortifyStartController implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        final User user = (User) game.getCurrentPlayer();
+        User user = (User) game.getCurrentPlayer();
         user.wakeUser(GameState.FORTIFY_PHASE);
     }
 

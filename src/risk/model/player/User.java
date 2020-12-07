@@ -92,25 +92,25 @@ public class User implements Player {
 
     @Override
     public void performFortify(final FortifyPhase fortifyPhase) {
-        while(true) {
+        //while(true) {
             views.forEach(v -> v.handleNewFortifyPhase(this,fortifyPhase));
             waitForUI();
             final GameState selectedAction = (GameState) responseFromUI;
             switch (selectedAction) {
                 case FORTIFY_PHASE:
-                    views.forEach(v -> v.handleFortifyFromSelected(fortifyPhase.getMovingFrom(),fortifyPhase));
+                    views.forEach(v -> v.handleFortifyFromSelected(fortifyPhase.getMovingFrom()));
                     waitForUI();
 
-                    final RiskView view = (RiskView) responseFromUI;
-                    final int armiesToMove = view.getNumber(0, fortifyPhase.getMovingFrom().getNumberOfArmies() - 1, "Number of armies to move");
-                    fortifyPhase.setArmiesToMove(armiesToMove);
                     fortifyPhase.fortify();
+                    System.out.println("1");
+                    views.forEach(v-> v.handleFortifyToSelected());
+                    System.out.println("2");
                     fortifyPhase.reset();
                     break;
                 case END_TURN:
                     return;
             }
-        }
+       // }
     }
 
     @Override

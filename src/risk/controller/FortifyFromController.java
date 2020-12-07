@@ -26,14 +26,12 @@ public class FortifyFromController implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        fortifyPhase.setRiskViews(game.getViews());
         String armiesFortify = JOptionPane.showInputDialog(riskView.getRiskFrame(), "Number of armies to fortify");
         int armiesMoved = Integer.parseInt(armiesFortify);
         if (fortifyPhase.selectMovingFrom(country)) {
             User user=(User) game.getCurrentPlayer();
             user.wakeUser(GameState.FORTIFY_PHASE);
             fortifyPhase.setArmiesToMove(armiesMoved);
-            riskView.handleFortifyFromSelected(country,fortifyPhase);
         }    else {
             riskView.handleCanNotFortify();
         }

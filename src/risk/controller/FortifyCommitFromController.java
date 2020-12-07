@@ -21,13 +21,17 @@ import java.awt.event.ActionListener;
  */
 public class FortifyCommitFromController implements ActionListener {
 
+    private final FortifyPhase fortifyPhase;
     private Game game;
+    private RiskView view;
 
     /**
      * Creates the Fortify Controller that listens to the player's decisions in the fortify phase
      */
-    public FortifyCommitFromController(Game game) {
+    public FortifyCommitFromController(Game game, RiskView view, FortifyPhase fortifyPhase) {
         this.game = game;
+        this.view = view;
+        this.fortifyPhase = fortifyPhase;
     }
 
     /**
@@ -39,8 +43,9 @@ public class FortifyCommitFromController implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        User user = (User) game.getCurrentPlayer();
-        user.wakeUser(GameState.FORTIFY_PHASE);
+        //User user = (User) game.getCurrentPlayer();
+        //user.wakeUser(view);
+        view.handleNewFortify(fortifyPhase);
     }
 }
 

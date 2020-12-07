@@ -174,9 +174,9 @@ public class BoardView extends JPanel {
         attackButton.addActionListener(new AttackCommitFromController(game));
     }
 
-    public void setUpFortifyListeners(){
+    public void setUpFortifyListeners(FortifyPhase fortifyPhase){
         removeActionListeners(fortifyButton);
-        fortifyButton.addActionListener(new FortifyCommitFromController(game));
+        fortifyButton.addActionListener(new FortifyCommitFromController(game, rv, fortifyPhase));
     }
 
     /**

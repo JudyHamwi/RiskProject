@@ -25,16 +25,10 @@ public class FortifyToController implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (fortifyPhase.selectMovingTo(country)) {
-            if (fortifyPhase.selectMovingTo(country)) {
-                User user = (User) game.getCurrentPlayer();
-                user.wakeUser(user);
-                if (fortifyPhase.fortify()) {
-                    view.handleFortifyToSelected();
-                   // game.runEndTurn();
-                } else {
-                    view.handleCanNotFortify();
-                }
-            }
+            User user = (User) game.getCurrentPlayer();
+            user.wakeUser(user);
+        }else{
+            view.handleCanNotFortify();
         }
     }
 }

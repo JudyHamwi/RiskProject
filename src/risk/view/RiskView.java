@@ -44,7 +44,7 @@ public interface RiskView {
 
      void handleNewFortifyPhase(Player fortifier,FortifyPhase fortifyPhase);
 
-     void handleFortifyFromSelected(Country country,FortifyPhase fortifyPhase);
+     void handleFortifyFromSelected(Country country);
 
      void handleCanNotFortifyArmies(Game game);
 
