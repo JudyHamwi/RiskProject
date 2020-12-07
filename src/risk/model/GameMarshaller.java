@@ -2,6 +2,7 @@ package risk.model;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import risk.model.marshalling.InterfaceAdapter;
 import risk.model.player.Player;
 import risk.view.RiskView;
 

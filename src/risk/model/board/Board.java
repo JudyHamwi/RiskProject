@@ -127,6 +127,22 @@ public class Board {
     public GameConstants getGameConstants() {
         return this.gameConstants;
     }
-    //TODO: Add validation methods for custom maps
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Board board = (Board) o;
+        return continents.equals(board.continents) &&
+                countries.equals(board.countries) &&
+                gameConstants.equals(board.gameConstants);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(continents, countries, gameConstants);
+    }
+
+    //TODO: Add validation methods for custom maps
 }

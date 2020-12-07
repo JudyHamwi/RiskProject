@@ -231,30 +231,4 @@ public class Game {
 
         riskViews.forEach(rv -> rv.handlePrintHelp(this, pH));
     }
-
-    private void startDraft(){
-        gameState = GameState.DRAFT_PHASE;
-        DraftPhase draftPhase=new DraftPhase(board,currentPlayer);
-        for(RiskView rv:riskViews){
-            User user=(User) currentPlayer;
-            rv.handleNewDraftPhase(user,draftPhase);
-        }
-    }
-
-    public void startAttack(){
-        gameState = GameState.ATTACK_PHASE;
-        AttackPhase attackPhase=new AttackPhase(currentPlayer,new Dice());
-        for(RiskView riskView:riskViews){
-            riskView.handleNewAttackPhase(attackPhase);
-        }
-    }
-
-    public void startFortify(){
-        gameState = GameState.FORTIFY_PHASE;
-        FortifyPhase fortifyPhase=new FortifyPhase(board,currentPlayer);
-        for(RiskView riskView:riskViews){
-            riskView.handleNewFortifyPhase(currentPlayer,fortifyPhase);
-        }
-    }
-
 }

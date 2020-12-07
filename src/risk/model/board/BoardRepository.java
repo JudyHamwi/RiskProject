@@ -1,5 +1,7 @@
 package risk.model.board;
 
+import risk.model.marshalling.BoardMarshaller;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;

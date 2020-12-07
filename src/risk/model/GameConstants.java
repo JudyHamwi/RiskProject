@@ -2,6 +2,7 @@ package risk.model;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class GameConstants {
     private final Map<Integer, Integer> playerCountToArmyMap;
@@ -21,5 +22,18 @@ public class GameConstants {
         }
 
         return playerCountToArmyMap.get(numPlayers);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        GameConstants that = (GameConstants) o;
+        return Objects.equals(playerCountToArmyMap, that.playerCountToArmyMap);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(playerCountToArmyMap);
     }
 }

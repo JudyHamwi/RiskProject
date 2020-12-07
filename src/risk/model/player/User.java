@@ -7,7 +7,6 @@ import risk.model.phase.DraftPhase;
 import risk.model.phase.FortifyPhase;
 import risk.view.RiskView;
 
-import javax.swing.*;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.Semaphore;

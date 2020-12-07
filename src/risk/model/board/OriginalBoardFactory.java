@@ -374,15 +374,13 @@ public class OriginalBoardFactory implements BoardFactory {
     }
 
     /**
-     * Initialize adjacent countries in Australia
+     * Initialize adjacent counntries in Australia
      */
     private void linkAustraliaAdjacentCountries() {
         getCountry("EasternAustralia").addAdjacentCountry(getCountry("WesternAustralia"));
         getCountry("EasternAustralia").addAdjacentCountry(getCountry("NewGuinea"));
         getCountry("Indonesia").addAdjacentCountry(getCountry("Siam"));
         getCountry("Indonesia").addAdjacentCountry(getCountry("NewGuinea"));
-        getCountry("Indonesia").addAdjacentCountry(getCountry("WesternAustralia"));
-        getCountry("Indonesia").addAdjacentCountry(getCountry("EasternAustralia"));
         getCountry("NewGuinea").addAdjacentCountry(getCountry("EasternAustralia"));
         getCountry("NewGuinea").addAdjacentCountry(getCountry("Indonesia"));
         getCountry("NewGuinea").addAdjacentCountry(getCountry("WesternAustralia"));

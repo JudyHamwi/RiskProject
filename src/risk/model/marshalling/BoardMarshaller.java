@@ -1,7 +1,8 @@
-package risk.model.board;
+package risk.model.marshalling;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import risk.model.board.Board;
 
 public class BoardMarshaller {
     final private Gson gson = new GsonBuilder().enableComplexMapKeySerialization()

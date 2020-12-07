@@ -5,6 +5,7 @@ import risk.model.player.Player;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * RISKModel.Country in the RISKModel.Board of RISK RISKModel.Game
@@ -16,7 +17,6 @@ import java.util.Objects;
  * @version 2.0
  */
 public class Country {
-
     private String countryName;
     private List<Country> adjacentCountries;
     private int numberOfArmies;
@@ -71,10 +71,6 @@ public class Country {
         return adjacentCountries;
     }
 
-    public void setAdjacentCountries(List<Country> countries) {
-        this.adjacentCountries = countries;
-    }
-
     public void clearAdjacentCountries() {
         adjacentCountries.clear();
     }
@@ -93,16 +89,6 @@ public class Country {
      */
     public void setCurrentOwner(Player player) {
         currentOwner = player;
-    }
-
-    /**
-     * text representation of the country
-     *
-     * @return text representation of the country
-     */
-    @Override
-    public String toString() {
-        return countryName;
     }
 
     /**
@@ -133,8 +119,13 @@ public class Country {
         return currentOwner != null;
     }
 
-    public boolean isOwnedBy(final Player player) {
-        return Objects.equals(currentOwner, player);
+    private void buildConnectedCountries(final Country current, List<Country> connectedCountryList) {
+        for (Country adjacent : current.getAdjacentCountries()) {
+            if (!connectedCountryList.contains(adjacent) && Objects.equals(adjacent.getCurrentOwner(), currentOwner)) {
+                connectedCountryList.add(adjacent);
+                buildConnectedCountries(adjacent, connectedCountryList);
+            }
+        }
     }
 
     public List<Country> getConnectedCountries() {
@@ -143,13 +134,45 @@ public class Country {
         return listConnectedCountries;
     }
 
-    private void buildConnectedCountries(final Country current, List<Country> connectedCountryList) {
-        for (Country adjacent : current.getAdjacentCountries()) {
-            if (!connectedCountryList.contains(adjacent) && Objects.equals(adjacent.getCurrentOwner(), currentOwner)) {
-                connectedCountryList.add(adjacent);
-                buildConnectedCountries(adjacent, connectedCountryList);
-            }
+    public boolean isOwnedBy(final Player player) {
+        return Objects.equals(currentOwner, player);
+    }
+
+    /**
+     * text representation of the country
+     *
+     * @return text representation of the country
+     */
+    @Override
+    public String toString() {
+        String country =  countryName;
+        if (hasOwner()) {
+            country += ", Owned by: " + getCurrentOwner();
         }
+        if (!adjacentCountries.isEmpty()) {
+            country += ", Adjacent Countries: " + adjacentCountries.stream()
+                    .map(Country::getCountryName)
+                    .collect(Collectors.joining(" "));
+        }
+
+        return country;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Country country = (Country) o;
+        return countryName.equals(country.countryName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(countryName);
+    }
+
+    public void setAdjacentCountries(List<Country> countries) {
+        this.adjacentCountries = countries;
     }
 }
 
