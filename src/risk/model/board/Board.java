@@ -140,4 +140,42 @@ public class Board {
     public int hashCode() {
         return Objects.hash(continents, countries, gameConstants);
     }
+
+    public boolean isValidMap() {
+        // Check if no two continents have the same name
+        List<Continent> continentList = getContinents();
+        Set<Continent> continentSet = new HashSet<Continent>(continentList);
+        if (continentSet.size() < continentList.size()) {
+            return false;
+        }
+
+        for (Continent continent:getContinents()) {
+            // Check if all continents have at least one country
+            if (continent.getCountries().size() < 1) {
+                return false;
+            }
+
+            // Check if no two countries have the same name
+            List<Country> list = continent.getCountries();
+            Set<Country> set = new HashSet<Country>(list);
+            if (set.size() < list.size()) {
+                return false;
+            }
+
+            for (Country c : continent.getCountries()) {
+                if (continent.getContinentName().equals(c.getCountryName())) {
+                    return false;
+                }
+            }
+        }
+
+        for (Country country : getCountries()) {
+            // Check if certain countries are unreachable - No adjacent countries
+            if (country.getAdjacentCountries().size() == 0) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }
