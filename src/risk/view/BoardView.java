@@ -114,7 +114,7 @@ public class BoardView extends JPanel {
      */
     public void initializePlayerInformationPanel(int numPlayers) {
         for (int i = 0; i < numPlayers; i++) {
-            playerColorsPanel.add(new JLabel("Player" + (i + 1) + " : " + colors.get(colorArray[i])));
+            playerColorsPanel.add(new JLabel("Player" + i + " : " + colors.get(colorArray[i])));
         }
     }
 
