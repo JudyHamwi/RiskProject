@@ -21,10 +21,14 @@ public class CustomMapController implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        String fileName=JOptionPane.showInputDialog(this,"Enter File Path");
-        Board board=new JsonBoardFactory(fileName).build();
-        Game game = new Game(board, new PhaseFactory());
-        view.handleLoadMap(game, board);
-        game.addRiskView(view);
+        String fileName = JOptionPane.showInputDialog(this, "Enter File Path");
+        Board board = new JsonBoardFactory(fileName).build();
+        if (!board.isValidMap()) {
+            view.handleInvalidMap();
+        } else {
+            Game game = new Game(board, new PhaseFactory());
+            view.handleLoadMap(game, board);
+            game.addRiskView(view);
+        }
     }
 }

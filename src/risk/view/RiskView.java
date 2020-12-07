@@ -74,4 +74,6 @@ public interface RiskView {
      void clearCountryButtons();
 
      void handleLoadMap(Game game, Board board);
+
+     void handleInvalidMap();
 }

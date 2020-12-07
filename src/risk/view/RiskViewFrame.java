@@ -399,4 +399,9 @@ public class RiskViewFrame extends JFrame implements RiskView {
     public void handleLoadMap(Game game, Board board){
         this.game=game;
     }
+
+    @Override
+    public void handleInvalidMap() {
+        JOptionPane.showMessageDialog(this,"Invalid Map !, try again...");
+    }
 }
