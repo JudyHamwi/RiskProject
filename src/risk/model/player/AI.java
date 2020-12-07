@@ -1,13 +1,17 @@
 package risk.model.player;
 
-import risk.model.GameState;
 import risk.model.board.Board;
 import risk.model.board.Country;
 import risk.model.phase.AttackPhase;
 import risk.model.phase.DraftPhase;
 import risk.model.phase.FortifyPhase;
+import risk.model.turnSummary.AttackAction;
+import risk.model.turnSummary.DraftAction;
+import risk.model.turnSummary.FortifyAction;
+import risk.model.turnSummary.TurnSummary;
 import risk.view.RiskView;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
@@ -17,10 +21,12 @@ public class AI implements Player {
 
     private final int id;
     private final Board board;
+    private final TurnSummary AISummary;
 
     public AI(final int id, final Board board) {
         this.id = id;
         this.board = board;
+        this.AISummary = new TurnSummary();
     }
 
     @Override
@@ -35,6 +41,7 @@ public class AI implements Player {
             draftPhase.placeArmy(countryToReinforce);
         }
         return GameState.ATTACK_PHASE;
+        addDraftActionSummary(countryToReinforce);
     }
 
     @Override
@@ -43,9 +50,16 @@ public class AI implements Player {
         while (attackingCountryFound) {
             final Country defendingCountry = selectAdjacentEnemyCountry(attackPhase.getAttackerCountry());
             attackPhase.selectDefendingCountry(defendingCountry);
+
             attackPhase.runAttack();
+
+            addAttackActionSummary(attackPhase.getAttackerCountry(), this, attackPhase.getAttackingArmiesLost(),
+                    attackPhase.getDefenderCountry(), attackPhase.getDefendingArmiesLost(),
+                    attackPhase.getDefenderCountry().getNumberOfArmies() < 1 );
+
             attackPhase.reset();
             attackingCountryFound = trySelectingAnAttackingCountry(attackPhase);
+
         }
         return GameState.FORTIFY_PHASE;
     }
@@ -66,15 +80,20 @@ public class AI implements Player {
 
                 final int armiesToMove = selectedFrom.getNumberOfArmies() / 2;
                 fortifyPhase.setArmiesToMove(armiesToMove);
+                addFortifyActionSummary(selectedFrom, weakestConnectedCountry);
                 fortifyPhase.fortify();
                 break;
             }
+
+            break;
         }
     }
 
     @Override
     public void performEndTurn(List<RiskView> views) {
         //for each view call handleAITurn. need to implement turn Summary object and populate it as we run the turns
+        views.forEach(v -> v.handleAITurn(AISummary));
+
     }
 
     private List<Country> getOwnedCountriesByArmySize() {
@@ -99,6 +118,21 @@ public class AI implements Player {
                 .get();
     }
 
+    public void addAttackActionSummary(Country attackerCountry, Player attacker, int attackingUnitsLost,
+                                       Country defendingCountry, int defendingUnitsLost, boolean ifDefenderLost) {
+        AttackAction aa = new AttackAction(attackerCountry, attacker, attackingUnitsLost, defendingCountry, defendingUnitsLost, ifDefenderLost);
+        AISummary.recordAttack(aa);
+    }
+
+    public void addDraftActionSummary(Country draftingCountry) {
+        DraftAction da = new DraftAction(draftingCountry);
+        AISummary.recordDraft(da);
+    }
+
+    public void addFortifyActionSummary(Country moveFrom, Country moveTo) {
+        FortifyAction fa = new FortifyAction(moveFrom, moveTo);
+        AISummary.recordFortify(fa);
+    }
 
     @Override
     public boolean equals(Object o) {
