@@ -5,14 +5,12 @@ import risk.model.*;
 import risk.model.board.Board;
 import risk.model.board.Continent;
 import risk.model.board.Country;
-import risk.model.phase.AttackPhase;
 import risk.model.phase.FortifyPhase;
 import risk.model.player.Player;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
@@ -166,7 +164,7 @@ public class BoardView extends JPanel {
 
         endTurnButton.addActionListener(new EndTurnController(game));
         attackPhaseButton.addActionListener(new AttackStartController(game));
-        fortifyPhaseButton.addActionListener(new FortifyPhaseController(game));
+        fortifyPhaseButton.addActionListener(new FortifyStartController(game));
 
         return inGamePanel;
     }
@@ -176,9 +174,9 @@ public class BoardView extends JPanel {
         attackButton.addActionListener(new AttackCommitFromController(game));
     }
 
-    public void setUpFortifyListeners(FortifyPhase fortifyPhase){
+    public void setUpFortifyListeners(){
         removeActionListeners(fortifyButton);
-        fortifyButton.addActionListener(new FortifyController(rv,fortifyPhase));
+        fortifyButton.addActionListener(new FortifyCommitFromController(game));
     }
 
     /**
@@ -275,7 +273,7 @@ public class BoardView extends JPanel {
      *
      * @param country that the adjacent countries highlight will be removed
      */
-    public void removeHighLightAdjacentCountry(Country country) {
+    private void removeHighLightAdjacentCountry(Country country) {
         for (Country adjacentCountry : country.getAdjacentCountries()) {
             for (ContinentView cv : continentViews) {
                 if (cv.getCountryButton(adjacentCountry) != null) {

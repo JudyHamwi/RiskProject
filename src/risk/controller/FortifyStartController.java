@@ -17,7 +17,7 @@ import java.awt.event.ActionListener;
  * @author Diana Miraflor
  * @author Walid Baitul
  */
-public class FortifyPhaseController implements ActionListener {
+public class FortifyStartController implements ActionListener {
 
     private Game game;
 
@@ -25,7 +25,7 @@ public class FortifyPhaseController implements ActionListener {
      * creates the fortify phase controller to prepare the game for the fortify phase
      * @param game model that deals with the logic of the game
      */
-    public FortifyPhaseController(Game game){
+    public FortifyStartController(Game game){
         this.game=game;
     }
 

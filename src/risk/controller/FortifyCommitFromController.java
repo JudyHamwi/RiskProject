@@ -4,6 +4,7 @@ import risk.model.board.Country;
 import risk.model.Game;
 import risk.model.GameState;
 import risk.model.phase.FortifyPhase;
+import risk.model.player.User;
 import risk.view.ContinentView;
 import risk.view.RiskView;
 
@@ -18,19 +19,15 @@ import java.awt.event.ActionListener;
  * @author Diana Miraflor
  * @author Walid Baitul
  */
-public class FortifyController implements ActionListener {
+public class FortifyCommitFromController implements ActionListener {
 
-    private RiskView riskView;
-    private FortifyPhase fortifyPhase;
+    private Game game;
 
     /**
      * Creates the Fortify Controller that listens to the player's decisions in the fortify phase
-     *
-     * @param rv
      */
-    public FortifyController(RiskView rv,FortifyPhase fortifyPhase) {
-        riskView = rv;
-        this.fortifyPhase=fortifyPhase;
+    public FortifyCommitFromController(Game game) {
+        this.game = game;
     }
 
     /**
@@ -42,9 +39,8 @@ public class FortifyController implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        JButton b = (JButton) e.getSource();
-        riskView.handleNewFortify(fortifyPhase);
-            }
-
+        User user = (User) game.getCurrentPlayer();
+        user.wakeUser(GameState.FORTIFY_PHASE);
+    }
 }
 

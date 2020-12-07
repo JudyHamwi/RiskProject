@@ -236,7 +236,7 @@ public class RiskViewFrame extends JFrame implements RiskView {
      */
     @Override
     public void handleCanAttackFrom(Country country) {
-        boardView.removeHighlightCountry(country);
+        boardView.removeHighlightedButtons();
         boardView.highlightAdjacentCountries(country);
         boardView.getAttackButton().setEnabled(true);
         boardView.getEndTurnButton().setEnabled(false);
@@ -342,7 +342,7 @@ public class RiskViewFrame extends JFrame implements RiskView {
         boardView.getAttackButton().setEnabled(false);
         boardView.getFortifyButton().setEnabled(true);
         boardView.getEndTurnButton().setEnabled(true);
-        boardView.setUpFortifyListeners(fortifyPhase);
+        boardView.setUpFortifyListeners();
         boardView.setupCountryListeners(country -> new FortifyFromController(this, game, country, fortifyPhase));
     }
 
