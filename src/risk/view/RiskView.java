@@ -72,4 +72,6 @@ public interface RiskView {
      void handleNewFortify(FortifyPhase fortifyPhase);
 
      void clearCountryButtons();
+
+     void handleLoadMap(Game game, Board board);
 }

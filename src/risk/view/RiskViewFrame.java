@@ -4,11 +4,9 @@ import risk.controller.*;
 import risk.model.*;
 import risk.model.board.Board;
 import risk.model.board.Country;
-import risk.model.board.OriginalBoardFactory;
 import risk.model.phase.AttackPhase;
 import risk.model.phase.DraftPhase;
 import risk.model.phase.FortifyPhase;
-import risk.model.phase.PhaseFactory;
 import risk.model.player.Player;
 import risk.model.player.PlayerFactory;
 import risk.model.player.User;
@@ -46,6 +44,7 @@ public class RiskViewFrame extends JFrame implements RiskView {
     private JMenuBar menuBar;
     private JMenu menu;
     private JMenuItem newGame;
+    private JMenuItem loadCustomMap;
     private JMenuItem quitGame;
     private JMenuItem helpMenuItem;
     private Game game;
@@ -57,9 +56,8 @@ public class RiskViewFrame extends JFrame implements RiskView {
     /**
      * creates the View of the Risk Game
      */
-    public RiskViewFrame(Game game) {
+    public RiskViewFrame() {
         super("RISK Game");
-        this.game = game;
         playerFactory = new PlayerFactory();
         this.setLayout(new BorderLayout());
 
@@ -72,13 +70,16 @@ public class RiskViewFrame extends JFrame implements RiskView {
         menuBar = new JMenuBar();
         menu = new JMenu("Start");
         newGame = new JMenuItem("New Game");
-        newGame.addActionListener(new NewGameController(this, this.game));
+        newGame.addActionListener(new OriginalMapController(this));
+        loadCustomMap = new JMenuItem("Load Custom Map");
+        loadCustomMap.addActionListener( new CustomMapController(this));
         quitGame = new JMenuItem("Quit Game");
         quitGame.addActionListener(new QuitGameController());
         helpMenuItem = new JMenuItem("Help");
         helpMenuItem.addActionListener(new HelpController(this.game));
 
         menu.add(newGame);
+        menu.add(loadCustomMap);
         menu.add(quitGame);
         menuBar.add(menu);
         startPanel();
@@ -92,9 +93,9 @@ public class RiskViewFrame extends JFrame implements RiskView {
     }
 
     public static void main(String[] args) {
-        final Board board = new OriginalBoardFactory().build();
-        Game game = new Game(board, new PhaseFactory());
-        RiskViewFrame view = new RiskViewFrame(game);
+        //final Board board = new OriginalBoardFactory().build();
+        //Game game = new Game(board, new PhaseFactory());
+        RiskViewFrame view = new RiskViewFrame();
     }
 
     public JFrame getRiskFrame() {
@@ -393,5 +394,9 @@ public class RiskViewFrame extends JFrame implements RiskView {
     @Override
     public void clearCountryButtons() {
         boardView.clearCountryListeners();
+    }
+
+    public void handleLoadMap(Game game, Board board){
+        this.game=game;
     }
 }

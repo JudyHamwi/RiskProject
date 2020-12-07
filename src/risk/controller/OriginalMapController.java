@@ -1,8 +1,13 @@
 package risk.controller;
 
 import risk.model.Game;
+import risk.model.board.Board;
+import risk.model.board.JsonBoardFactory;
+import risk.model.board.OriginalBoardFactory;
+import risk.model.phase.PhaseFactory;
 import risk.view.RiskView;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 /**
@@ -13,19 +18,16 @@ import java.awt.event.ActionListener;
  * @author Diana Miraflor
  * @author Walid Baitul
  */
-public class NewGameController implements ActionListener {
+public class OriginalMapController implements ActionListener {
 
-    private Game game;
-    private RiskView rv;
+    private RiskView view;
 
     /**
      * creates a listener to listen to the user starting a new game
      * @param rv view of the game containing the menu to start a new game
-     * @param game model that deals with creating a new game
      */
-    public NewGameController(RiskView rv, Game game){
-        this.rv = rv;
-        this.game=game;
+    public OriginalMapController(RiskView rv){
+        view = rv;
     }
 
     @Override
@@ -34,6 +36,10 @@ public class NewGameController implements ActionListener {
      * @param e when the user presses the menu item to create a new game
      */
     public void actionPerformed(ActionEvent e) {
-        game.addRiskView(rv);
+        Board board=new OriginalBoardFactory().build();
+        Game game = new Game(board, new PhaseFactory());
+        view.handleLoadMap(game, board);
+        game.addRiskView(view);
+
     }
 }
