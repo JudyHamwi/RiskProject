@@ -1,5 +1,6 @@
 package risk.model.player;
 
+import risk.model.GameState;
 import risk.model.board.Board;
 import risk.model.board.Country;
 import risk.model.phase.AttackPhase;
@@ -36,12 +37,12 @@ public class AI implements Player {
 
     @Override
     public GameState performDraft(final DraftPhase draftPhase) {
+        final Country countryToReinforce = getOwnedCountriesByArmySize().get(0);
         while(draftPhase.haveArmiesToPlace()) {
-            final Country countryToReinforce = getOwnedCountriesByArmySize().get(0);
             draftPhase.placeArmy(countryToReinforce);
         }
-        return GameState.ATTACK_PHASE;
         addDraftActionSummary(countryToReinforce);
+        return GameState.ATTACK_PHASE;
     }
 
     @Override
@@ -53,9 +54,7 @@ public class AI implements Player {
 
             attackPhase.runAttack();
 
-            addAttackActionSummary(attackPhase.getAttackerCountry(), this, attackPhase.getAttackingArmiesLost(),
-                    attackPhase.getDefenderCountry(), attackPhase.getDefendingArmiesLost(),
-                    attackPhase.getDefenderCountry().getNumberOfArmies() < 1 );
+            addAttackActionSummary(attackPhase.getAttackerCountry(), this, attackPhase.getDefenderCountry());
 
             attackPhase.reset();
             attackingCountryFound = trySelectingAnAttackingCountry(attackPhase);
@@ -118,9 +117,8 @@ public class AI implements Player {
                 .get();
     }
 
-    public void addAttackActionSummary(Country attackerCountry, Player attacker, int attackingUnitsLost,
-                                       Country defendingCountry, int defendingUnitsLost, boolean ifDefenderLost) {
-        AttackAction aa = new AttackAction(attackerCountry, attacker, attackingUnitsLost, defendingCountry, defendingUnitsLost, ifDefenderLost);
+    public void addAttackActionSummary(Country attackerCountry, Player attacker, Country defendingCountry) {
+        AttackAction aa = new AttackAction(attackerCountry, attacker, defendingCountry);
         AISummary.recordAttack(aa);
     }
 

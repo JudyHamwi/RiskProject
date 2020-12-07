@@ -357,8 +357,8 @@ public class RiskViewFrame extends JFrame implements RiskView {
      */
     @Override
     public void handleAITurn(TurnSummary AISummary) {
-        JOptionPane.showMessageDialog(this, AISummary.printSummary());
         boardView.updateBoardForAI();
+        JOptionPane.showMessageDialog(this, AISummary.printSummary());
     }
 
     @Override

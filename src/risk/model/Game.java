@@ -33,7 +33,7 @@ public class Game {
     private final List<Player> players = new ArrayList<>();
     private final List<RiskView> riskViews = new ArrayList<>();
 
-    private GameState gameState = GameState.INITIALIZING;
+    private GameState gameState;
     private Player currentPlayer;
 
     /**
@@ -42,6 +42,7 @@ public class Game {
     public Game(final Board board, final PhaseFactory phaseFactory) {
         this.board = board;
         this.phaseFactory = phaseFactory;
+        this.gameState = GameState.INITIALIZING;
     }
 
     /**
@@ -110,6 +111,7 @@ public class Game {
      * ends the turn of the current player and passes the turn to the next player
      */
     private void runEndTurn() {
+        currentPlayer.performEndTurn(riskViews);
         currentPlayer = getNextPlayer();
         riskViews.forEach(rv -> rv.handleEndTurn(currentPlayer));
         gameState = GameState.DRAFT_PHASE;
@@ -223,7 +225,8 @@ public class Game {
      */
     public void printHelp() {
         String pH;
-        pH = ("Aim to conquer enemy territories!" + "\n" + "\n" + "In game, you have choices to attack countries and end your turn."
+        pH = ("Aim to conquer enemy territories!" + "\n" + "\n" + "In game, you have choices to draft bonus armies, attack countries, move armies" +
+                " to another country, and end your turn."
                 + "\n" + "To attack, press the country you want to attack with, then press on the attack button followed by a country you wish to attack " +
                 "\n" + "Press the attack button to determine" +
                 " if you can successfully attack your enemy's territory." + "\n" + "Pass your turn to another player by pressing" +

@@ -115,7 +115,6 @@ public class User implements Player {
 
     @Override
     public void performEndTurn(List<RiskView> views) {
-
     }
 
     /**
@@ -150,7 +149,7 @@ public class User implements Player {
 
 
     /**
-     * Text represenation of the player
+     * Text representation of the player
      *
      * @return String representation of the player
      */
