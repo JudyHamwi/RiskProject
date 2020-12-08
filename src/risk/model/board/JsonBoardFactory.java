@@ -1,5 +1,7 @@
 package risk.model.board;
 
+import risk.model.marshalling.BoardMarshaller;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;

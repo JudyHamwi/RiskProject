@@ -1,7 +1,11 @@
-package risk.model.board;
+package risk.model.marshalling;
 
 import risk.model.GameConstants;
+import risk.model.board.Board;
+import risk.model.board.Continent;
+import risk.model.board.Country;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,22 +26,27 @@ public class SerializableBoard {
         final List<Continent> continents = board.getContinents();
         final Map<Country, List<Country>> adjacencyMap = new HashMap<>();
 
-        continents.stream()
-                .map(Continent::getCountries)
-                .flatMap(List::stream)
-                .peek(country -> adjacencyMap.put(country, List.copyOf(country.getAdjacentCountries())))
-                .forEach(Country::clearAdjacentCountries);
+        for (Continent continent : continents) {
+            List<Country> countries = continent.getCountries();
+            for (Country country : countries) {
+                adjacencyMap.put(country, List.copyOf(country.getAdjacentCountries()));
+
+                country.clearAdjacentCountries();
+            }
+        }
 
         return new SerializableBoard(continents, adjacencyMap, board.getGameConstants());
     }
 
     // In order to test this, you need to make sure you have an equals and hashcode method implemented for board, continent, country, GameConstants
     public Board toBoard() {
-        continents.stream()
-                .map(Continent::getCountries)
-                .flatMap(List::stream)
-                // Need to remove adjacent countries from equals and hashcode
-                .forEach(country -> country.setAdjacentCountries(adjacencyMap.get(country)));
+        // Need to remove adjacent countries from equals and hashcode
+        for (Continent continent : continents) {
+            List<Country> countries = continent.getCountries();
+            for (Country country : countries) {
+                country.setAdjacentCountries(adjacencyMap.get(country));
+            }
+        }
 
         return new Board(continents, gameConstants);
     }

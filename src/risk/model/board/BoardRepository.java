@@ -1,5 +1,7 @@
 package risk.model.board;
 
+import risk.model.marshalling.BoardMarshaller;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -85,9 +87,9 @@ public class BoardRepository {
                 .toString();
     }
 
-    /*public static void main(String[] args) {
-        final Board board = new OriginalBoardFactory().build();
+    public static void main(String[] args) {
+        final Board board = new HeroesMap().build();
         BoardRepository repo = new BoardRepository("images");
-        repo.saveMap("original",board);
-    }*/
+        repo.saveMap("heroes",board);
+    }
 }

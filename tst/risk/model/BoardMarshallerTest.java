@@ -2,7 +2,7 @@ package risk.model;
 
 import org.junit.Test;
 import risk.model.board.Board;
-import risk.model.board.BoardMarshaller;
+import risk.model.marshalling.BoardMarshaller;
 import risk.model.board.OriginalBoardFactory;
 
 import static org.junit.Assert.assertEquals;

@@ -1,4 +1,4 @@
-package risk.model;
+package risk.model.marshalling;
 
 import com.google.gson.*;
 

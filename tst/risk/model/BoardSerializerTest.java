@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.junit.Test;
 import risk.model.board.Board;
-import risk.model.board.BoardMarshaller;
+import risk.model.marshalling.BoardMarshaller;
 import risk.model.board.OriginalBoardFactory;
 import risk.model.marshalling.BoardSerializer;
 
