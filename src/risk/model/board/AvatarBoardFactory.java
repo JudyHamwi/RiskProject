@@ -51,7 +51,7 @@ public class AvatarBoardFactory implements BoardFactory {
     private Continent createWaterTribe() {
         Country NorthernTribe = createCountry("NorthernTribe");
         Country SouthernTribe = createCountry("SouthernTribe");
-        Country SouthernIceField = createCountry("SouthIceField");
+        Country SouthernIceField = createCountry("SouthernIceField");
         Country NorthernIceField = createCountry("NorthernIceField");
         Country SouthPole = createCountry("SouthPole");
         Country NorthPole = createCountry("NorthPole");
@@ -143,7 +143,7 @@ public class AvatarBoardFactory implements BoardFactory {
 
         getCountry("NorthernTribe").addAdjacentCountry(getCountry("NorthPole"));
         getCountry("NorthernTribe").addAdjacentCountry(getCountry("NorthernIceField"));
-        getCountry("NortherTribe").addAdjacentCountry(getCountry("WesternAirTemple"));
+        getCountry("NorthernTribe").addAdjacentCountry(getCountry("WesternAirTemple"));
         getCountry("NorthernTribe").addAdjacentCountry(getCountry("SouthernTribe"));
 
         getCountry("NorthernIceField").addAdjacentCountry(getCountry("NorthernAirTemple"));
