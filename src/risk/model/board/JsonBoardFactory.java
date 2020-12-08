@@ -1,5 +1,7 @@
 package risk.model.board;
 
+import risk.model.marshalling.BoardMarshaller;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -7,7 +9,7 @@ import java.nio.file.Path;
 public class JsonBoardFactory implements BoardFactory {
 
     private  String filePath;
-    private  BoardMarshaller boardMarshaller = new BoardMarshaller();
+    private BoardMarshaller boardMarshaller = new BoardMarshaller();
 
     public JsonBoardFactory(final String filePath) {
         this.filePath = filePath;

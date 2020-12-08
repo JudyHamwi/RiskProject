@@ -1,7 +1,11 @@
-package risk.model;
+package risk.model.marshalling;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import risk.model.Game;
+import risk.model.board.Board;
+import risk.model.marshalling.BoardSerializer;
+import risk.model.marshalling.InterfaceAdapter;
 import risk.model.player.Player;
 import risk.view.RiskView;
 
@@ -10,6 +14,7 @@ public class GameMarshaller {
             .registerTypeAdapter(Player.class, new InterfaceAdapter<Player>())
             .registerTypeAdapter(RiskView.class, new InterfaceAdapter<RiskView>())
             // add Type adapter for board
+            .registerTypeAdapter(Board.class, new InterfaceAdapter<BoardSerializer>())
             .create();
 
     public String toJson(final Game game) {

@@ -4,7 +4,6 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import risk.model.board.Board;
-import risk.model.board.BoardMarshaller;
 
 import java.io.IOException;
 
