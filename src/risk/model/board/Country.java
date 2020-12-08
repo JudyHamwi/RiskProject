@@ -121,6 +121,8 @@ public class Country {
 
     private void buildConnectedCountries(final Country current, List<Country> connectedCountryList) {
         for (Country adjacent : current.getAdjacentCountries()) {
+            System.out.println(adjacent+" " + adjacent.getCurrentOwner());
+            System.out.println(current+ " "+ current.getCurrentOwner());
             if (!connectedCountryList.contains(adjacent) && Objects.equals(adjacent.getCurrentOwner(), currentOwner)) {
                 connectedCountryList.add(adjacent);
                 buildConnectedCountries(adjacent, connectedCountryList);
@@ -163,7 +165,7 @@ public class Country {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Country country = (Country) o;
-        return countryName.equals(country.countryName);
+        return this.countryName.equals(country.countryName);
     }
 
     @Override

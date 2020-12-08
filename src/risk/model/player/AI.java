@@ -21,10 +21,10 @@ import java.util.stream.Collectors;
 public class AI implements Player {
 
     private final int id;
-    private final Board board;
+    private Board board;
     private final TurnSummary AISummary;
 
-    public AI(final int id, final Board board) {
+    public AI(final int id, Board board) {
         this.id = id;
         this.board = board;
         this.AISummary = new TurnSummary();
@@ -137,7 +137,7 @@ public class AI implements Player {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AI ai = (AI) o;
-        return id == ai.id;
+        return this.id == ai.id;
     }
 
     @Override

@@ -99,8 +99,8 @@ public class User implements Player {
             switch (selectedAction) {
                 case FORTIFY_PHASE:
                     views.forEach(v -> v.handleFortifyFromSelected(fortifyPhase.getMovingFrom()));
+                    System.out.println("enter fortify phase ");
                     waitForUI();
-
                     fortifyPhase.fortify();
                     System.out.println("1");
                     views.forEach(v-> v.handleFortifyToSelected());
@@ -171,7 +171,7 @@ public class User implements Player {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id == user.id;
+        return this.id == user.id;
     }
 }
 

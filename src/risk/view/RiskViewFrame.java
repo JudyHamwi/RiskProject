@@ -51,6 +51,7 @@ public class RiskViewFrame extends JFrame implements RiskView {
     private BoardView boardView;
     private JMenu numberOfAIPlayers;
     private PlayerFactory playerFactory;
+    private JMenuItem save;
 
 
     /**
@@ -77,6 +78,7 @@ public class RiskViewFrame extends JFrame implements RiskView {
         quitGame.addActionListener(new QuitGameController());
         helpMenuItem = new JMenuItem("Help");
         helpMenuItem.addActionListener(new HelpController(this.game));
+        save=new JMenuItem("save");
 
         menu.add(newGame);
         menu.add(loadCustomMap);
@@ -169,7 +171,10 @@ public class RiskViewFrame extends JFrame implements RiskView {
         menuBar.add(numberOfPlayers);
         menu.setText("Menu");
         menu.remove(newGame);
+        menu.remove(loadCustomMap);
         menu.add(helpMenuItem);
+        menu.add(save);
+        save.addActionListener(new SaveController(game,board));
         JOptionPane.showMessageDialog(this, "WELCOME TO RISK! \nPlease select the number of players and the " +
                 "number of AI players" +
                 " through the menu bar");
@@ -258,6 +263,11 @@ public class RiskViewFrame extends JFrame implements RiskView {
     public void handleFortifyFromSelected(Country country) {
         boardView.highlightFortifyingCountries(country.getConnectedCountries());
         boardView.getFortifyButton().setEnabled(true);
+        System.out.println("View Fortify");
+        // no connected countries
+        for(Country c:country.getConnectedCountries()) {
+            System.out.println(c.getCountryName());
+        }
     }
 
     /**
