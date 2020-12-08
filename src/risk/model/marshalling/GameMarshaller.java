@@ -14,7 +14,7 @@ public class GameMarshaller {
             .registerTypeAdapter(Player.class, new InterfaceAdapter<Player>())
             .registerTypeAdapter(RiskView.class, new InterfaceAdapter<RiskView>())
             // add Type adapter for board
-            .registerTypeAdapter(Board.class, new InterfaceAdapter<BoardSerializer>())
+            .registerTypeAdapter(Board.class, new BoardSerializer(new BoardMarshaller()))
             .create();
 
     public String toJson(final Game game) {

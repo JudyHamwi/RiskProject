@@ -174,7 +174,7 @@ public class RiskViewFrame extends JFrame implements RiskView {
         menu.remove(loadCustomMap);
         menu.add(helpMenuItem);
         menu.add(save);
-        save.addActionListener(new SaveController(game,board));
+        save.addActionListener(new SaveController(game));
         JOptionPane.showMessageDialog(this, "WELCOME TO RISK! \nPlease select the number of players and the " +
                 "number of AI players" +
                 " through the menu bar");

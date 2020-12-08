@@ -16,14 +16,14 @@ import java.util.stream.Collectors;
  * @version 2.0
  */
 public class Board {
-    private  List<Continent> continents;
-    private  List<Country> countries;
-    private  GameConstants gameConstants;
+    private List<Continent> continents;
+    private List<Country> countries;
+    private GameConstants gameConstants;
 
     /**
      * Constructor of RISKModel.Board that creates a new RISKModel.Board
      */
-    public Board( List<Continent> continents,  GameConstants gameConstants) {
+    public Board(List<Continent> continents, GameConstants gameConstants) {
         this.continents = continents;
         List<Country> list = new ArrayList<>();
         for (Continent continent : continents) {
@@ -93,7 +93,7 @@ public class Board {
         }
     }
 
-    public void distributeArmies( List<Player> players) {
+    public void distributeArmies(List<Player> players) {
         players.forEach(player -> {
             final List<Country> ownedCountries = getCountriesOwnedBy(player);
             int armiesToPlace = gameConstants.getInitialArmyDraft(players.size());
@@ -146,7 +146,6 @@ public class Board {
     }
 
 
-
     public boolean isValidMap() {
         // Check if no two continents have the same name
         List<Continent> continentList = getContinents();
@@ -155,7 +154,7 @@ public class Board {
             return false;
         }
 
-        for (Continent continent:getContinents()) {
+        for (Continent continent : getContinents()) {
             // Check if all continents have at least one country
             if (continent.getCountries().size() < 1) {
                 return false;
@@ -185,10 +184,10 @@ public class Board {
         return true;
     }
 
-    public void authorizingAdjacentCountries(){
-        for(Country c:countries){
-            ArrayList<Country> list=new ArrayList<>();
-            for(Country ac:c.getAdjacentCountries()){
+    public void authorizingAdjacentCountries() {
+        for (Country c : countries) {
+            ArrayList<Country> list = new ArrayList<>();
+            for (Country ac : c.getAdjacentCountries()) {
                 list.add(getCountry(ac.getCountryName()));
             }
             c.setAdjacentCountries(list);
