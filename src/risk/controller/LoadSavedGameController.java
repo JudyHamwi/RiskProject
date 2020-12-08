@@ -25,7 +25,6 @@ public class LoadSavedGameController implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         GameRepository repository = new GameRepository("images");
-        repository.loadMap("savedGame");
-
+        repository.loadGame();
     }
 }
