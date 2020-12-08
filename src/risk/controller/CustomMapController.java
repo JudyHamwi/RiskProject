@@ -19,7 +19,7 @@ public class CustomMapController implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        String fileName = JOptionPane.showInputDialog(this, "Enter File Path");
+        String fileName = JOptionPane.showInputDialog(view.getRiskFrame(), "Enter File Path");
         Board board = new JsonBoardFactory(fileName).build();
           if (!board.isValidMap()) {
             view.handleInvalidMap();

@@ -234,7 +234,8 @@ public class RiskViewFrame extends JFrame implements RiskView {
      */
     @Override
     public void handleCanNotAttackFrom() {
-        JOptionPane.showMessageDialog(this, "Can not attack Country");
+        JOptionPane.showMessageDialog(this, "Cannot attack from this country.\n Choose another" +
+                " country to attack from");
     }
 
     /**
