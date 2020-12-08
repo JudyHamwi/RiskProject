@@ -54,14 +54,12 @@ public class HeroesMap implements BoardFactory {
         Country Hercules = createCountry("Hercules");
         Country Tarzan = createCountry("Tarzan");
         Country Mowgli = createCountry("Mowgli");
-        Country Mulan = createCountry("Mulan");
 
         final Continent Disney = new Continent("Disney", 4);
 
         Disney.addCountry(Hercules);
         Disney.addCountry(Tarzan);
         Disney.addCountry(Mowgli);
-        Disney.addCountry(Mulan);
 
         return Disney;
     }
