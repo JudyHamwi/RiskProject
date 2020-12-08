@@ -23,10 +23,9 @@ import java.io.IOException;
  * and necessary tools for an efficient display and use of the game.
  *
  * @author Sarah Jaber
- * @author Walid Baitul Islam
  * @author Judy Hamwi
  * @author Diana Miraflor
- * @version 1.0
+ * @version 2.0
  */
 public class RiskViewFrame extends JFrame implements RiskView {
 

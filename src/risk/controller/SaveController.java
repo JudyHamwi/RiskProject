@@ -37,8 +37,5 @@ public class SaveController implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         GameRepository repository = new GameRepository("images");
         repository.saveMap("savedGame",game);
-        //GameMarshaller marshaller=new GameMarshaller();
-        //String saveGame=marshaller.toJson(game);
-
     }
 }
