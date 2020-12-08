@@ -14,7 +14,7 @@ import risk.view.RiskView;
 import javax.swing.*;
 
 /**
- * Attack Controller listens to player's moves in the Attack Phase.
+ * Attack Start Controller listens to player's moves to enter the attack phase
  * @version 1.0
  * @author Sarah Jaber
  * @author Judy Hamwi
@@ -27,17 +27,16 @@ public class AttackStartController implements ActionListener {
 
 
     /**
-     * Creates the Attack Controller that listens to the player's decisions in the attack phase
+     * Creates the Attack Controller that listens to the player's decisions to enter
+     * the attack phase
      */
     public AttackStartController(Game game ) {
         this.game = game;
     }
 
     /**
-     * Responds to the action chosen by the user. It handles the country the player is attacking with,
-     * the attack button that prepares the game to recieve the country being attacked, and handling
-     * the country being attacked.
-     * @param e the press of the button for attacker country, defender country, and attack button
+     * wakes the user to enter the attack phase It handles the country the player is attacking with,
+     * @param e the press of the attack phase button
      */
     @Override
     public void actionPerformed(ActionEvent e) {

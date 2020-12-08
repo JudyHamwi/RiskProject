@@ -11,21 +11,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Attack Phase Controller listens to player's moves to enter the attack phase
+ * Attack Commit Controller listens to player's decision that the player chose the
+ * attacking country and now will begin to choose the defending country
  *
  * @author Sarah Jaber
  * @author Judy Hamwi
  * @author Diana Miraflor
- * @author Walid Baitul
- * @version 1.0
+ * @version 2.0
  */
 public class AttackCommitFromController implements ActionListener {
 
     private Game game;
 
     /**
-     * creates the attack phase controller to listen to entering  the attack phase
-     *
+     * creates the attack commit controller to listen to be ready to choose the
+     * defending country
      * @param game model that deals with the logic of the game
      */
     public AttackCommitFromController(Game game) {
@@ -33,9 +33,9 @@ public class AttackCommitFromController implements ActionListener {
     }
 
     /**
-     * sets up the view to get ready to handle the attack phase
+     * wakes the player to get ready to choose the defending country
      *
-     * @param e the press of the attack phase button
+     * @param e the press of the attack button
      */
     @Override
     public void actionPerformed(ActionEvent e) {

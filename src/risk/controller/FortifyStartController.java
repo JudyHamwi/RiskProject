@@ -10,19 +10,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Fortify Phase Game Controller listens to the user entering the fortify phase
- * @version 1.0
+ * Fortify Start Game Controller listens to the user to have decided the country to fortify
+ * from and now will decide the country to fortify to
+ * @version 2.0
  * @author Sarah Jaber
  * @author Judy Hamwi
  * @author Diana Miraflor
- * @author Walid Baitul
  */
 public class FortifyStartController implements ActionListener {
 
     private Game game;
 
     /**
-     * creates the fortify phase controller to prepare the game for the fortify phase
+     * creates the fortify starr controller to prepare the game to be ready
+     * to choose the country to fortify to
      * @param game model that deals with the logic of the game
      */
     public FortifyStartController(Game game){
@@ -30,8 +31,8 @@ public class FortifyStartController implements ActionListener {
     }
 
     /**
-     * sets up the view to get ready to handle the fortify phase
-     * @param e handles the press of the fortify phase
+     * sets up the game to be ready to choose the country to fortify to
+     * @param e handles the press of the fortify button
      */
     @Override
     public void actionPerformed(ActionEvent e) {

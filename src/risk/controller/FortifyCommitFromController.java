@@ -12,12 +12,11 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 /**
- * Move Controller listens to the user moving the armies in the fortify phase
- * @version 1.0
+ * Move Controller listens to the user entering the fortify phase
+ * @version 2.0
  * @author Sarah Jaber
  * @author Judy Hamwi
  * @author Diana Miraflor
- * @author Walid Baitul
  */
 public class FortifyCommitFromController implements ActionListener {
 
@@ -26,7 +25,7 @@ public class FortifyCommitFromController implements ActionListener {
     private RiskView view;
 
     /**
-     * Creates the Fortify Controller that listens to the player's decisions in the fortify phase
+     * Creates the Fortify Controller that listens to the player's decisions to enter the  fortify phase
      */
     public FortifyCommitFromController(Game game, RiskView view, FortifyPhase fortifyPhase) {
         this.game = game;
@@ -35,11 +34,9 @@ public class FortifyCommitFromController implements ActionListener {
     }
 
     /**
-     * Responds to the action chosen by the user. It handles the country the player is fortifying from,
-     * the fortify button that prepares the game to recieve the country being fortifued to, and handling
-     * the country being fortified to.
+     * Responds to the action chosen by the user to enter the fortify phase
      *
-     * @param e the press of the button for fortifying country, fortifying to country, and fortify button
+     * @param e the press of the button of the fortify phase button
      */
     @Override
     public void actionPerformed(ActionEvent e) {
