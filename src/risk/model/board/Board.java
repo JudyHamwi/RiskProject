@@ -25,10 +25,14 @@ public class Board {
      */
     public Board( List<Continent> continents,  GameConstants gameConstants) {
         this.continents = continents;
-        this.countries = continents.stream()
-                .map(Continent::getCountries)
-                .flatMap(List::stream)
-                .collect(Collectors.toList());
+        List<Country> list = new ArrayList<>();
+        for (Continent continent : continents) {
+            List<Country> continentCountries = continent.getCountries();
+            for (Country country : continentCountries) {
+                list.add(country);
+            }
+        }
+        this.countries = list;
         this.gameConstants = gameConstants;
     }
 
