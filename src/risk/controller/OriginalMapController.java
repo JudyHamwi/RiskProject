@@ -11,19 +11,18 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 /**
- * New Game Controller listens to the starting a new game
- * @version 1.0
+ * Orignial Mao Controller listens to the starting a new game with the original build in map
+ * @version 2.0
  * @author Sarah Jaber
  * @author Judy Hamwi
  * @author Diana Miraflor
- * @author Walid Baitul
  */
 public class OriginalMapController implements ActionListener {
 
     private RiskView view;
 
     /**
-     * creates a listener to listen to the user starting a new game
+     * creates a listener to listen to the user starting a new game with the orginal map
      * @param rv view of the game containing the menu to start a new game
      */
     public OriginalMapController(RiskView rv){
@@ -32,7 +31,7 @@ public class OriginalMapController implements ActionListener {
 
     @Override
     /**
-     * listens to the user creatnug a new game
+     * listens to the user creating a new game with the orginial map
      * @param e when the user presses the menu item to create a new game
      */
     public void actionPerformed(ActionEvent e) {

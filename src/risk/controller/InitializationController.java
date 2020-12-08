@@ -15,8 +15,7 @@ import java.awt.event.ActionListener;
  * @author Sarah Jaber
  * @author Judy Hamwi
  * @author Diana Miraflor
- * @author Walid Baitul
- * @version 1.0
+ * @version 2.0
  */
 public class InitializationController implements ActionListener {
     private final RiskView view;
@@ -25,12 +24,12 @@ public class InitializationController implements ActionListener {
     private final PlayerFactory playerFactory;
 
     /**
-     * creates the listener that listens to the number of players chosen to play the game
+     *creates the listener that listens to the number of players chosen to play the game
      * so it can enter the initialization phase
-     *
-     * @param game          model that deals with initializing the game
-     * @param players       number of players playing in the game
-     * @param playerFactory
+     * @param view of the game
+     * @param game model
+     * @param players humans playing in the game
+     * @param playerFactory to create the players
      */
     public InitializationController(final RiskView view, final Game game, final int players,
                                     final PlayerFactory playerFactory) {
@@ -41,8 +40,8 @@ public class InitializationController implements ActionListener {
     }
 
     /**
-     * responds to the users action of picking the number of players to play the game so
-     * the game enters the initialization phase
+     * responds to the users action of picking the number of players to play the game
+     * @e choosing the number of players from the menu
      */
     @Override
     public void actionPerformed(final ActionEvent e) {

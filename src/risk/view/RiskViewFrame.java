@@ -52,6 +52,7 @@ public class RiskViewFrame extends JFrame implements RiskView {
     private JMenu numberOfAIPlayers;
     private PlayerFactory playerFactory;
     private JMenuItem save;
+    private JMenuItem loadSavedGame;
 
 
     /**
@@ -79,10 +80,13 @@ public class RiskViewFrame extends JFrame implements RiskView {
         helpMenuItem = new JMenuItem("Help");
         helpMenuItem.addActionListener(new HelpController(this.game));
         save=new JMenuItem("save");
+        loadSavedGame=new JMenuItem("Load Saved Game");
+        loadSavedGame.addActionListener(new LoadSavedGameController());
 
         menu.add(newGame);
         menu.add(loadCustomMap);
         menu.add(quitGame);
+        menu.add(loadSavedGame);
         menuBar.add(menu);
         startPanel();
         this.add(mainMenuPanel);

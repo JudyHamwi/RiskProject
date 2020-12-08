@@ -16,8 +16,7 @@ import java.awt.event.ActionListener;
  * @author Sarah Jaber
  * @author Judy Hamwi
  * @author Diana Miraflor
- * @author Walid Baitul
- * @version 1.0
+ * @version 2.0
  */
 public class DraftPhaseController implements ActionListener {
     private final RiskView view;
@@ -27,7 +26,7 @@ public class DraftPhaseController implements ActionListener {
     private Game game;
 
     /**
-     * creates the attack phase controller to listen to entering  the attack phase
+     * creates the draft phase controller to listen to entering  the draft phase
      *
      * @param country that id being drafted
      */

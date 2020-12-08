@@ -8,11 +8,10 @@ import risk.model.player.User;
 
 /**
  * EndTurn Controller listens to player's move of ending their turn
- * @version 1.0
+ * @version 2.0
  * @author Sarah Jaber
  * @author Judy Hamwi
  * @author Diana Miraflor
- * @author Walid Baitul
  */
 public class EndTurnController implements ActionListener {
     private Game game;
