@@ -86,11 +86,13 @@ public class BoardRepository {
     }
 
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         final Board board = new OriginalBoardFactory().build();
         BoardRepository repo = new BoardRepository("images");
         repo.saveMap("original",board);
     }
+
+     */
 
 
 }
