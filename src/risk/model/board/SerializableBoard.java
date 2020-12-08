@@ -2,9 +2,7 @@ package risk.model.board;
 
 import risk.model.GameConstants;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class SerializableBoard {
     private final List<Continent> continents;
@@ -17,16 +15,20 @@ public class SerializableBoard {
         this.gameConstants = constants;
     }
 
-    public static SerializableBoard  fromBoard(final Board board) {
+    public static SerializableBoard
+
+    fromBoard(final Board board) {
         // TODO implement deep copy so we don't modify the input board if the user wants to keep using it.
         final List<Continent> continents = board.getContinents();
         final Map<Country, List<Country>> adjacencyMap = new HashMap<>();
 
-        continents.stream()
-                .map(Continent::getCountries)
-                .flatMap(List::stream)
-                .peek(country -> adjacencyMap.put(country, List.copyOf(country.getAdjacentCountries())))
-                .forEach(Country::clearAdjacentCountries);
+        for (Continent continent : continents) {
+            List<Country> countries = continent.getCountries();
+            for (Country country : countries) {
+                adjacencyMap.put(country, List.copyOf(country.getAdjacentCountries()));
+                country.clearAdjacentCountries();
+            }
+        }
 
         return new SerializableBoard(continents, adjacencyMap, board.getGameConstants());
     }
@@ -41,4 +43,6 @@ public class SerializableBoard {
 
         return new Board(continents, gameConstants);
     }
+
+
 }

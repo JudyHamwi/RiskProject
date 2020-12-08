@@ -6,8 +6,8 @@ import java.nio.file.Path;
 
 public class JsonBoardFactory implements BoardFactory {
 
-    private final String filePath;
-    private final BoardMarshaller boardMarshaller = new BoardMarshaller();
+    private  String filePath;
+    private  BoardMarshaller boardMarshaller = new BoardMarshaller();
 
     public JsonBoardFactory(final String filePath) {
         this.filePath = filePath;
@@ -22,7 +22,7 @@ public class JsonBoardFactory implements BoardFactory {
             throw new RuntimeException("Unable to read the json string form file at: " + filePath);
         }
 
-        final Board board = boardMarshaller.fromJson(boardJson);
+        Board board = boardMarshaller.fromJson(boardJson);
 
         return board;
     }

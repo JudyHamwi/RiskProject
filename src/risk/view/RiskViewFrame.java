@@ -258,6 +258,11 @@ public class RiskViewFrame extends JFrame implements RiskView {
     public void handleFortifyFromSelected(Country country) {
         boardView.highlightFortifyingCountries(country.getConnectedCountries());
         boardView.getFortifyButton().setEnabled(true);
+        System.out.println("View Fortify");
+        // no connected countries
+        for(Country c:country.getConnectedCountries()) {
+            System.out.println(c.getCountryName());
+        }
     }
 
     /**

@@ -26,7 +26,7 @@ public class AttackPhase {
     static final int MIN_ARMIES_TO_ATTACK_WITH = 2;
 
     private Player attacker;
-    private final Dice dice;
+    private  Dice dice;
 
     Country attackerCountry;
     Country defenderCountry;

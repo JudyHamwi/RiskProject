@@ -43,6 +43,7 @@ public class Game {
         this.board = board;
         this.phaseFactory = phaseFactory;
         this.gameState = GameState.INITIALIZING;
+
     }
 
     /**

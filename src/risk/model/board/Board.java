@@ -16,14 +16,14 @@ import java.util.stream.Collectors;
  * @version 2.0
  */
 public class Board {
-    private final List<Continent> continents;
-    private final List<Country> countries;
-    private final GameConstants gameConstants;
+    private  List<Continent> continents;
+    private  List<Country> countries;
+    private  GameConstants gameConstants;
 
     /**
      * Constructor of RISKModel.Board that creates a new RISKModel.Board
      */
-    public Board(final List<Continent> continents, final GameConstants gameConstants) {
+    public Board( List<Continent> continents,  GameConstants gameConstants) {
         this.continents = continents;
         this.countries = continents.stream()
                 .map(Continent::getCountries)
@@ -89,7 +89,7 @@ public class Board {
         }
     }
 
-    public void distributeArmies(final List<Player> players) {
+    public void distributeArmies( List<Player> players) {
         players.forEach(player -> {
             final List<Country> ownedCountries = getCountriesOwnedBy(player);
             int armiesToPlace = gameConstants.getInitialArmyDraft(players.size());
@@ -141,6 +141,8 @@ public class Board {
         return Objects.hash(continents, countries, gameConstants);
     }
 
+
+
     public boolean isValidMap() {
         // Check if no two continents have the same name
         List<Continent> continentList = getContinents();
@@ -177,5 +179,15 @@ public class Board {
         }
 
         return true;
+    }
+
+    public void authorizingAdjacentCountries(){
+        for(Country c:countries){
+            ArrayList<Country> list=new ArrayList<>();
+            for(Country ac:c.getAdjacentCountries()){
+                list.add(getCountry(ac.getCountryName()));
+            }
+            c.setAdjacentCountries(list);
+        }
     }
 }

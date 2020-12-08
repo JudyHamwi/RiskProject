@@ -23,7 +23,6 @@ public class FortifyPhase {
     private final Player player;
     private Country movingFrom;
     private Country movingTo;
-    private List<RiskView> riskViews;
     private int armiesToMove;
 
     /**
@@ -50,7 +49,7 @@ public class FortifyPhase {
                 && !selectedCountry.getAdjacentCountries().isEmpty()
                 && selectedCountry.getNumberOfArmies() >= MIN_ARMIES_TO_FORTIFY_FROM) {
             movingFrom = selectedCountry;
-
+            System.out.println(movingFrom);
             return true;
         } else {
             System.out.format("Cannot move armies from %s as %s does not own it or the country does not have any allies\n",
@@ -99,14 +98,6 @@ public class FortifyPhase {
      */
     public boolean checkNumOfArmies(int armiesToMove) {
         return movingFrom.getNumberOfArmies() > armiesToMove;
-    }
-
-    /**
-     * set the risk views of the model
-     */
-    public void setRiskViews(List<RiskView> riskViews){
-        this.riskViews=riskViews;
-
     }
 
     public void setArmiesToMove(int armiesToMove){
