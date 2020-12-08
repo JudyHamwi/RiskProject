@@ -125,7 +125,10 @@ public class AvatarBoardFactory implements BoardFactory {
         getCountry("EmberIsland").addAdjacentCountry(getCountry("BlackCliffs"));
 
         getCountry("FountainCity").addAdjacentCountry(getCountry("BlackCliffs"));
-        getCountry("FountainCity").addAdjacentCountry(getCountry("Omashu"));
+        getCountry("FountainCity").addAdjacentCountry(getCountry("CrescentIsland"));
+
+        getCountry("CrescentIsland").addAdjacentCountry(getCountry("FountainCity"));
+        getCountry("CrescentIsland").addAdjacentCountry(getCountry("Omashu"));
 
     }
 
@@ -165,7 +168,7 @@ public class AvatarBoardFactory implements BoardFactory {
 
         getCountry("WhaleTailIsland").addAdjacentCountry(getCountry("SouthPole"));
         getCountry("WhaleTailIsland").addAdjacentCountry(getCountry("SouthernAirTemple"));
-        getCountry("WhaleTailIsland").addAdjacentCountry(getCountry("SouthernWaterTribe"));
+        getCountry("WhaleTailIsland").addAdjacentCountry(getCountry("SouthernTribe"));
         getCountry("WhaleTailIsland").addAdjacentCountry(getCountry("FoggySwamp"));
 
         getCountry("SouthernAirTemple").addAdjacentCountry(getCountry("WhaleTailIsland"));
@@ -193,6 +196,9 @@ public class AvatarBoardFactory implements BoardFactory {
         getCountry("MountainPass").addAdjacentCountry(getCountry("NorthernPlains"));
         getCountry("MountainPass").addAdjacentCountry(getCountry("NorthernAirTemple"));
         getCountry("MountainPass").addAdjacentCountry(getCountry("EastChameleonBay"));
+        getCountry("MountainPass").addAdjacentCountry(getCountry("Omashu"));
+        getCountry("MountainPass").addAdjacentCountry(getCountry("SiWongDesert"));
+        getCountry("MountainPass").addAdjacentCountry(getCountry("WestChameleonBay"));
 
         getCountry("EastChameleonBay").addAdjacentCountry(getCountry("NorthernPlains"));
         getCountry("EastChameleonBay").addAdjacentCountry(getCountry("MountainPass"));
@@ -202,7 +208,7 @@ public class AvatarBoardFactory implements BoardFactory {
         getCountry("Omashu").addAdjacentCountry(getCountry("MountainPass"));
         getCountry("Omashu").addAdjacentCountry(getCountry("SiWongDesert"));
         getCountry("Omashu").addAdjacentCountry(getCountry("FoggySwamp"));
-        getCountry("Omashu").addAdjacentCountry(getCountry("FountainCity"));
+        getCountry("Omashu").addAdjacentCountry(getCountry("CrescentIsland"));
 
         getCountry("SiWongDesert").addAdjacentCountry(getCountry("MountainPass"));
         getCountry("SiWongDesert").addAdjacentCountry(getCountry("WestChameleonBay"));
@@ -212,6 +218,7 @@ public class AvatarBoardFactory implements BoardFactory {
         getCountry("FoggySwamp").addAdjacentCountry(getCountry("Omashu"));
         getCountry("FoggySwamp").addAdjacentCountry(getCountry("SiWongDesert"));
         getCountry("FoggySwamp").addAdjacentCountry(getCountry("WhaleTailIsland"));
+        getCountry("FoggySwamp").addAdjacentCountry(getCountry("PatolaMountains"));
 
         getCountry("WestChameleonBay").addAdjacentCountry(getCountry("EasternAirTemple"));
         getCountry("WestChameleonBay").addAdjacentCountry(getCountry("MountainPass"));
