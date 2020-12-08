@@ -1,7 +1,8 @@
-package risk.model;
+package risk.model.marshalling;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import risk.model.Game;
 import risk.model.board.Board;
 import risk.model.marshalling.BoardSerializer;
 import risk.model.marshalling.InterfaceAdapter;

@@ -1,8 +1,6 @@
 package risk.model;
 
-import risk.model.board.Board;
-import risk.model.board.BoardRepository;
-import risk.model.marshalling.BoardMarshaller;
+import risk.model.marshalling.GameMarshaller;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -19,16 +17,6 @@ public class GameRepository {
 
     public GameRepository(String saveFolderRoot) {
         this.saveFolderRoot = saveFolderRoot;
-    }
-
-    public static GameRepository getPremadeBoardRepository(){
-
-        return new GameRepository(DEFAULT_MAP_ROOT);
-    }
-
-    public static GameRepository getUserBoardRepository(){
-
-        return new GameRepository(USER_MAP_ROOT);
     }
 
     public void saveMap(String name, Game game){

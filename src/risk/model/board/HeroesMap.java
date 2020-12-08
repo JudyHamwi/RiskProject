@@ -72,7 +72,6 @@ public class HeroesMap implements BoardFactory {
         Country WonderWoman = createCountry("WonderWoman");
         Country Flash = createCountry("Flash");
         Country AquaMan = createCountry("AquaMan");
-        Country SuperGirl = createCountry("SuperGirl");
 
         final Continent DC = new Continent("DC", 5);
 
@@ -81,7 +80,6 @@ public class HeroesMap implements BoardFactory {
         DC.addCountry(WonderWoman);
         DC.addCountry(Flash);
         DC.addCountry(AquaMan);
-        DC.addCountry(SuperGirl);
 
         return DC;
     }
