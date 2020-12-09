@@ -42,16 +42,6 @@ public class CustomMapController implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        /*String fileName = JOptionPane.showInputDialog(view.getRiskFrame(), "Enter File Path");
-        Board board = new JsonBoardFactory(fileName).build();
-          if (!board.isValidMap()) {
-            view.handleInvalidMap();
-        } else {
-              board.authorizingAdjacentCountries();
-              Game game = new Game(board, new PhaseFactory());
-              view.handleLoadMap(game, board);
-              game.addRiskView(view);
-          }*/
         BoardRepository mapRepo = new BoardRepository("maps");
         List<String> mapNames = mapRepo.getMapNames();
         String[] mapNameArray = mapNames.toArray(new String[mapNames.size()]);
