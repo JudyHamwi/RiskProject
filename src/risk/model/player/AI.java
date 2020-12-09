@@ -96,6 +96,9 @@ public class AI implements Player {
     }
 
     /**
+     * Finds a fortifying country with the greatest number of armies and moves half of its armies to a country
+     * with the least number of armies.
+     *
      * @param fortifyPhase
      */
     @Override
