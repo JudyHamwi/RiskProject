@@ -9,7 +9,6 @@ import java.util.List;
  * This class instantiates either a new AI or a new User
  *
  * @author Sarah Jaber
- * @author Walid Baitul Islam
  * @author Judy Hamwi
  * @author Diana Miraflor
  * @version 1.0

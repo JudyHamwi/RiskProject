@@ -28,9 +28,7 @@ public class User implements Player {
     private Semaphore uiLock = new Semaphore(0);
     private Object responseFromUI = null;
 
-    /**
-     * RISKModel.Player that plays in the RISKModel.Game
-     */
+
     public User(final int id, final List<RiskView> views) {
         this.id = id;
         this.views = views;

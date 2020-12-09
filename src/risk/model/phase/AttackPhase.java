@@ -26,7 +26,7 @@ public class AttackPhase {
     static final int MIN_ARMIES_TO_ATTACK_WITH = 2;
 
     private Player attacker;
-    private  Dice dice;
+    private Dice dice;
 
     Country attackerCountry;
     Country defenderCountry;
@@ -64,7 +64,6 @@ public class AttackPhase {
         }
     }
 
-
     /**
      * Checks if the selected country is a valid country to attack and sets the field defenderCountry to
      * the selectedCountry
@@ -87,9 +86,6 @@ public class AttackPhase {
         }
     }
 
-    /**
-     * Compare the Roll of RISKModel.Dice of the Attacker and Defender. Remove armies of the losing country.
-     */
     public boolean runAttack() {
         if (attackerCountry == null || defenderCountry == null) {
             throw new IllegalStateException("Both attacker country and defender country should be selected.");
@@ -142,7 +138,7 @@ public class AttackPhase {
     /**
      * Returns the attacking country
      *
-     * @return  Country the attacking country
+     * @return Country the attacking country
      */
     public Country getAttackerCountry() {
         return attackerCountry;
@@ -163,7 +159,7 @@ public class AttackPhase {
      * @param selectedCountry the country selected to attack from
      * @return boolean true if valid, otherwise false
      */
-    public boolean isValidAttackingCountry(Country selectedCountry){
+    public boolean isValidAttackingCountry(Country selectedCountry) {
         return selectedCountry.isOwnedBy(attacker) && selectedCountry.getNumberOfArmies() >= MIN_ARMIES_TO_ATTACK_WITH
                 && hasAdjacentEnemy(selectedCountry);
     }
@@ -187,7 +183,7 @@ public class AttackPhase {
      *
      * @return number of dice rolled for the attack
      */
-    PriorityQueue<Integer> rollAttackerDice() {
+    public PriorityQueue<Integer> rollAttackerDice() {
         final int numberOfDice = Math.min(attackerCountry.getNumberOfArmies() - 1, MAX_ATTACKING_ARMIES);
         return dice.roll(numberOfDice);
     }
@@ -199,7 +195,7 @@ public class AttackPhase {
      *
      * @return number of dice rolled by the defender
      */
-    PriorityQueue<Integer> rollDefenderDice() {
+    public PriorityQueue<Integer> rollDefenderDice() {
         final int numberOfDice = Math.min(defenderCountry.getNumberOfArmies(), MAX_DEFENDING_ARMIES);
         return dice.roll(numberOfDice);
     }

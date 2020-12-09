@@ -22,14 +22,13 @@ import java.util.stream.Collectors;
  * This class generates an AI's move in the drafting phase, attacking phase and fortifying phase
  *
  * @author Sarah Jaber
- * @author Walid Baitul Islam
  * @author Judy Hamwi
  * @author Diana Miraflor
  * @version 1.0
  */
 public class AI implements Player {
 
-    private  int id;
+    private int id;
     private Board board;
     private final TurnSummary AISummary;
 
@@ -59,14 +58,13 @@ public class AI implements Player {
      * While AI still has bonus armies to draft, AI will draft these armies to the first country
      * with the least amount of armies in the AI's owned countries' list.
      *
-     *
      * @param draftPhase
      * @return GameState the next state of the game
      */
     @Override
     public GameState performDraft(final DraftPhase draftPhase) {
         final Country countryToReinforce = getOwnedCountriesByArmySize().get(0);
-        while(draftPhase.haveArmiesToPlace()) {
+        while (draftPhase.haveArmiesToPlace()) {
             draftPhase.placeArmy(countryToReinforce);
         }
         addDraftActionSummary(countryToReinforce);
@@ -98,8 +96,6 @@ public class AI implements Player {
     }
 
     /**
-     *
-     *
      * @param fortifyPhase
      */
     @Override
@@ -141,49 +137,7 @@ public class AI implements Player {
 
     @Override
     public void setID(int id) {
-        this.id=id;
-    }
-
-    /**
-     * Returns the countries an AI owns in a sorted list according to the countries' number of armies.
-     *
-     * @return List<Country> a list of countries
-     */
-    private List<Country> getOwnedCountriesByArmySize() {
-        List<Country> list = new ArrayList<>();
-        for (Country country : board.getCountriesOwnedBy(this)) {
-            list.add(country);
-        }
-        list.sort(Comparator.comparing(country -> country.getNumberOfArmies()));
-        return list;
-    }
-
-    /**
-     * Selects an attacking country for the AI
-     *
-     * @param attackPhase
-     * @return boolean true if an attacking country was found, otherwise false
-     */
-    private boolean trySelectingAnAttackingCountry(final AttackPhase attackPhase) {
-        for (final Country country : board.getCountriesOwnedBy(this)) {
-            if (attackPhase.selectAttackingCountry(country)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     *  Selects an enemy country adjacent to ownCountry
-     *
-     * @param ownCountry
-     * @return  Country a country owned by an enemy that is adjacent to one of AI's country
-     */
-    private Country selectAdjacentEnemyCountry(final Country ownCountry) {
-        return ownCountry.getAdjacentCountries().stream()
-                .filter(adjCountry -> !Objects.equals(this, adjCountry.getCurrentOwner()))
-                .findAny()
-                .get();
+        this.id = id;
     }
 
     /**
@@ -245,4 +199,47 @@ public class AI implements Player {
     public String toString() {
         return "AI_" + id;
     }
+
+    /**
+     * Returns the countries an AI owns in a sorted list according to the countries' number of armies.
+     *
+     * @return List<Country> a list of countries
+     */
+    private List<Country> getOwnedCountriesByArmySize() {
+        List<Country> list = new ArrayList<>();
+        for (Country country : board.getCountriesOwnedBy(this)) {
+            list.add(country);
+        }
+        list.sort(Comparator.comparing(country -> country.getNumberOfArmies()));
+        return list;
+    }
+
+    /**
+     * Selects an attacking country for the AI
+     *
+     * @param attackPhase
+     * @return boolean true if an attacking country was found, otherwise false
+     */
+    private boolean trySelectingAnAttackingCountry(final AttackPhase attackPhase) {
+        for (final Country country : board.getCountriesOwnedBy(this)) {
+            if (attackPhase.selectAttackingCountry(country)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Selects an enemy country adjacent to ownCountry
+     *
+     * @param ownCountry
+     * @return Country a country owned by an enemy that is adjacent to one of AI's country
+     */
+    private Country selectAdjacentEnemyCountry(final Country ownCountry) {
+        return ownCountry.getAdjacentCountries().stream()
+                .filter(adjCountry -> !Objects.equals(this, adjCountry.getCurrentOwner()))
+                .findAny()
+                .get();
+    }
+
 }

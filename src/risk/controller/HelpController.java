@@ -14,7 +14,6 @@ import java.awt.event.ActionListener;
  * @author Walid Baitul
  */
 public class HelpController implements ActionListener {
-    private Game game;
     private RiskView riskView;
 
     /**

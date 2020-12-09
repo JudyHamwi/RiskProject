@@ -23,13 +23,13 @@ public class FortifyToController implements ActionListener {
 
     /**
      * creates the listener to choose the fortufying to country
-     * @param riskView view of the game
+     * @param view view of the game
      * @param game model
      * @param country fortifying from
      * @param fortifyPhase of the game
      */
-    public FortifyToController(final RiskView riskView, Game game, final Country country, final FortifyPhase fortifyPhase) {
-        view = riskView;
+    public FortifyToController(final RiskView view, Game game, final Country country, final FortifyPhase fortifyPhase) {
+        this.view = view;
         this.fortifyPhase = fortifyPhase;
         this.country = country;
         this.game = game;

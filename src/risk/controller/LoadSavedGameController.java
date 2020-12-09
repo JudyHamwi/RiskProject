@@ -18,7 +18,6 @@ import java.awt.event.ActionListener;
  */
 public class LoadSavedGameController implements ActionListener {
 
-    private Game game;
     private RiskView riskView;
     public LoadSavedGameController(RiskView riskView){
         this.riskView=riskView;
