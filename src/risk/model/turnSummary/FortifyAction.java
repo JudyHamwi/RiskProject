@@ -32,7 +32,7 @@ public class FortifyAction {
      * @return
      */
     public String toString() {
-        return "Fortify Phase:\nArmies were fortified from " + from + " to " + to;
+        return "Fortify Phase:\nArmies were fortified from " + from + " to " + to + "\n";
     }
 
 }
