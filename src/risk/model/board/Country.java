@@ -176,5 +176,9 @@ public class Country {
     public void setAdjacentCountries(List<Country> countries) {
         this.adjacentCountries = countries;
     }
+
+    public boolean hasAdjacent(){
+     return getAdjacentCountries().size()>0;
+    }
 }
 

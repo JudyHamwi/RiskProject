@@ -2,17 +2,16 @@ package risk.model.board;
 
 import risk.model.player.Player;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * RISKModel.Continent in the RISKModel.Board of RISK RISKModel.Game.
- * @version 2.0
+ *
  * @author Sarah Jaber
  * @author Walid Baitul Islam
  * @author Judy Hamwi
  * @author Diana Miraflor
+ * @version 2.0
  */
 public class Continent {
     private String continentName;
@@ -21,6 +20,7 @@ public class Continent {
 
     /**
      * Contrusctor of RISKModel.Continent that creates a new RISKModel.Continent
+     *
      * @param name of the RISKModel.Continent
      */
     public Continent(String name, int bonusArmies) {
@@ -31,6 +31,7 @@ public class Continent {
 
     /**
      * Add country to the continent
+     *
      * @param country added to the continent
      */
     public void addCountry(Country country) {
@@ -39,6 +40,7 @@ public class Continent {
 
     /**
      * getter for the countries in the continent
+     *
      * @return LikedList<Conuntry> List of countries in the continent
      */
     public List<Country> getCountries() {
@@ -47,6 +49,7 @@ public class Continent {
 
     /**
      * Returns the number of bonus armies a player gets each turn when the player occupy this continent
+     *
      * @return
      */
     public int getBonusArmies() {
@@ -55,22 +58,34 @@ public class Continent {
 
     /**
      * get the name of the continent
+     *
      * @return name of the continent
      */
     public String getContinentName() {
         return continentName;
     }
+
     /**
      * Text representation of the continent.
+     *
      * @return text representation of the continent
      */
-    public Country getCountry(String name){
-        for (Country c:countries){
-            if(c.getCountryName().equals(name)){
+    public Country getCountry(String name) {
+        for (Country c : countries) {
+            if (c.getCountryName().equals(name)) {
                 return c;
             }
         }
         return null;
+    }
+
+    public boolean isValid() {
+        // Check if all continents have at least one country
+        if (this.getCountries().size() < 1) {
+            return false;
+        }
+
+        return true;
     }
 
     @Override

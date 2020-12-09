@@ -147,26 +147,17 @@ public class Board {
 
 
     public boolean isValidMap() {
-        // Check if no two continents have the same name
-        List<Continent> continentList = getContinents();
-        Set<Continent> continentSet = new HashSet<Continent>(continentList);
-        if (continentSet.size() < continentList.size()) {
+        // Check if two continents have the same name
+        Set<Continent> continentSet = new HashSet<>(getContinents());
+        if (continentSet.size() < getContinents().size()) {
             return false;
         }
 
-        for (Continent continent : getContinents()) {
-            // Check if all continents have at least one country
-            if (continent.getCountries().size() < 1) {
-                return false;
-            }
+        for (Continent continent : continents) {
+            //Check in continent if every continent have at least one country
+            if (!continent.isValid()) return false;
 
-            // Check if no two countries have the same name
-            List<Country> list = continent.getCountries();
-            Set<Country> set = new HashSet<Country>(list);
-            if (set.size() < list.size()) {
-                return false;
-            }
-
+            //checks if a continent and a country have the same name
             for (Country c : continent.getCountries()) {
                 if (continent.getContinentName().equals(c.getCountryName())) {
                     return false;
@@ -174,9 +165,9 @@ public class Board {
             }
         }
 
+        //check if country has adjacent countries
         for (Country country : getCountries()) {
-            // Check if certain countries are unreachable - No adjacent countries
-            if (country.getAdjacentCountries().size() == 0) {
+            if (!country.hasAdjacent()) {
                 return false;
             }
         }
@@ -194,16 +185,4 @@ public class Board {
         }
     }
 
-    /*
-    public void unAuthorizingAdjacentCountries() {
-        for (Country c : countries) {
-            ArrayList<Country> list = new ArrayList<>();
-            for (Country ac : c.getAdjacentCountries()) {
-                list.add(new Country(ac.getCountryName()));
-            }
-            c.setAdjacentCountries(list);
-        }
-    }
-
-     */
 }

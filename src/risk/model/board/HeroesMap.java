@@ -90,16 +90,16 @@ public class HeroesMap implements BoardFactory {
         Country Ariel = createCountry("Ariel");
         Country Elsa = createCountry("Elsa");
 
-        final Continent DC = new Continent("DC", 3);
+        final Continent wonderland = new Continent("Wonderland" , 3);
 
-        DC.addCountry(Pocahontas);
-        DC.addCountry(Alice);
-        DC.addCountry(Cindyrella);
-        DC.addCountry(Belle);
-        DC.addCountry(Ariel);
-        DC.addCountry(Elsa);
+        wonderland.addCountry(Pocahontas);
+        wonderland.addCountry(Alice);
+        wonderland.addCountry(Cindyrella);
+        wonderland.addCountry(Belle);
+        wonderland.addCountry(Ariel);
+        wonderland.addCountry(Elsa);
 
-        return DC;
+        return wonderland;
     }
 
     private void linkMarvelAdjacentCountries() {
