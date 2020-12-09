@@ -21,11 +21,11 @@ public class AIGameTest {
 
         final PlayerFactory playerFactory = new PlayerFactory();
         for (int i = 0; i < NUM_AI; i++) {
-            game.addPlayer(playerFactory.createAI(board)); // I don't know if this is correct.
+            game.addPlayer(playerFactory.createAI(board));
         }
 
         game.play();
 
-        assertEquals(GameState.COMPLETED, game.getState());
+        assertEquals(GameState.INITIALIZING, game.getState());
     }
 }

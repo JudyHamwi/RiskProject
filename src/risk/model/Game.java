@@ -10,6 +10,7 @@ import risk.view.RiskView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -295,5 +296,21 @@ public class Game {
                     .map(c -> "\t" + c + ", Number of Armies: " + c.getNumberOfArmies())
                     .forEach(System.out::println);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Game game = (Game) o;
+        return board.equals(game.board) &&
+                players.equals(game.players)&&
+                gameState == game.gameState &&
+                currentPlayer.equals(game.currentPlayer);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(board, players, gameState, currentPlayer);
     }
 }

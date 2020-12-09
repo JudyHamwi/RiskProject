@@ -18,8 +18,8 @@ public class PlayerFactoryTest {
         final User player1 = factory.createUser(List.of());
         final User player2 = factory.createUser(List.of());
 
-        assertEquals(1, player1.getId());
-        assertEquals(2, player2.getId());
+        assertEquals(0, player1.getId());
+        assertEquals(1, player2.getId());
     }
 
     @Test
@@ -27,8 +27,8 @@ public class PlayerFactoryTest {
         final AI player1 = factory.createAI(board);
         final AI player2 = factory.createAI(board);
 
-        assertEquals(1, player1.getId());
-        assertEquals(2, player2.getId());
+        assertEquals(0, player1.getId());
+        assertEquals(1, player2.getId());
     }
 
     @Test
@@ -36,7 +36,7 @@ public class PlayerFactoryTest {
         final User user = factory.createUser(List.of());
         final AI ai = factory.createAI(board);
 
-        assertEquals(1, user.getId());
-        assertEquals(2, ai.getId());
+        assertEquals(0, user.getId());
+        assertEquals(1, ai.getId());
     }
 }
