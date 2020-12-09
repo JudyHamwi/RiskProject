@@ -17,7 +17,6 @@ import java.util.List;
  * Risk View listener of the model. Updates the view when the model applies a change.
  *
  * @author Sarah Jaber
- * @author Walid Baitul Islam
  * @author Judy Hamwi
  * @author Diana Miraflor
  * @version 1.0
@@ -30,8 +29,6 @@ public interface RiskView {
      void handleInitialize(Game game);
 
      void handleEndTurn(Player currentPlayer);
-
-     void handlePrintHelp();
 
      void handleCanAttackFrom(Country country);
 
@@ -46,8 +43,6 @@ public interface RiskView {
      void handleNewFortifyPhase(Player fortifier,FortifyPhase fortifyPhase);
 
      void handleFortifyFromSelected(Country country);
-
-     void handleCanNotFortifyArmies(Game game);
 
      void handleCanNotFortify();
 
@@ -64,8 +59,6 @@ public interface RiskView {
      void handleEndGame(Player winner);
 
      void handleNewDraftPhase(User drafter, DraftPhase draftPhase);
-
-     int getNumber(int min, int max, String message);
 
      void handleNewAttackPhase(AttackPhase attackPhase);
 

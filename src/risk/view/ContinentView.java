@@ -15,9 +15,8 @@ import java.util.function.Function;
 
 /**
  * View of the continents and their countries on the board.
- * @version 1.0
+ * @version 2.0
  * @author Sarah Jaber
- * @author Walid Baitul Islam
  * @author Judy Hamwi
  * @author Diana Miraflor
  */
@@ -71,6 +70,9 @@ public class ContinentView extends JPanel {
         }
     }
 
+    /**
+     * removes the listeners from all countries
+     */
     public void clearCountryListeners() {
         countryButtons.values().forEach(b -> {
              ActionListener[] listeners = b.getActionListeners();
@@ -81,6 +83,10 @@ public class ContinentView extends JPanel {
     }
 
 
+    /**
+     * adds a listener to all countries
+     * @param actionListenerFromCountry
+     */
     public void setupCountryListener(Function<Country, ActionListener> actionListenerFromCountry) {
         countryButtons.forEach((country, button) -> {
             ActionListener listener = actionListenerFromCountry.apply(country);

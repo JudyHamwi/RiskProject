@@ -21,10 +21,9 @@ import java.util.function.Function;
  * and countries on the board.
  *
  * @author Sarah Jaber
- * @author Walid Baitul Islam
  * @author Judy Hamwi
  * @author Diana Miraflor
- * @version 1.0
+ * @version 2.0
  */
 public class BoardView extends JPanel {
 
@@ -169,11 +168,18 @@ public class BoardView extends JPanel {
         return inGamePanel;
     }
 
+    /**
+     * assigns listeners to the attack button
+     */
     public void setUpAttackListeners(){
         removeActionListeners(attackButton);
         attackButton.addActionListener(new AttackCommitFromController(game));
     }
 
+    /**
+     * assigns listeners to the fortify button
+     * @param fortifyPhase
+     */
     public void setUpFortifyListeners(FortifyPhase fortifyPhase){
         removeActionListeners(fortifyButton);
         fortifyButton.addActionListener(new FortifyCommitFromController(game, rv, fortifyPhase));
@@ -189,6 +195,10 @@ public class BoardView extends JPanel {
         this.add(inGamePanel(game, player));
     }
 
+    /**
+     * sets up listeners to the countries
+     * @param actionListenerFromCountry
+     */
     public void setupCountryListeners(Function<Country, ActionListener> actionListenerFromCountry) {
         continentViews.forEach(cv -> {
             cv.clearCountryListeners();
@@ -196,6 +206,9 @@ public class BoardView extends JPanel {
         });
     }
 
+    /**
+     * removes all listeners from countries
+     */
     public void clearCountryListeners(){
         continentViews.forEach(cv -> cv.clearCountryListeners());
     }
@@ -245,6 +258,10 @@ public class BoardView extends JPanel {
         }
     }
 
+    /**
+     * removes listeners from buttons
+     * @param button to remove listener from
+     */
     private void removeActionListeners(JButton button) {
         ActionListener[] actionListenersArray = button.getActionListeners();
         for (ActionListener actionListener : actionListenersArray) {
@@ -366,6 +383,10 @@ public class BoardView extends JPanel {
         }
     }
 
+    /**
+     * get the end turn button
+     * @return end turn button
+     */
     public JButton getEndTurnButton() {
         return this.endTurnButton;
     }

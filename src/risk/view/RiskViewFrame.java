@@ -276,6 +276,10 @@ public class RiskViewFrame extends JFrame implements RiskView {
         boardView.setupCountryListeners(country -> new AttackToController(country, attackPhase, user));
     }
 
+    /**
+     * updates the view when the user chooses a fortifying country
+     * @param country fortifying from
+     */
     @Override
     public void handleFortifyFromSelected(Country country) {
         boardView.highlightFortifyingCountries(country.getConnectedCountries());
@@ -287,16 +291,6 @@ public class RiskViewFrame extends JFrame implements RiskView {
         }
     }
 
-    /**
-     * warning message displayed when there are not enough armies to fortify from a country
-     *
-     * @param game model that deals with the logic of the game
-     */
-    @Override
-    public void handleCanNotFortifyArmies(Game game) {
-        JOptionPane.showMessageDialog(this, "Not enough armies to fortify !");
-
-    }
 
     /**
      * warning message displayed if the player can not fortify from a country
@@ -307,7 +301,7 @@ public class RiskViewFrame extends JFrame implements RiskView {
     }
 
     /**
-     * view updated when the fortify phase occurs successfully
+     * view updated when the user fortifies to a country
      */
     @Override
     public void handleFortifyToSelected() {
@@ -368,6 +362,11 @@ public class RiskViewFrame extends JFrame implements RiskView {
         boardView.setupCountryListeners(country -> new AttackFromController(this, country, attackPhase));
     }
 
+    /**
+     * updates the ciew when the user enters the fortify phase
+     * @param fortifier
+     * @param fortifyPhase
+     */
     @Override
     public void handleNewFortifyPhase(Player fortifier, FortifyPhase fortifyPhase) {
         gameStatus.setText(game.getState().toString());
@@ -390,17 +389,19 @@ public class RiskViewFrame extends JFrame implements RiskView {
         JOptionPane.showMessageDialog(this, AISummary.printSummary());
     }
 
+    /**
+     * updates the view when the game is complete and a player has won
+     * @param winner
+     */
     @Override
     public void handleEndGame(final Player winner) {
         JOptionPane.showMessageDialog(this, winner + " Conquered the World!");
     }
 
-    @Override
-    public int getNumber(final int min, final int max, final String message) {
-        final String number = JOptionPane.showInputDialog(this, "Number of armies to move");
-        return Integer.parseInt(number);
-    }
-
+    /**
+     * updates the view when the user enters the attack phase
+     * @param attackPhase
+     */
     @Override
     public void handleNewAttackPhase(AttackPhase attackPhase) {
         gameStatus.setText(game.getState().toString());
@@ -413,26 +414,47 @@ public class RiskViewFrame extends JFrame implements RiskView {
 
     }
 
+    /**
+     * updates the view when the user is ready to choose a country to fortify to
+     * @param fortifyPhase
+     */
+    @Override
     public void handleNewFortify(FortifyPhase fortifyPhase) {
         boardView.getFortifyButton().setEnabled(false);
         boardView.setupCountryListeners(country -> new FortifyToController(this, game, country, fortifyPhase));
     }
 
+    /**
+     * clears all the listeners of buttons
+     */
     @Override
     public void clearCountryButtons() {
         boardView.clearCountryListeners();
     }
 
+    /**
+     * handles when a custom map is loaded
+     * @param game
+     * @param board
+     */
     @Override
     public void handleLoadMap(Game game, Board board){
         this.game=game;
     }
 
+    /**
+     * response of the view when the user uploads an invalid map
+     */
     @Override
     public void handleInvalidMap() {
         JOptionPane.showMessageDialog(this,"Invalid Map !, try again...");
     }
 
+    /**
+     * updates the view after the user uploads a saved game
+     * @param board of the saved game
+     * @param game saved game
+     */
     @Override
     public void handleLoadSavedGame(Board board,Game game){
         this.game=game;
