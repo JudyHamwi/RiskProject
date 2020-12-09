@@ -17,16 +17,33 @@ public class DraftPhase {
     private int armiesToPlace;
     private List<RiskView> riskViews;
 
+    /**
+     * Constructs a new DraftPhase object
+     *
+     * @param board
+     * @param player
+     */
     public DraftPhase(final Board board, final Player player) {
         this.board = board;
         this.player = player;
         this.armiesToPlace = getTotalBonusArmies();
     }
 
+    /**
+     * Checks if the number of armies that are being drafted is greater than 0
+     *
+     * @return boolean true if armies moving is greater than 0, false otherwise
+     */
     public boolean haveArmiesToPlace() {
         return armiesToPlace > 0;
     }
 
+    /**
+     * Moves the army to the selected country
+     *
+     * @param selectedCountry The country that the armies are being drafted to
+     * @return boolean true if armies were able to be drafted, false otherwise
+     */
     public boolean placeArmy(final Country selectedCountry) {
         if (board.getCountriesOwnedBy(player).contains(selectedCountry)) {
             selectedCountry.addArmies(1);
@@ -39,6 +56,11 @@ public class DraftPhase {
         }
     }
 
+    /**
+     * Returns the number of armies being drafted
+     *
+     * @return int the number of armies drafted
+     */
     public int getArmiesToPlace() {
         return armiesToPlace;
     }

@@ -46,6 +46,12 @@ public class User implements Player {
         return this.id;
     }
 
+    /**
+     * Contains the logic of a user drafting their bonus armies
+     *
+     * @param draftPhase
+     * @return GameState the next game state
+     */
     @Override
     public GameState performDraft(final DraftPhase draftPhase) {
         views.forEach(v -> v.handleNewDraftPhase(this, draftPhase));
@@ -63,6 +69,12 @@ public class User implements Player {
         return (GameState) responseFromUI;
     }
 
+    /**
+     * Contains the logic of a user attacking
+     *
+     * @param attackPhase
+     * @return  GameState the next game state
+     */
     @Override
     public GameState performAttack(final AttackPhase attackPhase) {
         while (true) {
@@ -85,11 +97,21 @@ public class User implements Player {
         }
     }
 
+    /**
+     * Returns the next game state according to the user interface
+     *
+     * @return GameState
+     */
     private GameState getNextState(){
         final GameState nextState = (GameState) responseFromUI;
         return nextState;
     }
 
+    /**
+     * Contains the logic of a user fortifying
+     *
+     * @param fortifyPhase
+     */
     @Override
     public void performFortify(final FortifyPhase fortifyPhase) {
         //while(true) {

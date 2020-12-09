@@ -6,38 +6,78 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * To record the summary of the user actions when the turn is ended
- * Specifically to display the actions of the AI player after each of their turn.
+ * TurnSummary is a class that summarizes an AI's move in their attacking phase, drafting phase and fortifying phase
+ * altogether. It is shown at the end of an AI's turn.
  */
 public class TurnSummary {
     private LinkedList<DraftAction> draftActions;
     private LinkedList<AttackAction> attackSummaries;
     private LinkedList<FortifyAction> fortifySummaries;
 
+    /**
+     * Constructs a new summary
+     */
     public TurnSummary() {
         this.draftActions = new LinkedList<>();
         this.attackSummaries = new LinkedList<>();
         this.fortifySummaries = new LinkedList<>();
     }
 
+    /**
+     * Adds a draft action to draftActions list
+     *
+     * @param action DraftAction
+     */
     public void recordDraft(DraftAction action) {
         draftActions.add(action);
     }
 
+    /**
+     * Adds an attack action to attackSummaries list
+     *
+     * @param action AttackAction
+     */
     public void recordAttack(AttackAction action) {
         attackSummaries.add(action);
     }
 
+    /**
+     * Adds a fortify action to fortifySummaries list
+     *
+     * @param action FortifyAction
+     */
     public void recordFortify(FortifyAction action) {
         fortifySummaries.add(action);
     }
 
+    /**
+     * Returns the draftActions list
+     *
+     * @return LinkedList<DraftAction>
+     */
     public LinkedList<DraftAction> getDraftActions() {
         return draftActions;
     }
+
+    /**
+     * Returns the attackSummaries list
+     *
+     * @return LinkedList<AttackAction>
+     */
     public LinkedList<AttackAction> getAttackSummaries() {return attackSummaries;}
+
+    /**
+     * Returns the fortifySummaries list
+     *
+     * @return LinkedList<FortifyAction>
+     */
     public LinkedList<FortifyAction> getFortifySummaries() {return fortifySummaries;}
 
+    /**
+     * A string representation of what the AI did in one turn.
+     *
+     * @return String
+     */
     public String printSummary() {
         StringBuilder sb = new StringBuilder();
 
@@ -56,11 +96,3 @@ public class TurnSummary {
         return sb.toString();
     }
 }
-
-/*
-In TurnSummary have a method called public String printSummary()
-It will contain the logic of creating your summary.
-You would add the TurnSummary object as a parameter of
-the handleAISummary UI method. It would call turnSummary.printSummary
-and pass it to the JOptionPane.showMessageDialog
- */

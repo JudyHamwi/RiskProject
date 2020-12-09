@@ -77,7 +77,7 @@ public class RiskViewFrame extends JFrame implements RiskView {
         quitGame = new JMenuItem("Quit Game");
         quitGame.addActionListener(new QuitGameController());
         helpMenuItem = new JMenuItem("Help");
-        helpMenuItem.addActionListener(new HelpController(this.game));
+        helpMenuItem.addActionListener(new HelpController(this));
         save=new JMenuItem("save");
         loadSavedGame=new JMenuItem("Load Saved Game");
         loadSavedGame.addActionListener(new LoadSavedGameController(this));
@@ -224,11 +224,24 @@ public class RiskViewFrame extends JFrame implements RiskView {
     /**
      * updats the view when the player asks for help
      *
-     * @param game   model that deals with the logic of the game
-     * @param string help information
      */
-    public void handlePrintHelp(Game game, String string) {
-        JOptionPane.showMessageDialog(this, string);
+    public void handlePrintHelp() {
+        String printHelp;
+        printHelp = ("Aim to conquer enemy territories!" + "\n" + "\n" + "In game, you have choices to draft bonus armies, attack countries, move armies" +
+                " to another country, and end your turn.\n" +
+                "To draft bonus armies: \nPress the countries you want to draft you bonus armies to \n" +
+                "To attack: \n1. Press the Attack Phase button followed by the country you want to attack from. " +
+                "\nEnemy countries you are able to attack will be highlighted. " +
+                "\n2. Press the Attack! button" +
+                "\n3. Click on a highlighted country you wish to attack. " +
+                "\n" + "To fortify: \n1. Enter the fortify phase by pressing the Fortify Phase button followed by the country to move armies from. " +
+                "\nCountries you are able to move your armies to will be highlighted." +
+                "\n2. Press the Fortify button." +
+                "\n3. Click on a highlighted country you wish to move your armies to." +
+                "\n"+
+                "Pass your turn to another player by pressing" +
+                " the end turn button." + "\n" + "\n" + "GOOD LUCK!");
+        JOptionPane.showMessageDialog(this, printHelp);
     }
 
 

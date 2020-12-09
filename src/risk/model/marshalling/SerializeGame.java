@@ -10,8 +10,6 @@ import risk.model.phase.PhaseFactory;
 import risk.model.player.Player;
 import risk.model.player.PlayerFactory;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,36 +18,40 @@ public class SerializeGame {
     private final List<Continent> continents;
     private final Map<Country, List<Country>> adjacencyMap;
     private final GameConstants gameConstants;
-    private final Map<Country,Integer> countryOwnerMap;
+    private final Map<Country, Integer> countryOwnerMap;
     private final GameState gameState;
-    private final Map<Integer,String> playerMap;
+    private final Map<Integer, String> playerMap;
     private final int currentPlayer;
+    private static final String DELIMITER = "_";
+    private static final String AI = "AI";
+    private static final int USER_ID = 1;
+    private static final int USER_TYPE = 0;
 
     private SerializeGame(List<Continent> continents, Map<Country, List<Country>> adjacencyMap, GameConstants constants,
-                        Map<Country,Integer> countryOwnerMap,GameState gameState, Map<Integer,String> playerMap,int currentPlayer) {
+                          Map<Country, Integer> countryOwnerMap, GameState gameState, Map<Integer, String> playerMap, int currentPlayer) {
         this.continents = continents;
         this.adjacencyMap = adjacencyMap;
         this.gameConstants = constants;
-        this.countryOwnerMap=countryOwnerMap;
-        this.gameState=gameState;
-        this.playerMap=playerMap;
-        this.currentPlayer=currentPlayer;
+        this.countryOwnerMap = countryOwnerMap;
+        this.gameState = gameState;
+        this.playerMap = playerMap;
+        this.currentPlayer = currentPlayer;
     }
 
-    public static SerializeGame  fromGame(final Game game) {
+    public static SerializeGame fromGame(final Game game) {
         // TODO implement deep copy so we don't modify the input board if the user wants to keep using it.
         final List<Continent> continents = game.getBoard().getContinents();
         final Map<Country, List<Country>> adjacencyMap = new HashMap<>();
         final Map<Country, Integer> countryOwnerMap = new HashMap<>();
-        final GameState gameState=game.getState();
-        final Map<Integer, String> playerMap=new HashMap<>();
-        final int currentPlayer=game.getCurrentPlayer().getId();
+        final GameState gameState = game.getState();
+        final Map<Integer, String> playerMap = new HashMap<>();
+        final int currentPlayer = game.getCurrentPlayer().getId();
 
 
         for (Continent continent : continents) {
             List<Country> countries = continent.getCountries();
             for (Country country : countries) {
-                countryOwnerMap.put(country,country.getCurrentOwner().getId());
+                countryOwnerMap.put(country, country.getCurrentOwner().getId());
                 country.setCurrentOwner(null);
                 adjacencyMap.put(country, List.copyOf(country.getAdjacentCountries()));
                 country.clearAdjacentCountries();
@@ -57,12 +59,12 @@ public class SerializeGame {
             }
         }
 
-        for(Player p:game.getPlayers()){
-            playerMap.put(p.getId(),p.toString());
+        for (Player p : game.getPlayers()) {
+            playerMap.put(p.getId(), p.toString());
         }
 
-        return new SerializeGame(continents, adjacencyMap, game.getBoard().getGameConstants(),countryOwnerMap,gameState,
-                playerMap,currentPlayer);
+        return new SerializeGame(continents, adjacencyMap, game.getBoard().getGameConstants(), countryOwnerMap, gameState,
+                playerMap, currentPlayer);
     }
 
     // In order to test this, you need to make sure you have an equals and hashcode method implemented for board, continent, country, GameConstants
@@ -76,36 +78,33 @@ public class SerializeGame {
             }
         }
 
-        Board board=new Board(continents,gameConstants);
-        Game game=new Game(board, new PhaseFactory());
+        Board board = new Board(continents, gameConstants);
+        Game game = new Game(board, new PhaseFactory());
         game.setState(gameState);
 
-        for(String p:playerMap.values()){
-            String[] playerName=p.split("_");
-            if(playerName[0].equals("AI")){
-                Player player=new PlayerFactory().createAI(game.getBoard());
-                player.setID(Integer.parseInt(playerName[1]));
-                if(player.getId()==currentPlayer){
-                    game.setCurrentPlayer(player);
-                }
-               game.addPlayer(player);
-            }else {
+        for (String p : playerMap.values()) {
+            String[] playerName = p.split(DELIMITER);
+            Player player;
+            if (playerName[USER_TYPE].equals(AI)) {
+                player = new PlayerFactory().createAI(game.getBoard());
+            } else {
                 //add set views method in user
-                Player player=new PlayerFactory().createUser(game.getViews());
-                player.setID(Integer.parseInt(playerName[1]));
-                if(player.getId()==currentPlayer){
-                    game.setCurrentPlayer(player);
-                }
-                game.addPlayer(player);
+                player = new PlayerFactory().createUser(game.getViews());
             }
+            player.setID(Integer.parseInt(playerName[USER_ID]));
+            if (player.getId() == currentPlayer) {
+                game.setCurrentPlayer(player);
+            }
+            game.addPlayer(player);
 
         }
 
-        for(Country country:countryOwnerMap.keySet()){
-            Country c=board.getCountry(country.getCountryName());
-            Player owner=game.getPlayer(countryOwnerMap.get(country));
+        for (Country country : countryOwnerMap.keySet()) {
+            Country c = board.getCountry(country.getCountryName());
+            Player owner = game.getPlayer(countryOwnerMap.get(country));
             c.setCurrentOwner(owner);
         }
-        return  game;
+
+        return game;
     }
 }

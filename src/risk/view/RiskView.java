@@ -31,7 +31,7 @@ public interface RiskView {
 
      void handleEndTurn(Player currentPlayer);
 
-     void handlePrintHelp(Game game, String pH);
+     void handlePrintHelp();
 
      void handleCanAttackFrom(Country country);
 

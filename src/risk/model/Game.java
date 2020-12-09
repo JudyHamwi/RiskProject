@@ -43,7 +43,6 @@ public class Game {
         this.board = board;
         this.phaseFactory = phaseFactory;
         this.gameState = GameState.INITIALIZING;
-
     }
 
     /**
@@ -221,9 +220,9 @@ public class Game {
         }
     }
 
-    /**
+
+    /*
      * Prints the help information when the player requests help
-     */
     public void printHelp() {
         String pH;
         pH = ("Aim to conquer enemy territories!" + "\n" + "\n" + "In game, you have choices to draft bonus armies, attack countries, move armies" +
@@ -233,8 +232,9 @@ public class Game {
                 " if you can successfully attack your enemy's territory." + "\n" + "Pass your turn to another player by pressing" +
                 " the end turn button." + "\n" + "\n" + "GOOD LUCK!");
 
-        riskViews.forEach(rv -> rv.handlePrintHelp(this, pH));
+        riskViews.forEach(rv -> rv.handlePrintHelp(pH));
     }
+     */
 
     /**
      * getter for the players in the game

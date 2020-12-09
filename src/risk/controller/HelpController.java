@@ -1,6 +1,7 @@
 package risk.controller;
 
 import risk.model.Game;
+import risk.view.RiskView;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,13 +15,13 @@ import java.awt.event.ActionListener;
  */
 public class HelpController implements ActionListener {
     private Game game;
+    private RiskView rv;
 
     /**
      * creates the listener to listen to the user asking for help
-     * @param game model that deals with the user asking for help
      */
-    public HelpController(Game game) {
-        this.game = game;
+    public HelpController(RiskView rv) {
+        this.rv = rv;
     }
 
     /**
@@ -29,6 +30,6 @@ public class HelpController implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        game.printHelp();
+        rv.handlePrintHelp();
     }
 }

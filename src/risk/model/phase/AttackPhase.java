@@ -45,6 +45,13 @@ public class AttackPhase {
         this.defendingArmiesLost = 0;
     }
 
+    /**
+     * Checks if the selected country is a valid country to attack from and sets the field attackerCountry to
+     * the selectedCountry
+     *
+     * @param selectedCountry The country selected to attack from
+     * @return boolean True if valid attacking country, false otherwise
+     */
     public boolean selectAttackingCountry(Country selectedCountry) {
         if (isValidAttackingCountry(selectedCountry)) {
             attackerCountry = selectedCountry;
@@ -57,6 +64,14 @@ public class AttackPhase {
         }
     }
 
+
+    /**
+     * Checks if the selected country is a valid country to attack and sets the field defenderCountry to
+     * the selectedCountry
+     *
+     * @param selectedCountry The country selected to attack
+     * @return boolean True if country is valid to attack, false otherwise
+     */
     public boolean selectDefendingCountry(Country selectedCountry) {
         Player attacker = attackerCountry.getCurrentOwner();
         Player defender = selectedCountry.getCurrentOwner();
@@ -98,33 +113,67 @@ public class AttackPhase {
         return transferArmiesIfDefenderDefeated();
     }
 
+    /**
+     * Returns the attacking armies lost
+     *
+     * @return int number of attacking armies lost
+     */
     public int getAttackingArmiesLost() {
         return attackingArmiesLost;
     }
 
+    /**
+     * Returns the defending armies lost
+     *
+     * @return int the number of defending armies lost
+     */
     public int getDefendingArmiesLost() {
         return defendingArmiesLost;
     }
 
+    /**
+     * Resets the attacking and defending countries
+     */
     public void reset() {
         attackerCountry = null;
         defenderCountry = null;
     }
 
+    /**
+     * Returns the attacking country
+     *
+     * @return  Country the attacking country
+     */
     public Country getAttackerCountry() {
         return attackerCountry;
     }
 
+    /**
+     * Returns the defending country
+     *
+     * @return Country the defending country
+     */
     public Country getDefenderCountry() {
         return defenderCountry;
     }
 
+    /**
+     * Checks if the selected country to attack from is valid
+     *
+     * @param selectedCountry the country selected to attack from
+     * @return boolean true if valid, otherwise false
+     */
     public boolean isValidAttackingCountry(Country selectedCountry){
         return selectedCountry.isOwnedBy(attacker) && selectedCountry.getNumberOfArmies() >= MIN_ARMIES_TO_ATTACK_WITH
                 && hasAdjacentEnemy(selectedCountry);
     }
 
-
+    /**
+     * Checks if the attacking country has adjacent countries that are enemies
+     *
+     * @param attackerCountry the country selected to attack from
+     * @return boolean true if there are adjacent enemies to attack, otherwise false
+     */
     private boolean hasAdjacentEnemy(final Country attackerCountry) {
         return attackerCountry.getAdjacentCountries().stream()
                 .map(Country::getCurrentOwner)
@@ -144,7 +193,7 @@ public class AttackPhase {
     }
 
     /**
-     * Calculate teh number of dice to be rolled for the defender country. The number of dice represent the number
+     * Calculate the number of dice to be rolled for the defender country. The number of dice represent the number
      * if armies defending the country. If the number of armies is only one, the defender can only roll one deice,
      * else the defender can roll two dice
      *
@@ -155,6 +204,12 @@ public class AttackPhase {
         return dice.roll(numberOfDice);
     }
 
+    /**
+     * Transfers the armimes from the defending country to the attacking country if the defending
+     * country was defeated.
+     *
+     * @return boolean true if defending country was defeated, otherwise false
+     */
     private boolean transferArmiesIfDefenderDefeated() {
         if (defenderCountry.getNumberOfArmies() < 1) {
             defenderCountry.setCurrentOwner(attackerCountry.getCurrentOwner());

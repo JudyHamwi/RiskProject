@@ -8,6 +8,15 @@ import risk.view.RiskView;
 
 import java.util.List;
 
+/**
+ * A player interface - AI and User implement this class
+ *
+ * @author Sarah Jaber
+ * @author Walid Baitul Islam
+ * @author Judy Hamwi
+ * @author Diana Miraflor
+ * @version 1.0
+ */
 public interface Player {
     int getId();
     GameState performDraft(DraftPhase draftPhase);

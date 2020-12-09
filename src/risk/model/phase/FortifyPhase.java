@@ -35,15 +35,30 @@ public class FortifyPhase {
         this.player = player;
     }
 
+    /**
+     * Resets the movingFrom and movingTo countries
+     */
     public void reset() {
         movingFrom = null;
         movingTo = null;
     }
 
+    /**
+     * Checks if the selected country armies are being moved from is not null.
+     *
+     * @return boolean
+     */
     public boolean initiated() {
         return movingFrom != null;
     }
 
+    /**
+     * Selects the country that armies are going to be moved from, checks if valid country and sets the field
+     * movingFrom to selectedCountry
+     *
+     * @param selectedCountry the country armies are being moved from
+     * @return boolean true if valid selected country, false otherwise
+     */
     public boolean selectMovingFrom(final Country selectedCountry) {
         if (board.getCountriesOwnedBy(player).contains(selectedCountry)
                 && !selectedCountry.getAdjacentCountries().isEmpty()
@@ -59,6 +74,13 @@ public class FortifyPhase {
         }
     }
 
+    /**
+     * Selects the country that armies are going to move to, checks if valid country and sets the field
+     * movingTo to selectedCountry
+     *
+     * @param selectedCountry the country armies are being moved to
+     * @return boolean true if valid selectedCountry, false otherwise
+     */
     public boolean selectMovingTo(final Country selectedCountry) {
         if (movingFrom.getConnectedCountries().contains(selectedCountry)) {
             movingTo = selectedCountry;
@@ -69,6 +91,11 @@ public class FortifyPhase {
         }
     }
 
+    /**
+     * Returns the country armies are being moved from
+     *
+     * @return Country
+     */
     public Country getMovingFrom() {
         return movingFrom;
     }
