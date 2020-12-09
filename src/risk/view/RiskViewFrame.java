@@ -372,6 +372,7 @@ public class RiskViewFrame extends JFrame implements RiskView {
     public void handleNewFortifyPhase(Player fortifier, FortifyPhase fortifyPhase) {
         gameStatus.setText(game.getState().toString());
         boardView.getFortifyPhaseButton().setEnabled(false);
+        boardView.removeHighlightedButtons();
         boardView.getAttackButton().setEnabled(false);
         boardView.getFortifyButton().setEnabled(true);
         boardView.getEndTurnButton().setEnabled(true);
@@ -386,8 +387,15 @@ public class RiskViewFrame extends JFrame implements RiskView {
      */
     @Override
     public void handleAITurn(TurnSummary AISummary) {
+        JTextArea textArea = new JTextArea(AISummary.printSummary());
+        textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
+        JScrollPane sp = new JScrollPane(textArea);
+        sp.setPreferredSize(new Dimension(500, 500));
+        sp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         boardView.updateBoardForAI();
-        JOptionPane.showMessageDialog(this, AISummary.printSummary());
+        JOptionPane.showMessageDialog(this, sp, "AI's Turn:",
+                JOptionPane.INFORMATION_MESSAGE);
     }
 
     /**
@@ -414,7 +422,6 @@ public class RiskViewFrame extends JFrame implements RiskView {
         boardView.getEndTurnButton().setEnabled(true);
         boardView.setUpAttackListeners();
         boardView.setupCountryListeners(country -> new AttackFromController(this, country, attackPhase));
-
     }
 
     /**
