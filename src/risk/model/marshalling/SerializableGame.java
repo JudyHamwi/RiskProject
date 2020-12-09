@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SerializeGame {
+public class SerializableGame {
     private final List<Continent> continents;
     private final Map<Country, List<Country>> adjacencyMap;
     private final GameConstants gameConstants;
@@ -27,8 +27,8 @@ public class SerializeGame {
     private static final int USER_ID = 1;
     private static final int USER_TYPE = 0;
 
-    private SerializeGame(List<Continent> continents, Map<Country, List<Country>> adjacencyMap, GameConstants constants,
-                          Map<Country, Integer> countryOwnerMap, GameState gameState, Map<Integer, String> playerMap, int currentPlayer) {
+    private SerializableGame(List<Continent> continents, Map<Country, List<Country>> adjacencyMap, GameConstants constants,
+                             Map<Country, Integer> countryOwnerMap, GameState gameState, Map<Integer, String> playerMap, int currentPlayer) {
         this.continents = continents;
         this.adjacencyMap = adjacencyMap;
         this.gameConstants = constants;
@@ -38,7 +38,7 @@ public class SerializeGame {
         this.currentPlayer = currentPlayer;
     }
 
-    public static SerializeGame fromGame(final Game game) {
+    public static SerializableGame fromGame(final Game game) {
         // TODO implement deep copy so we don't modify the input board if the user wants to keep using it.
         final List<Continent> continents = game.getBoard().getContinents();
         final Map<Country, List<Country>> adjacencyMap = new HashMap<>();
@@ -63,7 +63,7 @@ public class SerializeGame {
             playerMap.put(p.getId(), p.toString());
         }
 
-        return new SerializeGame(continents, adjacencyMap, game.getBoard().getGameConstants(), countryOwnerMap, gameState,
+        return new SerializableGame(continents, adjacencyMap, game.getBoard().getGameConstants(), countryOwnerMap, gameState,
                 playerMap, currentPlayer);
     }
 

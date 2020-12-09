@@ -1,13 +1,11 @@
 package risk.model;
 
 import risk.model.board.Board;
-import risk.model.board.Country;
 import risk.model.phase.AttackPhase;
 import risk.model.phase.DraftPhase;
 import risk.model.phase.FortifyPhase;
 import risk.model.phase.PhaseFactory;
 import risk.model.player.Player;
-import risk.model.player.User;
 import risk.view.RiskView;
 
 import java.util.ArrayList;

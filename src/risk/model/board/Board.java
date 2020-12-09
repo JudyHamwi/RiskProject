@@ -4,11 +4,8 @@ import risk.model.GameConstants;
 import risk.model.player.Player;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
- * The RISKModel.Board of the RISK RISKModel.Game.
- *
  * @author Sarah Jaber
  * @author Walid Baitul Islam
  * @author Judy Hamwi
@@ -21,7 +18,7 @@ public class Board {
     private GameConstants gameConstants;
 
     /**
-     * Constructor of RISKModel.Board that creates a new RISKModel.Board
+     * Constructor of the Board, it sets the continents and the countries of the board.
      */
     public Board(List<Continent> continents, GameConstants gameConstants) {
         this.continents = continents;
@@ -36,6 +33,12 @@ public class Board {
         this.gameConstants = gameConstants;
     }
 
+    /**
+     * gets the country by providing its name.
+     *
+     * @param name, the name of a country.
+     * @return a country
+     */
     public Country getCountry(String name) {
         for (Country c : countries) {
             if (c.getCountryName().equals(name)) {
@@ -45,37 +48,70 @@ public class Board {
         return null;
     }
 
+    /**
+     * retrieves all the continents in the board.
+     *
+     * @return, list of the continents.
+     */
     public List<Continent> getContinents() {
         return continents;
     }
 
 
     /**
-     * The textual representation of the RISKModel.Board. Contains information about every continent, country
-     * and the player that owns the country
+     * Retrieves all the countries in the board.
      *
-     * @return the textual representation of the board.
-     */
-    @Override
-    public String toString() {
-        String Board = "RISK BOARD: \n" + "Continents: \n";
-        for (Continent c : continents) {
-            Board = Board.concat(c.toString() + "\n");
-        }
-        return Board;
-    }
-
-    /**
-     * Retrieves all the countries in the RISKModel.Board
-     *
-     * @return List of countries in the RISKModel.Board
+     * @return List of countries.
      */
     public List<Country> getCountries() {
         return countries;
     }
 
     /**
-     * create the RISKModel.Board for the RISK RISKModel.Game
+     * retrieves the game constants.
+     *
+     * @return, game constants.
+     */
+    public GameConstants getGameConstants() {
+        return gameConstants;
+    }
+
+    /**
+     * retrieves the list of countries that a player owns
+     *
+     * @param player in the game
+     * @return list of countries owned by a player.
+     */
+    public List<Country> getCountriesOwnedBy(final Player player) {
+        List<Country> countriesList = new ArrayList<>();
+        for (Country country : countries) {
+            if (player.equals(country.getCurrentOwner())) {
+                countriesList.add(country);
+            }
+        }
+        return countriesList;
+    }
+
+    /**
+     * retrieves the list of continents that a player owns
+     *
+     * @param player in the game
+     * @return list of continents owned by a player.
+     */
+    public List<Continent> getContinentsOwnedBy(final Player player) {
+        List<Continent> continentsList = new ArrayList<>();
+        for (Continent c : continents) {
+            if (c.isOwnedBy(player)) {
+                continentsList.add(c);
+            }
+        }
+        return continentsList;
+    }
+
+    /**
+     * assigns random countries for each player in the game.
+     *
+     * @param players, list of players in the game.
      */
     public void assignCountries(final List<Player> players) {
         final LinkedList<Country> countriesToAssign = new LinkedList<>();
@@ -93,6 +129,12 @@ public class Board {
         }
     }
 
+    /**
+     * distributes armies for eah player on their owned countries.
+     * The number of initial armies according to the number of players playing is specified in gameConstants.
+     *
+     * @param players, list of players in the game.
+     */
     public void distributeArmies(List<Player> players) {
         players.forEach(player -> {
             final List<Country> ownedCountries = getCountriesOwnedBy(player);
@@ -112,42 +154,13 @@ public class Board {
         });
     }
 
-    public GameConstants getGameConstants() {
-        return gameConstants;
-    }
-
-    public List<Country> getCountriesOwnedBy(final Player player) {
-        return countries.stream()
-                .filter(country -> player.equals(country.getCurrentOwner()))
-                .collect(Collectors.toList());
-    }
-
-    public List<Continent> getContinentsOwnedBy(final Player player) {
-        return continents.stream()
-                .filter(c -> c.isOwnedBy(player))
-                .collect(Collectors.toList());
-
-
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Board board = (Board) o;
-        return continents.equals(board.continents) &&
-                countries.equals(board.countries) &&
-                gameConstants.equals(board.gameConstants);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(continents, countries, gameConstants);
-    }
-
-
+    /**
+     * checks if the custom map loaded by the user is valid.
+     *
+     * @return true if the custom map is valid.
+     */
     public boolean isValidMap() {
-        // Check if two continents have the same name
+
         Set<Continent> continentSet = new HashSet<>(getContinents());
         if (continentSet.size() < getContinents().size()) {
             return false;
@@ -165,7 +178,7 @@ public class Board {
             }
         }
 
-        //check if country has adjacent countries
+        //check if a country has adjacent countries
         for (Country country : getCountries()) {
             if (!country.hasAdjacent()) {
                 return false;
@@ -175,6 +188,9 @@ public class Board {
         return true;
     }
 
+    /**
+     * saves and sets the adjacent countries in a list
+     */
     public void authorizingAdjacentCountries() {
         for (Country c : countries) {
             ArrayList<Country> list = new ArrayList<>();
@@ -183,6 +199,36 @@ public class Board {
             }
             c.setAdjacentCountries(list);
         }
+    }
+
+    /**
+     * The textual representation of the board, Contains information about every continent, country
+     * and the player that owns the country
+     *
+     * @return the textual representation of the board.
+     */
+    @Override
+    public String toString() {
+        String Board = "RISK BOARD: \n" + "Continents: \n";
+        for (Continent c : continents) {
+            Board = Board.concat(c.toString() + "\n");
+        }
+        return Board;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Board board = (Board) o;
+        return continents.equals(board.continents) &&
+                countries.equals(board.countries) &&
+                gameConstants.equals(board.gameConstants);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(continents, countries, gameConstants);
     }
 
 }
