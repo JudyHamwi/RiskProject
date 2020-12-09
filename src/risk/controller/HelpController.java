@@ -15,13 +15,13 @@ import java.awt.event.ActionListener;
  */
 public class HelpController implements ActionListener {
     private Game game;
-    private RiskView rv;
+    private RiskView riskView;
 
     /**
      * creates the listener to listen to the user asking for help
      */
-    public HelpController(RiskView rv) {
-        this.rv = rv;
+    public HelpController(RiskView riskView) {
+        this.riskView = riskView;
     }
 
     /**
@@ -30,6 +30,6 @@ public class HelpController implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        rv.handlePrintHelp();
+        riskView.handlePrintHelp();
     }
 }

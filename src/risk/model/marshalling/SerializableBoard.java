@@ -10,19 +10,38 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Serializable Board, responsible for the process of serializing the Board Object.
+ *
+ * @author Sarah Jaber
+ * @author Judy Hamwi
+ * @author Diana Miraflor
+ */
 public class SerializableBoard {
     private final List<Continent> continents;
     private final Map<Country, List<Country>> adjacencyMap;
     private final GameConstants gameConstants;
 
+    /**
+     * SerializableBoard Constructor.
+     *
+     * @param continents,   all continents in the board.
+     * @param adjacencyMap, map of adjacent countries.
+     * @param constants,    game constants.
+     */
     private SerializableBoard(List<Continent> continents, Map<Country, List<Country>> adjacencyMap, GameConstants constants) {
         this.continents = continents;
         this.adjacencyMap = adjacencyMap;
         this.gameConstants = constants;
     }
 
-    public static SerializableBoard  fromBoard(final Board board) {
-        // TODO implement deep copy so we don't modify the input board if the user wants to keep using it.
+    /**
+     * Serializes a board object.
+     *
+     * @param board, board to serialize.
+     * @return a serializable board.
+     */
+    public static SerializableBoard fromBoard(final Board board) {
         final List<Continent> continents = board.getContinents();
         final Map<Country, List<Country>> adjacencyMap = new HashMap<>();
 
@@ -33,20 +52,21 @@ public class SerializableBoard {
                 country.clearAdjacentCountries();
             }
         }
-
         return new SerializableBoard(continents, adjacencyMap, board.getGameConstants());
     }
 
-    // In order to test this, you need to make sure you have an equals and hashcode method implemented for board, continent, country, GameConstants
+    /**
+     * to convert a serialized board to a Board object.
+     *
+     * @return deserialized Board object
+     */
     public Board toBoard() {
-        // Need to remove adjacent countries from equals and hashcode
         for (Continent continent : continents) {
             List<Country> countries = continent.getCountries();
             for (Country country : countries) {
                 country.setAdjacentCountries(adjacencyMap.get(country));
             }
         }
-
         return new Board(continents, gameConstants);
     }
 }

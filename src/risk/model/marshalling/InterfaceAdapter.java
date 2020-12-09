@@ -3,7 +3,13 @@ package risk.model.marshalling;
 import com.google.gson.*;
 
 import java.lang.reflect.Type;
-
+/**
+ * Interface Adapter.
+ * This class is not used in milestone 4.
+ * @author Sarah Jaber
+ * @author Judy Hamwi
+ * @author Diana Miraflor
+ */
 public class  InterfaceAdapter <T> implements JsonSerializer<T>, JsonDeserializer<T> {
 
     private static final String CLASSNAME = "__CLASSNAME__";

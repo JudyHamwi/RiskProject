@@ -73,13 +73,13 @@ public class RiskViewFrame extends JFrame implements RiskView {
         newGame = new JMenuItem("New Game");
         newGame.addActionListener(new OriginalMapController(this));
         loadCustomMap = new JMenuItem("Load Custom Map");
-        loadCustomMap.addActionListener( new CustomMapController(this));
+        loadCustomMap.addActionListener(new CustomMapController(this));
         quitGame = new JMenuItem("Quit Game");
         quitGame.addActionListener(new QuitGameController());
         helpMenuItem = new JMenuItem("Help");
         helpMenuItem.addActionListener(new HelpController(this));
-        save=new JMenuItem("save");
-        loadSavedGame=new JMenuItem("Load Saved Game");
+        save = new JMenuItem("save");
+        loadSavedGame = new JMenuItem("Load Saved Game");
         loadSavedGame.addActionListener(new LoadSavedGameController(this));
 
         menu.add(newGame);
@@ -223,7 +223,6 @@ public class RiskViewFrame extends JFrame implements RiskView {
 
     /**
      * updats the view when the player asks for help
-     *
      */
     public void handlePrintHelp() {
         String printHelp;
@@ -238,7 +237,7 @@ public class RiskViewFrame extends JFrame implements RiskView {
                 "\nCountries you are able to move your armies to will be highlighted." +
                 "\n2. Press the Fortify button." +
                 "\n3. Click on a highlighted country you wish to move your armies to." +
-                "\n"+
+                "\n" +
                 "Pass your turn to another player by pressing" +
                 " the end turn button." + "\n" + "\n" + "GOOD LUCK!");
         JOptionPane.showMessageDialog(this, printHelp);
@@ -278,6 +277,7 @@ public class RiskViewFrame extends JFrame implements RiskView {
 
     /**
      * updates the view when the user chooses a fortifying country
+     *
      * @param country fortifying from
      */
     @Override
@@ -286,7 +286,7 @@ public class RiskViewFrame extends JFrame implements RiskView {
         boardView.getFortifyButton().setEnabled(true);
         System.out.println("View Fortify");
         // no connected countries
-        for(Country c:country.getConnectedCountries()) {
+        for (Country c : country.getConnectedCountries()) {
             System.out.println(c.getCountryName());
         }
     }
@@ -347,7 +347,7 @@ public class RiskViewFrame extends JFrame implements RiskView {
      * update the view when the attack phase is complete
      *
      * @param attackerCountry country that the player attacked from
-     * @param defenderLost   true of the player conquered the country and false otherwise
+     * @param defenderLost    true of the player conquered the country and false otherwise
      */
     @Override
     public void handleAttackResult(Country attackerCountry, boolean defenderLost, AttackPhase attackPhase) {
@@ -364,6 +364,7 @@ public class RiskViewFrame extends JFrame implements RiskView {
 
     /**
      * updates the ciew when the user enters the fortify phase
+     *
      * @param fortifier
      * @param fortifyPhase
      */
@@ -391,6 +392,7 @@ public class RiskViewFrame extends JFrame implements RiskView {
 
     /**
      * updates the view when the game is complete and a player has won
+     *
      * @param winner
      */
     @Override
@@ -400,6 +402,7 @@ public class RiskViewFrame extends JFrame implements RiskView {
 
     /**
      * updates the view when the user enters the attack phase
+     *
      * @param attackPhase
      */
     @Override
@@ -416,6 +419,7 @@ public class RiskViewFrame extends JFrame implements RiskView {
 
     /**
      * updates the view when the user is ready to choose a country to fortify to
+     *
      * @param fortifyPhase
      */
     @Override
@@ -434,12 +438,13 @@ public class RiskViewFrame extends JFrame implements RiskView {
 
     /**
      * handles when a custom map is loaded
+     *
      * @param game
      * @param board
      */
     @Override
-    public void handleLoadMap(Game game, Board board){
-        this.game=game;
+    public void handleLoadMap(Game game, Board board) {
+        this.game = game;
     }
 
     /**
@@ -447,17 +452,18 @@ public class RiskViewFrame extends JFrame implements RiskView {
      */
     @Override
     public void handleInvalidMap() {
-        JOptionPane.showMessageDialog(this,"Invalid Map !, try again...");
+        JOptionPane.showMessageDialog(this, "Invalid Map !, try again...");
     }
 
     /**
      * updates the view after the user uploads a saved game
+     *
      * @param board of the saved game
-     * @param game saved game
+     * @param game  saved game
      */
     @Override
-    public void handleLoadSavedGame(Board board,Game game){
-        this.game=game;
+    public void handleLoadSavedGame(Board board, Game game) {
+        this.game = game;
         this.remove(mainMenuPanel);
         boardView = new BoardView(this, game, board);
         this.add(boardView, BorderLayout.CENTER);

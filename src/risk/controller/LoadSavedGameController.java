@@ -30,7 +30,7 @@ public class LoadSavedGameController implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        GameRepository repository = new GameRepository("images");
+        GameRepository repository = new GameRepository("savedGame");
         Game game=repository.loadGame();
         game.addLoadView(riskView);
         game.play();

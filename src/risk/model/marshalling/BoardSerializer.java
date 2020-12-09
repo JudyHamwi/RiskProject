@@ -7,6 +7,15 @@ import risk.model.board.Board;
 
 import java.io.IOException;
 
+/**
+ * Board serializer, our own board parser.
+ * it overrides the write and read methods in the TypeAdapter of json.
+ *
+ * @author Sarah Jaber
+ * @author Judy Hamwi
+ * @author Diana Miraflor
+ */
+
 public class BoardSerializer extends TypeAdapter<Board> {
     private static final String JSON_FIELD = "boardJson";
     private final BoardMarshaller marshaller;

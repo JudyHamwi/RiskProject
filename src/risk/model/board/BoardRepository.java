@@ -6,47 +6,69 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Board Repository class, to save and load a Board object.
+ * @author Sarah Jaber
+ * @author Judy Hamwi
+ * @author Diana Miraflor
+ */
 public class BoardRepository {
 
-    private static final String DEFAULT_MAP_ROOT = "maps/default";
-    private static final String USER_MAP_ROOT = "maps/user";
+    private static final String DEFAULT_MAP_ROOT = "maps";
 
     private static final BoardMarshaller BOARD_MARSHALLER = new BoardMarshaller();
     private static final String JSON_EXTENSION = ".json";
 
     private final String saveFolderRoot;
 
+    /**
+     * BoardRepository constructor.
+     *
+     * @param saveFolderRoot the root of the saved map file.
+     */
     public BoardRepository(String saveFolderRoot) {
         this.saveFolderRoot = saveFolderRoot;
     }
 
-    public static BoardRepository getPremadeBoardRepository(){
+    /**
+     * gets the pre-made custom map from the maps file.
+     *
+     * @return the pre-made map.
+     */
+    public static BoardRepository getPremadeBoardRepository() {
 
         return new BoardRepository(DEFAULT_MAP_ROOT);
     }
 
-    public static BoardRepository getUserBoardRepository(){
-
-        return new BoardRepository(USER_MAP_ROOT);
-    }
-
-    public void saveMap(String name, Board board){
+    /**
+     * saves a custom map to a .json file from a specified file path.
+     *
+     * @param name,  name of the file.
+     * @param board, the costumed map.
+     */
+    public void saveMap(String name, Board board) {
         String mapJson = BOARD_MARSHALLER.toJson(board);
 
         String filePath = getFilePath(name);
 
-        try(BufferedWriter fileWriter = new BufferedWriter(new FileWriter(filePath))){
+        try (BufferedWriter fileWriter = new BufferedWriter(new FileWriter(filePath))) {
             fileWriter.write(mapJson);
-        } catch (IOException e){
+        } catch (IOException e) {
             throw new RuntimeException("was not able to save the map: " + name, e);
         }
     }
 
-    public Board loadMap ( String name){
+    /**
+     * loads a custom map from a .json file.
+     *
+     * @param name, name of the file.
+     * @return a costumed map.
+     */
+    public Board loadMap(String name) {
         String filePath = getFilePath(name);
 
         String mapJson;
-        try (BufferedReader fileReader = new BufferedReader(new FileReader(filePath))){
+        try (BufferedReader fileReader = new BufferedReader(new FileReader(filePath))) {
             mapJson = fileReader.readLine();
         } catch (IOException e) {
             throw new RuntimeException("Was not able to load map: " + name, e);
@@ -56,6 +78,11 @@ public class BoardRepository {
         return board;
     }
 
+    /**
+     * retrieves a list of costumed map names.
+     *
+     * @return a list of costumed map names.
+     */
     public List<String> getMapNames() {
         List<String> mapNames = new ArrayList<>();
         File levelFolder = new File(saveFolderRoot);
@@ -79,6 +106,12 @@ public class BoardRepository {
         return mapNames;
     }
 
+    /**
+     * builds the string name of the file path.
+     *
+     * @param name, name of the file.
+     * @return a string representation of the file path, name and .json extension
+     */
     private String getFilePath(String name) {
         return new StringBuilder(saveFolderRoot)
                 .append('/')
@@ -87,12 +120,20 @@ public class BoardRepository {
                 .toString();
     }
 
-    /*
-    public static void main(String[] args) {
-        final Board board = new HeroesMap().build();
-        BoardRepository repo = new BoardRepository("images");
-        repo.saveMap("heroes",board);
-    }
-
+    /**
+     * this is to create the custom maps in the maps folder.
      */
+    public static void main(String[] args) {
+        final Board originalMap = new OriginalBoardFactory().build();
+        final Board heroesMap = new HeroesMap().build();
+        final Board gameOfThronesMap = new GameOfThronesBoardFactory().build();
+        final Board avatarMap = new AvatarBoardFactory().build();
+        final Board invalidMap = new InvalidBoardFactory().build();
+        BoardRepository boardRepository = new BoardRepository("maps");
+        boardRepository.saveMap("original",originalMap);
+        boardRepository.saveMap("heroes",heroesMap);
+        boardRepository.saveMap("gameOfThrones",gameOfThronesMap);
+        boardRepository.saveMap("avatar",avatarMap);
+        boardRepository.saveMap("invalidMap",invalidMap);
+    }
 }

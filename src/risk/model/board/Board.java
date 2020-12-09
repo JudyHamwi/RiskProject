@@ -10,7 +10,6 @@ import java.util.*;
  * @author Walid Baitul Islam
  * @author Judy Hamwi
  * @author Diana Miraflor
- * @version 2.0
  */
 public class Board {
     private List<Continent> continents;

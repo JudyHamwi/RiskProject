@@ -16,7 +16,7 @@ public class SaveController implements ActionListener {
     }
     @Override
     public void actionPerformed(ActionEvent e) {
-        GameRepository gameRepository = new GameRepository("images");
+        GameRepository gameRepository = new GameRepository("savedGame");
         gameRepository.saveGame(game);
         System.exit(0);
     }

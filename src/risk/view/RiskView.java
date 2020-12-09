@@ -32,6 +32,8 @@ public interface RiskView {
 
      void handleCanAttackFrom(Country country);
 
+     void handlePrintHelp();
+
      void handleCanNotAttackFrom( );
 
      void handleNewAttack(AttackPhase attackPhase, User user);

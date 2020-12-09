@@ -14,6 +14,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+/**
+ * Serializable Game, responsible for the process of serializing the Game Object.
+ *
+ * @author Sarah Jaber
+ * @author Judy Hamwi
+ * @author Diana Miraflor
+ */
 public class SerializableGame {
     private final List<Continent> continents;
     private final Map<Country, List<Country>> adjacencyMap;
@@ -27,26 +35,42 @@ public class SerializableGame {
     private static final int USER_ID = 1;
     private static final int USER_TYPE = 0;
 
-    private SerializableGame(List<Continent> continents, Map<Country, List<Country>> adjacencyMap, GameConstants constants,
+    /**
+     * Serializable Game Constructor.
+     *
+     * @param continents,      continents in the game play.
+     * @param adjacencyMap,    adjacent countries.
+     * @param gameConstants,   game constants.
+     * @param countryOwnerMap, country owners.
+     * @param gameState,       game state.
+     * @param playerMap,       map of current player in game.
+     * @param currentPlayer,   current turn in game.
+     */
+    private SerializableGame(List<Continent> continents, Map<Country, List<Country>> adjacencyMap, GameConstants gameConstants,
                              Map<Country, Integer> countryOwnerMap, GameState gameState, Map<Integer, String> playerMap, int currentPlayer) {
         this.continents = continents;
         this.adjacencyMap = adjacencyMap;
-        this.gameConstants = constants;
+        this.gameConstants = gameConstants;
         this.countryOwnerMap = countryOwnerMap;
         this.gameState = gameState;
         this.playerMap = playerMap;
         this.currentPlayer = currentPlayer;
     }
 
+    /**
+     * Serializes a Game object
+     *
+     * @param game, game to serialize.
+     * @return a serialized game.
+     */
     public static SerializableGame fromGame(final Game game) {
-        // TODO implement deep copy so we don't modify the input board if the user wants to keep using it.
+
         final List<Continent> continents = game.getBoard().getContinents();
         final Map<Country, List<Country>> adjacencyMap = new HashMap<>();
         final Map<Country, Integer> countryOwnerMap = new HashMap<>();
         final GameState gameState = game.getState();
         final Map<Integer, String> playerMap = new HashMap<>();
         final int currentPlayer = game.getCurrentPlayer().getId();
-
 
         for (Continent continent : continents) {
             List<Country> countries = continent.getCountries();
@@ -67,9 +91,12 @@ public class SerializableGame {
                 playerMap, currentPlayer);
     }
 
-    // In order to test this, you need to make sure you have an equals and hashcode method implemented for board, continent, country, GameConstants
+    /**
+     * converts a serialized game to a game object.
+     *
+     * @return deserialized Game Object.
+     */
     public Game toGame() {
-        // Need to remove adjacent countries from equals and hashcode
         for (Continent continent : continents) {
             List<Country> countries = continent.getCountries();
             for (Country country : countries) {
@@ -88,7 +115,6 @@ public class SerializableGame {
             if (playerName[USER_TYPE].equals(AI)) {
                 player = new PlayerFactory().createAI(game.getBoard());
             } else {
-                //add set views method in user
                 player = new PlayerFactory().createUser(game.getViews());
             }
             player.setID(Integer.parseInt(playerName[USER_ID]));
@@ -96,9 +122,7 @@ public class SerializableGame {
                 game.setCurrentPlayer(player);
             }
             game.addPlayer(player);
-
         }
-
         for (Country country : countryOwnerMap.keySet()) {
             Country c = board.getCountry(country.getCountryName());
             Player owner = game.getPlayer(countryOwnerMap.get(country));
