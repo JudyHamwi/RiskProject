@@ -130,4 +130,8 @@ public class FortifyPhase {
     public void setArmiesToMove(int armiesToMove){
         this.armiesToMove=armiesToMove;
     }
+
+    public Country getMovingTo(){
+        return movingTo;
+    }
 }

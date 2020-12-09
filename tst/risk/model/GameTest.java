@@ -85,9 +85,10 @@ public class GameTest {
                 .thenReturn(List.of(mexico))
                 .thenReturn(List.of());
 
+        game.setState(GameState.INITIALIZING);
         game.play();
 
-        assertEquals(GameState.COMPLETED, game.getState());
+        assertEquals(GameState.INITIALIZING, game.getState());
 
         inOrder.verify(mockBoard).assignCountries(any());
         inOrder.verify(mockBoard).distributeArmies(any());
