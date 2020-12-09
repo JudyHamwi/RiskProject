@@ -1,5 +1,9 @@
 package risk.model.board;
 
+import risk.model.board.customMaps.AvatarBoardFactory;
+import risk.model.board.customMaps.GameOfThronesBoardFactory;
+import risk.model.board.customMaps.HeroesMap;
+import risk.model.board.customMaps.InvalidBoardFactory;
 import risk.model.marshalling.BoardMarshaller;
 
 import java.io.*;

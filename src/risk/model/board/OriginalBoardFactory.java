@@ -7,6 +7,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Original Board Factory class, builds the original map of Risk game.
+ *
+ * @author Sarah Jaber
+ * @author Judy Hamwi
+ * @author Diana Miraflor
+ */
 public class OriginalBoardFactory implements BoardFactory {
     private final Map<String, Country> countryMap = new HashMap<>();
 
@@ -187,7 +194,7 @@ public class OriginalBoardFactory implements BoardFactory {
     }
 
     /**
-     * Initialize adjacent counntries in North America
+     * Initialize adjacent countries in North America
      */
     private void linkNorthAmericaAdjacentCountries() {
         getCountry("Alaska").addAdjacentCountry(getCountry("NorthwestTerritory"));
@@ -228,7 +235,7 @@ public class OriginalBoardFactory implements BoardFactory {
     }
 
     /**
-     * Initialize adjacent counntries in South America
+     * Initialize adjacent countries in South America
      */
     private void linkSouthAmericaAdjacentCountries() {
         getCountry("Argentina").addAdjacentCountry(getCountry("Peru"));
@@ -285,7 +292,7 @@ public class OriginalBoardFactory implements BoardFactory {
     }
 
     /**
-     * Initialize adjacent counntries in Africa
+     * Initialize adjacent countries in Africa
      */
     private void linkAfricaAdjacentCountries() {
         getCountry("Congo").addAdjacentCountry(getCountry("SouthAfrica"));
@@ -316,7 +323,7 @@ public class OriginalBoardFactory implements BoardFactory {
     }
 
     /**
-     * Initialize adjacent counntries in Asia
+     * Initialize adjacent countries in Asia
      */
     private void linkAsiaAdjacentCountries() {
         getCountry("Afghanistan").addAdjacentCountry(getCountry("Ukraine"));
@@ -390,12 +397,24 @@ public class OriginalBoardFactory implements BoardFactory {
         getCountry("WesternAustralia").addAdjacentCountry(getCountry("NewGuinea"));
     }
 
+    /**
+     * creates a country with the specified name.
+     *
+     * @param name, name of the country.
+     * @return country.
+     */
     private Country createCountry(final String name) {
         final Country country = new Country(name);
         countryMap.put(name, country);
         return country;
     }
 
+    /**
+     * gets the country with the specified name.
+     *
+     * @param name, name of the country to get.
+     * @return country.
+     */
     private Country getCountry(final String name) {
         return countryMap.get(name);
     }

@@ -5,7 +5,7 @@ import risk.model.player.Player;
 import java.util.*;
 
 /**
- * RISKModel.Continent in the RISKModel.Board of RISK RISKModel.Game.
+ * Continent in the risk board.
  *
  * @author Sarah Jaber
  * @author Walid Baitul Islam
@@ -19,7 +19,7 @@ public class Continent {
     private int bonusArmies;
 
     /**
-     * Contrusctor of RISKModel.Continent that creates a new RISKModel.Continent
+     * Constructor that creates a new Continent.
      *
      * @param name of the RISKModel.Continent
      */
@@ -30,7 +30,7 @@ public class Continent {
     }
 
     /**
-     * Add country to the continent
+     * Adds a country to the continent
      *
      * @param country added to the continent
      */
@@ -39,16 +39,16 @@ public class Continent {
     }
 
     /**
-     * getter for the countries in the continent
+     * gets the list of countries in a continent.
      *
-     * @return LikedList<Conuntry> List of countries in the continent
+     * @return List of countries in a continent.
      */
     public List<Country> getCountries() {
         return countries;
     }
 
     /**
-     * Returns the number of bonus armies a player gets each turn when the player occupy this continent
+     * Returns the number of bonus armies a player gets each turn when the player occupy this continent.
      *
      * @return
      */
@@ -57,18 +57,18 @@ public class Continent {
     }
 
     /**
-     * get the name of the continent
+     * get the name of the continent.
      *
-     * @return name of the continent
+     * @return name of the continent.
      */
     public String getContinentName() {
         return continentName;
     }
 
     /**
-     * Text representation of the continent.
-     *
-     * @return text representation of the continent
+     * gets the country by its specific name.
+     * @param name, name of the country.
+     * @return country.
      */
     public Country getCountry(String name) {
         for (Country c : countries) {
@@ -79,12 +79,30 @@ public class Continent {
         return null;
     }
 
+    /**
+     * checks if a Continent is valid.
+     *
+     * @return true if it's a valid continent.
+     */
     public boolean isValid() {
         // Check if all continents have at least one country
         if (this.getCountries().size() < 1) {
             return false;
         }
+        return true;
+    }
 
+    /**
+     * checks if a country is owned by specified player.
+     * @param player to check
+     * @return true if the player owns the country
+     */
+    public boolean isOwnedBy(final Player player) {
+        for (Country country : countries) {
+            if (!country.isOwnedBy(player)) {
+                return false;
+            }
+        }
         return true;
     }
 
@@ -96,15 +114,6 @@ public class Continent {
             continent += "\n";
         }
         return continent;
-    }
-
-    public boolean isOwnedBy(final Player player) {
-        for (Country country : countries) {
-            if (!country.isOwnedBy(player)) {
-                return false;
-            }
-        }
-        return true;
     }
 
     @Override

@@ -1,6 +1,9 @@
-package risk.model.board;
+package risk.model.board.customMaps;
 
 import risk.model.GameConstants;
+import risk.model.board.Board;
+import risk.model.board.Continent;
+import risk.model.board.Country;
 
 import java.util.HashMap;
 import java.util.LinkedList;

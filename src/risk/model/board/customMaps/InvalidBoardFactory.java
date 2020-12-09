@@ -1,13 +1,17 @@
-package risk.model.board;
+package risk.model.board.customMaps;
 
 import risk.model.GameConstants;
+import risk.model.board.Board;
+import risk.model.board.BoardFactory;
+import risk.model.board.Continent;
+import risk.model.board.Country;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class InvalidBoardFactory implements BoardFactory{
+public class InvalidBoardFactory implements BoardFactory {
     private final Map<String, Country> invalidMap = new HashMap<>();
 
     @Override

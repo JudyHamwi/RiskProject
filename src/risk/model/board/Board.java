@@ -10,6 +10,7 @@ import java.util.*;
  * @author Walid Baitul Islam
  * @author Judy Hamwi
  * @author Diana Miraflor
+ * @version 2.0
  */
 public class Board {
     private List<Continent> continents;
@@ -50,7 +51,7 @@ public class Board {
     /**
      * retrieves all the continents in the board.
      *
-     * @return, list of the continents.
+     * @return list of the continents.
      */
     public List<Continent> getContinents() {
         return continents;
@@ -69,7 +70,7 @@ public class Board {
     /**
      * retrieves the game constants.
      *
-     * @return, game constants.
+     * @return game constants.
      */
     public GameConstants getGameConstants() {
         return gameConstants;

@@ -6,15 +6,32 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+/**
+ * JSon Board Factory.
+ *
+ * @author Sarah Jaber
+ * @author Walid Baitul Islam
+ * @author Judy Hamwi
+ * @author Diana Miraflor
+ */
 public class JsonBoardFactory implements BoardFactory {
 
     private  String filePath;
     private BoardMarshaller boardMarshaller = new BoardMarshaller();
 
+    /**
+     * JsonBoardFactory Constructor
+     *
+     * @param filePath, the file path to build the board from.
+     */
     public JsonBoardFactory(final String filePath) {
         this.filePath = filePath;
     }
 
+    /**
+     * builds a Board Object from a Json file.
+     * @return, Board object.
+     */
     @Override
     public Board build() {
         final String boardJson;
