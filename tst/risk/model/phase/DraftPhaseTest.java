@@ -93,6 +93,6 @@ public class DraftPhaseTest {
 
         final int totalBonus = draftPhase.getArmiesToPlace();
 
-        assertEquals(4, totalBonus);
+        assertEquals(3, totalBonus);
     }
 }

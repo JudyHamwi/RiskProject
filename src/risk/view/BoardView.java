@@ -61,7 +61,7 @@ public class BoardView extends JPanel {
         playerColorsPanel.setLayout(new BoxLayout(playerColorsPanel, BoxLayout.Y_AXIS));
         this.setLayout(new GridLayout(3, 3, 3, 3));
         colors = new HashMap<>();
-        colorArray = new Color[]{Color.magenta, Color.green, Color.blue, Color.orange, Color.pink, Color.red};
+        colorArray = new Color[]{Color.magenta, Color.blue, Color.orange, Color.gray, Color.pink, Color.red,Color.green};
         createColors();
         boardInformation = new JPanel();
         initializeContinents();
@@ -88,6 +88,7 @@ public class BoardView extends JPanel {
         colors.put(Color.magenta, "Purple");
         colors.put(Color.red, "Red");
         colors.put(Color.blue, "Blue");
+        colors.put(Color.gray, "Gray");
         colors.put(Color.orange, "Orange");
         colors.put(Color.green, "Green");
         colors.put(Color.pink, "Pink");
