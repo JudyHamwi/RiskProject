@@ -1,10 +1,9 @@
 package risk.model;
 
 /**
- *  RISKModel.GameState
- *  The RISKModel.GameState class is an Enum class that is meant to show changes in the game’s
- *  progression. For our game we have game states INITIALIZING, IN_PROGRESS and COMPLETED to show if
- *  the game is still being played or if the game has been finished.
+ *  Game State.
+ *
+ *  an Enum class that is meant to show changes in the game’s progression.
  */
 public enum GameState {
     INITIALIZING,
