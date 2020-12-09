@@ -10,6 +10,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class was created to build Game of thrones custom map.
+ * It does not have any responsibilities in the submission of milestone 4.
+ * @athor Sarah Jaber
+ */
 public class GameOfThronesBoardFactory {
 
     private final Map<String, Country> countryMap = new HashMap<>();

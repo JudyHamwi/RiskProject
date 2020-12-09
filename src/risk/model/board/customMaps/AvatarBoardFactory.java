@@ -11,6 +11,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class was created to build Avatar custom map.
+ * It does not have any responsibilities in the submission of milestone 4.
+ * @athor Diana Miraflor
+ */
 public class AvatarBoardFactory implements BoardFactory {
     private final Map<String, Country> avatarCountryMap = new HashMap<>();
 

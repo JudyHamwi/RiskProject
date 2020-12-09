@@ -11,6 +11,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class was created to build Heroes custom map.
+ * It does not have any responsibilities in the submission of milestone 4.
+ * @athor Judy Hamwi
+ */
 public class HeroesMap implements BoardFactory {
     private final Map<String, Country> countryMap = new HashMap<>();
 
