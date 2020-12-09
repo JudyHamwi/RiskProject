@@ -2,6 +2,9 @@ package risk.controller;
 
 import risk.model.Game;
 import risk.model.GameRepository;
+import risk.model.player.Player;
+import risk.model.player.User;
+import risk.view.RiskView;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,7 +18,10 @@ import java.awt.event.ActionListener;
  */
 public class LoadSavedGameController implements ActionListener {
 
-    public LoadSavedGameController(){
+    private Game game;
+    private RiskView riskView;
+    public LoadSavedGameController(RiskView riskView){
+        this.riskView=riskView;
     }
 
     /**
@@ -25,6 +31,8 @@ public class LoadSavedGameController implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         GameRepository repository = new GameRepository("images");
-        repository.loadGame();
+        Game game=repository.loadGame();
+        game.addLoadView(riskView);
+        game.play();
     }
 }

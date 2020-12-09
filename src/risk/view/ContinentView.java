@@ -95,6 +95,7 @@ public class ContinentView extends JPanel {
      */
     public void initializePlayerCountries() {
         countryButtons.forEach((country, button) -> {
+            System.out.println(country + ""+ country.getCurrentOwner());
             button.setForeground(boardView.getColors()[country.getCurrentOwner().getId()]);
             button.setText(country.getCountryName() + " " + country.getNumberOfArmies());
         });

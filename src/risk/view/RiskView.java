@@ -76,4 +76,6 @@ public interface RiskView {
      void handleLoadMap(Game game, Board board);
 
      void handleInvalidMap();
+
+     void handleLoadSavedGame(Board board,Game game);
 }

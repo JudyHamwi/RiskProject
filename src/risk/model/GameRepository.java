@@ -28,6 +28,7 @@ public class GameRepository {
         }
     }
 
+
     public Game loadGame(){
         String filePath = getFilePath();
 
@@ -41,6 +42,8 @@ public class GameRepository {
 
         return game;
     }
+
+
 
     private String getFilePath() {
         return new StringBuilder(saveFolderRoot)

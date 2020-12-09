@@ -14,4 +14,5 @@ public interface Player {
     GameState performAttack(AttackPhase attackPhase);
     void performFortify(FortifyPhase fortifyPhase);
     void performEndTurn(List<RiskView> views);
+    void setID(int id);
 }

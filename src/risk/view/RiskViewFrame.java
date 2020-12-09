@@ -80,7 +80,7 @@ public class RiskViewFrame extends JFrame implements RiskView {
         helpMenuItem.addActionListener(new HelpController(this.game));
         save=new JMenuItem("save");
         loadSavedGame=new JMenuItem("Load Saved Game");
-        loadSavedGame.addActionListener(new LoadSavedGameController());
+        loadSavedGame.addActionListener(new LoadSavedGameController(this));
 
         menu.add(newGame);
         menu.add(loadCustomMap);
@@ -410,6 +410,7 @@ public class RiskViewFrame extends JFrame implements RiskView {
         boardView.clearCountryListeners();
     }
 
+    @Override
     public void handleLoadMap(Game game, Board board){
         this.game=game;
     }
@@ -417,5 +418,22 @@ public class RiskViewFrame extends JFrame implements RiskView {
     @Override
     public void handleInvalidMap() {
         JOptionPane.showMessageDialog(this,"Invalid Map !, try again...");
+    }
+
+    @Override
+    public void handleLoadSavedGame(Board board,Game game){
+        this.game=game;
+        this.remove(mainMenuPanel);
+        boardView = new BoardView(this, game, board);
+        this.add(boardView, BorderLayout.CENTER);
+        this.add(gameStatusPanel, BorderLayout.SOUTH);
+        menu.remove(loadCustomMap);
+        menu.add(helpMenuItem);
+        menu.add(save);
+        save.addActionListener(new SaveController(game));
+        gameStatus.setText(game.getState().toString());
+        currentPlayer.setText(game.getCurrentPlayer().toString());
+        boardView.InitializeBoard(game.getNumPlayers());
+        boardView.addInGamePanel(game, game.getCurrentPlayer());
     }
 }

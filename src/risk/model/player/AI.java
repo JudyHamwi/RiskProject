@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 public class AI implements Player {
 
-    private final int id;
+    private  int id;
     private Board board;
     private final TurnSummary AISummary;
 
@@ -93,6 +93,11 @@ public class AI implements Player {
         //for each view call handleAITurn. need to implement turn Summary object and populate it as we run the turns
         views.forEach(v -> v.handleAITurn(AISummary));
 
+    }
+
+    @Override
+    public void setID(int id) {
+        this.id=id;
     }
 
     private List<Country> getOwnedCountriesByArmySize() {

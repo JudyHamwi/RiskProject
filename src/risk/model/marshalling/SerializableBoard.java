@@ -30,7 +30,6 @@ public class SerializableBoard {
             List<Country> countries = continent.getCountries();
             for (Country country : countries) {
                 adjacencyMap.put(country, List.copyOf(country.getAdjacentCountries()));
-
                 country.clearAdjacentCountries();
             }
         }

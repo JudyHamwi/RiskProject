@@ -236,4 +236,30 @@ public class Game {
         riskViews.forEach(rv -> rv.handlePrintHelp(this, pH));
     }
 
+    /**
+     * getter for the players in the game
+     * @return
+     */
+    public List<Player> getPlayers(){
+        return players;
+    }
+
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
+    public Player getPlayer(int id){
+        for(Player p:players){
+            if(p.getId()==id){
+                return p;
+            }
+        }
+        return null;
+    }
+
+    public void addLoadView(RiskView riskView){
+        riskViews.add(riskView);
+        riskView.handleLoadSavedGame(board, this);
+        board.authorizingAdjacentCountries();
+    }
 }

@@ -22,7 +22,7 @@ import java.util.concurrent.Semaphore;
  * @version 2.0
  */
 public class User implements Player {
-    private final int id;
+    private  int id;
     private final List<RiskView> views;
 
     private Semaphore uiLock = new Semaphore(0);
@@ -173,5 +173,11 @@ public class User implements Player {
         User user = (User) o;
         return this.id == user.id;
     }
+
+    @Override
+    public void setID(int id) {
+        this.id=id;
+    }
+
 }
 

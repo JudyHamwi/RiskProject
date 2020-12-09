@@ -15,6 +15,7 @@ public class SaveController implements ActionListener {
     }
     @Override
     public void actionPerformed(ActionEvent e) {
+        //game.getBoard().unAuthorizingAdjacentCountries();
         GameRepository gameRepository = new GameRepository("images");
         gameRepository.saveGame(game);
     }

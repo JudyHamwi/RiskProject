@@ -193,4 +193,17 @@ public class Board {
             c.setAdjacentCountries(list);
         }
     }
+
+    /*
+    public void unAuthorizingAdjacentCountries() {
+        for (Country c : countries) {
+            ArrayList<Country> list = new ArrayList<>();
+            for (Country ac : c.getAdjacentCountries()) {
+                list.add(new Country(ac.getCountryName()));
+            }
+            c.setAdjacentCountries(list);
+        }
+    }
+
+     */
 }
