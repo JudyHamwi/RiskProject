@@ -4,7 +4,6 @@ package risk.model.board;
  * Board Factory interface
  *
  * @author Sarah Jaber
- * @author Walid Baitul Islam
  * @author Judy Hamwi
  * @author Diana Miraflor
  */

@@ -28,7 +28,7 @@ public class BoardMarshaller {
     }
 
     /**
-     * converts from a json to a Board object.
+     * deserializes from a json to a Board object.
      *
      * @param json , json file to convert.
      * @return Board Object from a json file.

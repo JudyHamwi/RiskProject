@@ -32,9 +32,9 @@ public class RiskViewFrame extends JFrame implements RiskView {
     public static final int BOARD_HEIGHT = 1100;
     public static final int BOARD_WIDTH = 800;
     private static final int MAX_NUM_PLAYERS = 6;
-    private static final File BG_IMAGE = new File("images/background.jpg");//TODO
+    //private static final File BG_IMAGE = new File("images/background.jpg");//TODO
 
-    private JLabel background;
+    //private JLabel background;
     private JPanel mainMenuPanel;
     private JPanel gameStatusPanel;
     private JLabel gameStatus;
@@ -98,8 +98,6 @@ public class RiskViewFrame extends JFrame implements RiskView {
     }
 
     public static void main(String[] args) {
-        //final Board board = new OriginalBoardFactory().build();
-        //Game game = new Game(board, new PhaseFactory());
         RiskViewFrame view = new RiskViewFrame();
     }
 
@@ -114,12 +112,12 @@ public class RiskViewFrame extends JFrame implements RiskView {
      */
     public JPanel startPanel() {
         this.mainMenuPanel = new JPanel(new BorderLayout());
-        try {
+        /*try {
             background = new JLabel(new ImageIcon(ImageIO.read(BG_IMAGE)));
         } catch (IOException e) {
             throw new IllegalStateException("Error loading the background image.", e);
-        }
-        mainMenuPanel.add(background);
+        }*/
+        //mainMenuPanel.add(background);
         mainMenuPanel.setMinimumSize(new Dimension(BOARD_HEIGHT, BOARD_WIDTH));
 
         return mainMenuPanel;
@@ -173,8 +171,6 @@ public class RiskViewFrame extends JFrame implements RiskView {
         this.add(gameStatusPanel, BorderLayout.SOUTH);
         menuBar.add(numberOfPlayers);
         menu.setText("Menu");
-        menu.remove(newGame);
-        menu.remove(loadCustomMap);
         menu.add(helpMenuItem);
         menu.add(save);
         save.addActionListener(new SaveController(game));
@@ -194,6 +190,8 @@ public class RiskViewFrame extends JFrame implements RiskView {
         boardView.InitializeBoard(game.getNumPlayers());
         boardView.addInGamePanel(game, game.getCurrentPlayer());
         numberOfAIPlayers.setVisible(false);
+        menu.remove(newGame);
+        menu.remove(loadCustomMap);
 
     }
 
@@ -483,5 +481,7 @@ public class RiskViewFrame extends JFrame implements RiskView {
         currentPlayer.setText(game.getCurrentPlayer().toString());
         boardView.InitializeBoard(game.getNumPlayers());
         boardView.addInGamePanel(game, game.getCurrentPlayer());
+        menu.remove(newGame);
+        menu.remove(loadCustomMap);
     }
 }

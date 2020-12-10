@@ -46,7 +46,7 @@ public class GameRepository {
     }
 
     /**
-     * Loads a Fame Object.
+     * Loads a Game Object.
      *
      * @return a saved Game Object.
      */
