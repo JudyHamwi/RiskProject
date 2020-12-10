@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 
 /**
  * Load Saved Game Controller loads the game back to the previous saved state
+ *
  * @author Sarah Jaber
  * @author Judy Hamwi
  * @author Diana Miraflor
@@ -19,18 +20,20 @@ import java.awt.event.ActionListener;
 public class LoadSavedGameController implements ActionListener {
 
     private RiskView riskView;
-    public LoadSavedGameController(RiskView riskView){
-        this.riskView=riskView;
+
+    public LoadSavedGameController(RiskView riskView) {
+        this.riskView = riskView;
     }
 
     /**
      * loads the previously saved game by the user
+     *
      * @param e choosing the load saved game menu item
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        GameRepository repository = new GameRepository("savedGame");
-        Game game=repository.loadGame();
+        GameRepository repository = new GameRepository("src/savedGame");
+        Game game = repository.loadGame();
         game.addLoadView(riskView);
         game.play();
     }

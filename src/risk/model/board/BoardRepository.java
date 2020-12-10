@@ -12,6 +12,7 @@ import java.util.List;
 
 /**
  * Board Repository class, to save and load a Board object.
+ *
  * @author Sarah Jaber
  * @author Judy Hamwi
  * @author Diana Miraflor
@@ -133,11 +134,11 @@ public class BoardRepository {
         final Board gameOfThronesMap = new GameOfThronesBoardFactory().build();
         final Board avatarMap = new AvatarBoardFactory().build();
         final Board invalidMap = new InvalidBoardFactory().build();
-        BoardRepository boardRepository = new BoardRepository("maps");
-        boardRepository.saveMap("original",originalMap);
-        boardRepository.saveMap("heroes",heroesMap);
-        boardRepository.saveMap("gameOfThrones",gameOfThronesMap);
-        boardRepository.saveMap("avatar",avatarMap);
-        boardRepository.saveMap("invalidMap",invalidMap);
+        BoardRepository boardRepository = new BoardRepository("src/maps");
+        boardRepository.saveMap("original", originalMap);
+        boardRepository.saveMap("heroes", heroesMap);
+        boardRepository.saveMap("gameOfThrones", gameOfThronesMap);
+        boardRepository.saveMap("avatar", avatarMap);
+        boardRepository.saveMap("invalidMap", invalidMap);
     }
 }
